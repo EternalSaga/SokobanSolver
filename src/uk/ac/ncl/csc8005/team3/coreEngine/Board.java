@@ -103,7 +103,7 @@ public class Board implements BoardInterface {
 	        if(ch == '.') return  BlockAttribute.GOAL;
 	        if(ch == '*') return  BlockAttribute.BOXONGOAL;
 	        if(ch == '+') return  BlockAttribute.PLAYERONGOAL; 
-	        return BlockAttribute.EMPTY;
+	        return BlockAttribute.FLOOR;
 	   }
 	   /*
 	    * method to set each coordinate and block attribute on to the treemap
@@ -127,4 +127,7 @@ public class Board implements BoardInterface {
 			   y--;
 		   }
 	   }
+	public String getRow(int i) {
+		return String.valueOf(rows.get(i));
+	}
 }
