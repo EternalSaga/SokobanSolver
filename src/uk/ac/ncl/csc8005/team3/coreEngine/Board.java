@@ -110,7 +110,7 @@ public class Board implements BoardInterface {
 	    */
 	   public void setCell()
 	   {
-		   length();
+		   //length();
 		   int x= 0;
 		   int y= rows.size() - 1;
 		   for(String thisString : rows)

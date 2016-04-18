@@ -1,5 +1,5 @@
 package uk.ac.ncl.csc8005.team3.block;
-public class Coordinate {
+public class Coordinate implements Comparable<Coordinate> {
 	
 	private int xPosition;
 	private int yPosition;
@@ -36,5 +36,16 @@ public class Coordinate {
 	{
 		return yPosition;
 	}
-	
+	@Override
+	/**
+	 * @author RobinLew
+	 */
+	public int compareTo(Coordinate o) {
+		int result = 0;
+		if(this.xPosition != o.getxPosition())result=this.xPosition-o.getxPosition();
+		else{
+			result = this.yPosition-o.yPosition;
+		}
+		return result;
+	}
 }

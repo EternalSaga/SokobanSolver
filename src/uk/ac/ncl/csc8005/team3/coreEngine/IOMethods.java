@@ -6,8 +6,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-/*
+/**
  * IO class is resposible for saving and loading a board object.
+ * @author Lingfei Tian
  */
 public class IOMethods {
 	
@@ -70,7 +71,7 @@ public class IOMethods {
 		return board;
 	}
 	
-	/*
+	/**
 	 * This method will check If the String is valid. If it's valid, will format it.
 	 * 
 	 * @param  : one row string of Map
