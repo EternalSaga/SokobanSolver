@@ -1,11 +1,7 @@
 package uk.ac.ncl.csc8005.team3.coreEngine;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 
-public class MoveHistory {
-	private ArrayList<Move> moveHistory;
-	public MoveHistory() {
-		moveHistory = new ArrayList<>();
-	}
+public class MoveHistory extends LinkedList<MoveEnum>{
 	
 }
