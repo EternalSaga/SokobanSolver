@@ -72,7 +72,7 @@ public class Board implements BoardInterface {
 	    * method that gets the number of rows (max y value is number of rows- 1)	
 	    */
 	   
-	   public int getNumOfRows()
+	   public int getHeight()
 	   {
 		   return this.numOfRows;
 	   }

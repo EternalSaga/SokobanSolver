@@ -156,7 +156,7 @@ public class IOMethods {
 		PrintWriter out = null;
 		try {
 			out = new PrintWriter(fileFullname);
-			int numOfRow = board.getNumOfRows();
+			int numOfRow = board.getHeight();
 			for (int i=0; i<numOfRow; i++) {
 				String row = board.getRow(i);
 				out.println(row);

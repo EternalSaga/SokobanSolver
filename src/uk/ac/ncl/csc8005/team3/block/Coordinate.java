@@ -9,7 +9,12 @@ public class Coordinate implements Comparable<Coordinate> {
 		this.xPosition= x;
 		this.yPosition= y;
 	}
-
+	
+	public Coordinate(){
+		xPosition = 0;
+		yPosition = 0;
+	}
+	
 	public void setxPosition(int x)
 	{
 		if( x >= 0)
