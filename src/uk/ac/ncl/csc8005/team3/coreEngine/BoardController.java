@@ -10,7 +10,7 @@ import java.awt.event.KeyListener;
  *  - takes input from keyboard (arrow keys)
  *  - checks for collisions
  *  - moves player and box if applicable
- *  - checks for success (all boxes on targets) - still have to write this
+ *  - checks for success (all boxes on targets)
  *  
  *  - i still have to fix bugs because at the moment it loses the goal when the player or box moves off it
  * 
@@ -22,11 +22,17 @@ public class BoardController implements KeyListener {
 	private boolean[] keys;
 	public boolean up, down, left, right;
 	
-	private Board thisBoard;
+	private Board thisBoard; //this level
 	private Coordinate playerCoordinate;
+	private int goals; //the number of goals in this level
+	private int goalCounter; //keeps track of how many boxes have reached goals during play
 	
-	public BoardController () {
+	public BoardController (Board thisBoard) {
 		keys = new boolean[128]; //i don't know why 128
+		this.thisBoard = thisBoard;
+		playerCoordinate = thisBoard.getPlayerCoordinate(); //this method doesn't exist yet
+		goals = thisBoard.getNumOfGoals(); //this method doesn't exist yet
+		goalCounter = 0; //at start of level, no boxes are on goals
 	}
 	
 	/**
@@ -59,22 +65,19 @@ public class BoardController implements KeyListener {
 			else checkPlayerBoxCollision();
 		}
 		while (down) {
-			//checks if the coordinate above has attribute of wall
-			if (thisBoard.getBlockAttribute(playerCoordinate.getxPosition(), playerCoordinate.getyPosition() - 1) == BlockAttribute.WALL) {
+			if (thisBoard.getBlockAttribute(playerCoordinate.getxPosition(), playerCoordinate.getyPosition() + 1) == BlockAttribute.WALL) {
 				playerWallCollision = true;
 			}
 			else checkPlayerBoxCollision();
 		}
-		while (up) {
-			//checks if the coordinate above has attribute of wall
-			if (thisBoard.getBlockAttribute(playerCoordinate.getxPosition(), playerCoordinate.getyPosition() - 1) == BlockAttribute.WALL) {
+		while (left) {
+			if (thisBoard.getBlockAttribute(playerCoordinate.getxPosition() - 1, playerCoordinate.getyPosition()) == BlockAttribute.WALL) {
 				playerWallCollision = true;
 			}
 			else checkPlayerBoxCollision();
 		}
-		while (up) {
-			//checks if the coordinate above has attribute of wall
-			if (thisBoard.getBlockAttribute(playerCoordinate.getxPosition(), playerCoordinate.getyPosition() - 1) == BlockAttribute.WALL) {
+		while (right) {
+			if (thisBoard.getBlockAttribute(playerCoordinate.getxPosition() + 1, playerCoordinate.getyPosition()) == BlockAttribute.WALL) {
 				playerWallCollision = true;
 			}
 			else checkPlayerBoxCollision();
@@ -104,12 +107,14 @@ public class BoardController implements KeyListener {
 			// else move player
 			else {
 				Coordinate playerNow = new Coordinate(playerCoordinate.getxPosition(), playerCoordinate.getyPosition() - 1);
+				//changes block attributes on Board
 				thisBoard.addToMap(playerCoordinate, BlockAttribute.FLOOR);
 				thisBoard.addToMap(playerNow, BlockAttribute.PLAYER);
+				//changes the value of the field playerCoordinate
+				playerCoordinate = playerNow;
 			}
 		}
 		while (down) {
-			//checks if the coordinate above has attribute of box
 			if (thisBoard.getBlockAttribute(playerCoordinate.getxPosition(), playerCoordinate.getyPosition() + 1) == BlockAttribute.BOX) {
 				playerBoxCollision = true;
 				checkBoxWallCollision();
@@ -119,10 +124,10 @@ public class BoardController implements KeyListener {
 				Coordinate playerNow = new Coordinate(playerCoordinate.getxPosition(), playerCoordinate.getyPosition() + 1);
 				thisBoard.addToMap(playerCoordinate, BlockAttribute.FLOOR);
 				thisBoard.addToMap(playerNow, BlockAttribute.PLAYER);
+				playerCoordinate = playerNow;
 			}
 		}
 		while (left) {
-			//checks if the coordinate above has attribute of box
 			if (thisBoard.getBlockAttribute(playerCoordinate.getxPosition() - 1, playerCoordinate.getyPosition()) == BlockAttribute.BOX) {
 				playerBoxCollision = true;
 				checkBoxWallCollision();
@@ -132,10 +137,10 @@ public class BoardController implements KeyListener {
 				Coordinate playerNow = new Coordinate(playerCoordinate.getxPosition() - 1, playerCoordinate.getyPosition());
 				thisBoard.addToMap(playerCoordinate, BlockAttribute.FLOOR);
 				thisBoard.addToMap(playerNow, BlockAttribute.PLAYER);
+				playerCoordinate = playerNow;
 			}
 		}
 		while (right) {
-			//checks if the coordinate above has attribute of box
 			if (thisBoard.getBlockAttribute(playerCoordinate.getxPosition() + 1, playerCoordinate.getyPosition()) == BlockAttribute.BOX) {
 				playerBoxCollision = true;
 				checkBoxWallCollision();
@@ -145,6 +150,7 @@ public class BoardController implements KeyListener {
 				Coordinate playerNow = new Coordinate(playerCoordinate.getxPosition() + 1, playerCoordinate.getyPosition());
 				thisBoard.addToMap(playerCoordinate, BlockAttribute.FLOOR);
 				thisBoard.addToMap(playerNow, BlockAttribute.PLAYER);
+				playerCoordinate = playerNow;
 			}
 		}
 		
@@ -180,12 +186,16 @@ public class BoardController implements KeyListener {
 				thisBoard.addToMap(boxNow, BlockAttribute.BOXONGOAL);
 				thisBoard.addToMap(playerNow, BlockAttribute.PLAYER);
 				thisBoard.addToMap(playerCoordinate, BlockAttribute.FLOOR);
+				playerCoordinate = playerNow;
+				goalCounter++;
 				//check success of level
+				checkSuccess();
 			}
 			else { //else move player and box
 				thisBoard.addToMap(boxNow, BlockAttribute.BOX);
 				thisBoard.addToMap(playerNow, BlockAttribute.PLAYER);
 				thisBoard.addToMap(playerCoordinate, BlockAttribute.FLOOR);
+				playerCoordinate = playerNow;
 			}
 		}
 		while (down) {
@@ -205,12 +215,16 @@ public class BoardController implements KeyListener {
 				thisBoard.addToMap(boxNow, BlockAttribute.BOXONGOAL);
 				thisBoard.addToMap(playerNow, BlockAttribute.PLAYER);
 				thisBoard.addToMap(playerCoordinate, BlockAttribute.FLOOR);
+				playerCoordinate = playerNow;
+				goalCounter++;
 				//check success of level
+				checkSuccess();
 			}
 			else { //else move player and box
 				thisBoard.addToMap(boxNow, BlockAttribute.BOX);
 				thisBoard.addToMap(playerNow, BlockAttribute.PLAYER);
 				thisBoard.addToMap(playerCoordinate, BlockAttribute.FLOOR);
+				playerCoordinate = playerNow;
 			}
 		}
 		while (left) {
@@ -230,12 +244,16 @@ public class BoardController implements KeyListener {
 				thisBoard.addToMap(boxNow, BlockAttribute.BOXONGOAL);
 				thisBoard.addToMap(playerNow, BlockAttribute.PLAYER);
 				thisBoard.addToMap(playerCoordinate, BlockAttribute.FLOOR);
+				playerCoordinate = playerNow;
+				goalCounter++;
 				//check success of level
+				checkSuccess();
 			}
 			else { //else move player and box
 				thisBoard.addToMap(boxNow, BlockAttribute.BOX);
 				thisBoard.addToMap(playerNow, BlockAttribute.PLAYER);
 				thisBoard.addToMap(playerCoordinate, BlockAttribute.FLOOR);
+				playerCoordinate = playerNow;
 			}
 		}
 		while (right) {
@@ -255,12 +273,16 @@ public class BoardController implements KeyListener {
 				thisBoard.addToMap(boxNow, BlockAttribute.BOXONGOAL);
 				thisBoard.addToMap(playerNow, BlockAttribute.PLAYER);
 				thisBoard.addToMap(playerCoordinate, BlockAttribute.FLOOR);
+				playerCoordinate = playerNow;
+				goalCounter++;
 				//check success of level
+				checkSuccess();
 			}
 			else { //else move player and box
 				thisBoard.addToMap(boxNow, BlockAttribute.BOX);
 				thisBoard.addToMap(playerNow, BlockAttribute.PLAYER);
 				thisBoard.addToMap(playerCoordinate, BlockAttribute.FLOOR);
+				playerCoordinate = playerNow;
 			}
 		}
 		
@@ -274,9 +296,12 @@ public class BoardController implements KeyListener {
 	 * 
 	 * @return true if level complete
 	 */
-	public boolean success() {
+	public boolean checkSuccess() {
 		boolean successful = false;
-		//check if all boxes are on goals
+
+		if (goals == goalCounter)
+			successful = true;
+		
 		return successful;
 	}
 	
