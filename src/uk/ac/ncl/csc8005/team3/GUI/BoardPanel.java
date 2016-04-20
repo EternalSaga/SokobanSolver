@@ -6,6 +6,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import uk.ac.ncl.csc8005.team3.block.BlockAttribute;
 import uk.ac.ncl.csc8005.team3.block.Coordinate;
 import uk.ac.ncl.csc8005.team3.coreEngine.Board;
 
@@ -30,33 +31,41 @@ public class BoardPanel extends JPanel{
 		
 		this.setLayout(new GridLayout(board.getHeight(),board.getWidth()));
 		ImageIcon ico = null;
-		for (int line = 0; line < board.getHeight(); line++) {
+		for (int row = 0; row < board.getHeight(); row++) {
 			for (int column = 0; column < board.getWidth(); column++) {
 				//Position pos = new Position(line, column);
 				Coordinate cod = new Coordinate();
-				switch (level.getFixedMapElement(pos)) {
+				switch (board.getBlockAttribute(row, column)) {
 					case FLOOR:
-						ico = new ImageIcon();
+						ico = new ImageIcon(BlockAttribute.FLOOR.getPath());
 						break;
 					case WALL:
-						ico = new ImageIcon(this.getClass().getResource("/ressources/wall.jpg"));
+						ico = new ImageIcon(BlockAttribute.WALL.getPath());
 						break;
-					case TARGET:
-							ico = new ImageIcon(this.getClass().getResource("/ressources/target.png"));
+					case GOAL:
+							ico = new ImageIcon(BlockAttribute.GOAL.getPath());
 						break;
+					case PLAYER:
+						ico = new ImageIcon(BlockAttribute.PLAYER.getPath());
+					case BOX:
+						ico = new ImageIcon(BlockAttribute.BOX.getPath());
+					case BOXONGOAL:
+						ico = new ImageIcon(BlockAttribute.BOXONGOAL.getPath());
+					case PLAYERONGOAL:
+						ico = new ImageIcon(BlockAttribute.PLAYERONGOAL.getPath());
 					default:
 						break;
 				}
-				
-				if(pos.equals(level.getCharacterPosition()))
-					ico = new ImageIcon(this.getClass().getResource("/ressources/character.gif"));
-				if(level.isBoxAt(pos)){
-					if(level.getFixedMapElement(pos) == FixedMapElement.TARGET)
+				/**
+				if(cod.equals(board.getPlayerPosition()))
+					
+				if(board.isBoxAt(pos)){
+					if(board.getFixedMapElement(pos) == FixedMapElement.TARGET)
 						ico = new ImageIcon(this.getClass().getResource("/ressources/boxOnTarget.jpg"));
 					else
 						ico = new ImageIcon(this.getClass().getResource("/ressources/box.jpg"));
 				}
-				
+				*/
 				JLabel levelElement = new JLabel(ico);
 				this.add(levelElement);
 			}
