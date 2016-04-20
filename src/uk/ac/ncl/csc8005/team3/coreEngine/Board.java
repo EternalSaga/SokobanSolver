@@ -9,7 +9,8 @@ public class Board implements BoardInterface {
 	private ArrayList<String> rows;
 	private int numOfRows;
 	private int numOfColumns;
-	
+	private Coordinate playerCoordinate;
+	private int numberOfGoals;
 /*
  * Constructor to set the values of map size, which is initially empty.
  */
@@ -18,6 +19,8 @@ public class Board implements BoardInterface {
 		rows= new ArrayList<String>();
 		this.numOfRows = rows.size();
 		this.numOfColumns= length();
+		playerCoordinate= new Coordinate(0,0);
+		numberOfGoals= 0;
 		tMap= new TreeMap<Coordinate, BlockAttribute>();
 	}
 /*
@@ -27,7 +30,32 @@ public class Board implements BoardInterface {
 	{
 		
 				tMap.put(thisCoordinate, thisBlockAttribute);	
+				if( thisBlockAttribute == BlockAttribute.PLAYER)
+				{
+					playerCoordinate= thisCoordinate;
+				}
+				if(thisBlockAttribute == BlockAttribute.GOAL)
+				{
+					this.numberOfGoals++;
+				}
 	}
+	
+	/*
+	 *@return Players coordinate on the board 
+	 */
+	public Coordinate getPlayerPosition()
+	{
+		return this.playerCoordinate;
+	}
+	
+	/** 
+	 * @return number of goals
+	 */
+	public int getNumberOfGoals()
+	{
+	return this.numberOfGoals;	
+	}
+	
 	/*
 	 * clears the map, method may need to be called before new level
 	 */
@@ -110,7 +138,7 @@ public class Board implements BoardInterface {
 	    */
 	   public void setCell()
 	   {
-		   //length();
+		   length();
 		   int x= 0;
 		   int y= rows.size() - 1;
 		   for(String thisString : rows)
@@ -127,7 +155,7 @@ public class Board implements BoardInterface {
 			   y--;
 		   }
 	   }
-	public String getRow(int i) {
-		return String.valueOf(rows.get(i));
-	}
+	   public String getRow(int i) {
+			return String.valueOf(rows.get(i));
+		}
 }
