@@ -46,6 +46,15 @@ public class Board implements BoardInterface {
 	{
 		return this.PlayerCoordinate;
 	}
+	
+	/** 
+	 * @return number of goals
+	 */
+	public int getNumberOfGoals()
+	{
+	return this.numberOfGoals;	
+	}
+	}
 	/*
 	 * clears the map, method may need to be called before new level
 	 */
