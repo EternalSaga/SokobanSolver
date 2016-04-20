@@ -18,10 +18,10 @@ public class Player extends Move {
 	public Player(Game game, int x, int y) {
 		super(x, y);
 		this.game = game;
-		playerDown = new Animation(500,Assets.player_down);
-		playerUp = new Animation(500,Assets.player_up);
-		playerLeft = new Animation(500,Assets.player_left);
-		playerRight = new Animation(500,Assets.player_right);
+		playerDown = new Animation(500,GamePropeties.player_down);
+		playerUp = new Animation(500,GamePropeties.player_up);
+		playerLeft = new Animation(500,GamePropeties.player_left);
+		playerRight = new Animation(500,GamePropeties.player_right);
 	}
 
 	@Override
