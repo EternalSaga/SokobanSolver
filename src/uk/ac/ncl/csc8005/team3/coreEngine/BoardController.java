@@ -11,8 +11,6 @@ import java.awt.event.KeyListener;
  *  - checks for collisions
  *  - moves player and box if applicable
  *  - checks for success (all boxes on targets)
- *  
- *  - made some improvements by adding separate movePlayer method - still lots to do though
  * 
  * @author Kate
  *
