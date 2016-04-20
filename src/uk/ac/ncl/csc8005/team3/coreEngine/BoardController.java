@@ -17,33 +17,36 @@ import java.awt.event.KeyListener;
  * @author Kate
  *
  */
-public class BoardController implements KeyListener {
+public class BoardController {
 	
-	private boolean[] keys;
+	//input
 	public boolean up, down, left, right;
+	private KeyManager keyManager;
 	
+	//board
 	private Board thisBoard; //this level
 	private Coordinate playerCoordinate;
 	private int goals; //the number of goals in this level
 	private int goalCounter; //keeps track of how many boxes have reached goals during play
 	
 	public BoardController (Board thisBoard) {
-		keys = new boolean[128]; //i don't know why 128
+	
+		//input
+		keyManager = new KeyManager();
+		
+		//board
 		this.thisBoard = thisBoard;
-		playerCoordinate = thisBoard.getPlayerCoordinate(); //this method doesn't exist yet
-		goals = thisBoard.getNumOfGoals(); //this method doesn't exist yet
+		playerCoordinate = thisBoard.getPlayerCoordinate();
+		goals = thisBoard.getNumOfGoals();
 		goalCounter = 0; //at start of level, no boxes are on goals
 	}
 	
 	/**
 	 * This will be called from somewhere in the core engine 
-	 * - checks if any keys are pressed
+	 * - calls update method of keyManager, which checks if any keys are pressed
 	 */
 	public void update() {
-		up = keys[KeyEvent.VK_UP];
-		down = keys[KeyEvent.VK_DOWN];
-		left = keys[KeyEvent.VK_LEFT];
-		right = keys[KeyEvent.VK_RIGHT];
+		keyManager.update();
 	}
 	
 	/**
@@ -54,34 +57,27 @@ public class BoardController implements KeyListener {
 	 * 
 	 * @return true if there is a collision
 	 */
-	public boolean checkPlayerWallCollision() {
+	private boolean checkPlayerWallCollision() {
 		
 		boolean playerWallCollision = false;
+		//gets next coordinate depending on direction
 		while (up) {
-			//checks if the coordinate above has attribute of wall
-			if (thisBoard.getBlockAttribute(playerCoordinate.getxPosition(), playerCoordinate.getyPosition() - 1) == BlockAttribute.WALL) {
-				playerWallCollision = true;
-			}
-			else checkPlayerBoxCollision();
+			Coordinate nextCoordinate = new Coordinate(playerCoordinate.getxPosition(), playerCoordinate.getyPosition() - 1);
 		}
 		while (down) {
-			if (thisBoard.getBlockAttribute(playerCoordinate.getxPosition(), playerCoordinate.getyPosition() + 1) == BlockAttribute.WALL) {
-				playerWallCollision = true;
-			}
-			else checkPlayerBoxCollision();
+			Coordinate nextCoordinate = new Coordinate(playerCoordinate.getxPosition(), playerCoordinate.getyPosition() + 1);
 		}
 		while (left) {
-			if (thisBoard.getBlockAttribute(playerCoordinate.getxPosition() - 1, playerCoordinate.getyPosition()) == BlockAttribute.WALL) {
-				playerWallCollision = true;
-			}
-			else checkPlayerBoxCollision();
+			Coordinate nextCoordinate = new Coordinate(playerCoordinate.getxPosition() - 1, playerCoordinate.getyPosition());
 		}
 		while (right) {
-			if (thisBoard.getBlockAttribute(playerCoordinate.getxPosition() + 1, playerCoordinate.getyPosition()) == BlockAttribute.WALL) {
-				playerWallCollision = true;
-			}
-			else checkPlayerBoxCollision();
+			Coordinate nextCoordinate = new Coordinate(playerCoordinate.getxPosition() + 1, playerCoordinate.getyPosition());
 		}
+		//checks if the next coordinate has attribute of wall
+		if (thisBoard.getBlockAttribute(nextCoordinate) == BlockAttribute.WALL) {
+			playerWallCollision = true;
+		} //if so, calls method to check player collision with box
+		else checkPlayerBoxCollision();
 		
 		return playerWallCollision;
 	}
@@ -95,80 +91,31 @@ public class BoardController implements KeyListener {
 	 * 
 	 * @return true if there is a collision
 	 */
-	public boolean checkPlayerBoxCollision() {
+	private boolean checkPlayerBoxCollision() {
 		
 		boolean playerBoxCollision = false;
+		//gets next coordinate depending on direction
 		while (up) {
-			//sets local variable to access later
-			Coordinate playerNow = new Coordinate(playerCoordinate.getxPosition(), playerCoordinate.getyPosition() - 1);
-			//checks if the coordinate above has attribute of box
-			if (thisBoard.getBlockAttribute(playerCoordinate.getxPosition(), playerCoordinate.getyPosition() - 1) == BlockAttribute.BOX) {
-				playerBoxCollision = true;
-				checkBoxWallCollision();
-			}
-			// else if it has attribute of floor, move player
-			else if (thisBoard.getBlockAttribute(playerCoordinate.getxPosition(), playerCoordinate.getyPosition() - 1) == BlockAttribute.FLOOR){
-				movePlayer(playerNow, BlockAttribute.PLAYER);
-			}
-			//else if it has an attribute of goal, move player	
-			else {
-				movePlayer(playerNow, BlockAttribute.PLAYERONGOAL);
-			}
-			//changes the value of the field playerCoordinate
-			playerCoordinate = playerNow;
+			Coordinate nextCoordinate = new Coordinate(playerCoordinate.getxPosition(), playerCoordinate.getyPosition() - 1);
 		}
 		while (down) {
-			Coordinate playerNow = new Coordinate(playerCoordinate.getxPosition(), playerCoordinate.getyPosition() + 1);
-			//checks if coordinate below has an attribute of box
-			if (thisBoard.getBlockAttribute(playerCoordinate.getxPosition(), playerCoordinate.getyPosition() + 1) == BlockAttribute.BOX) {
-				playerBoxCollision = true;
-				checkBoxWallCollision();
-			}
-			// else if it has attribute of floor, move player
-			else if (thisBoard.getBlockAttribute(playerCoordinate.getxPosition(), playerCoordinate.getyPosition() + 1) == BlockAttribute.FLOOR){
-				movePlayer(playerNow, BlockAttribute.PLAYER);
-			}
-			//else if it has an attribute of goal, move player	
-			else {
-				movePlayer(playerNow, BlockAttribute.PLAYERONGOAL);
-			}
-			playerCoordinate = playerNow;
+			Coordinate nextCoordinate = new Coordinate(playerCoordinate.getxPosition(), playerCoordinate.getyPosition() + 1);
 		}
 		while (left) {
-			Coordinate playerNow = new Coordinate(playerCoordinate.getxPosition() - 1, playerCoordinate.getyPosition());
-			//checks if coordinate to the left has an attribute of box
-			if (thisBoard.getBlockAttribute(playerCoordinate.getxPosition() - 1, playerCoordinate.getyPosition()) == BlockAttribute.BOX) {
-				playerBoxCollision = true;
-				checkBoxWallCollision();
-			}
-			// else if it has attribute of floor, move player
-			else if (thisBoard.getBlockAttribute(playerCoordinate.getxPosition() - 1, playerCoordinate.getyPosition()) == BlockAttribute.FLOOR){
-				movePlayer(playerNow, BlockAttribute.PLAYER);
-			}
-			//else if it has an attribute of goal, move player	
-			else {
-				movePlayer(playerNow, BlockAttribute.PLAYERONGOAL);
-			}
-			playerCoordinate = playerNow;
+			Coordinate nextCoordinate = new Coordinate(playerCoordinate.getxPosition() - 1, playerCoordinate.getyPosition());
 		}
 		while (right) {
-			Coordinate playerNow = new Coordinate(playerCoordinate.getxPosition() + 1, playerCoordinate.getyPosition());
-			//checks if coordinate to the right has an attribute of box
-			if (thisBoard.getBlockAttribute(playerCoordinate.getxPosition() + 1, playerCoordinate.getyPosition()) == BlockAttribute.BOX) {
-				playerBoxCollision = true;
-				checkBoxWallCollision();
-			}
-			// else if it has attribute of floor, move player
-			else if (thisBoard.getBlockAttribute(playerCoordinate.getxPosition() + 1, playerCoordinate.getyPosition()) == BlockAttribute.FLOOR){
-				movePlayer(playerNow, BlockAttribute.PLAYER);
-			}
-			//else if it has an attribute of goal, move player	
-			else {
-				movePlayer(playerNow, BlockAttribute.PLAYERONGOAL);
-			}
-			playerCoordinate = playerNow;
+			Coordinate nextCoordinate = new Coordinate(playerCoordinate.getxPosition() + 1, playerCoordinate.getyPosition());
 		}
-		
+		//if it's a box, calls method to check if box will collide with wall
+		if (thisBoard.getBlockAttribute(nextCoordinate) == BlockAttribute.BOX
+				|| thisBoard.getBlockAttribute(nextCoordinate) == BlockAttribute.BOXONGOAL) {
+			playerBoxCollision = true;
+			checkBoxWallCollision();
+		}
+		else //MOVE PLAYER
+			playerCoordinate = nextCoordinate;
+		}
 		return playerBoxCollision;
 	}
 	
@@ -183,144 +130,10 @@ public class BoardController implements KeyListener {
 	 * 
 	 * @return true if there is a collision
 	 */
-	public boolean checkBoxWallCollision() {
-		
+	private boolean checkBoxWallCollision() {
 		boolean boxWallCollision = false;
-		while (up) {
-			//sets local variables needed for potential moves
-			Coordinate boxNow = new Coordinate(playerCoordinate.getxPosition(), playerCoordinate.getyPosition() - 2);
-			Coordinate playerNow = new Coordinate(playerCoordinate.getxPosition(), playerCoordinate.getyPosition() - 1);
-			//checks if the coordinate 2 spaces above is a wall
-			if (thisBoard.getBlockAttribute(playerCoordinate.getxPosition(), playerCoordinate.getyPosition() - 2) == BlockAttribute.WALL
-					//or if it's another box 
-					|| thisBoard.getBlockAttribute(playerCoordinate.getxPosition(), playerCoordinate.getyPosition() - 2) == BlockAttribute.BOX
-					|| thisBoard.getBlockAttribute(playerCoordinate.getxPosition(), playerCoordinate.getyPosition() - 2) == BlockAttribute.BOXONGOAL) {
-				boxWallCollision = true;
-			}
-			//if it's a goal
-			else if (thisBoard.getBlockAttribute(playerCoordinate.getxPosition(),  playerCoordinate.getyPosition() - 2) == BlockAttribute.GOAL) {
-				//move player and box
-				thisBoard.addToMap(boxNow, BlockAttribute.BOXONGOAL);
-				thisBoard.addToMap(playerNow, BlockAttribute.PLAYER);
-				thisBoard.addToMap(playerCoordinate, BlockAttribute.FLOOR);
-				playerCoordinate = playerNow;
-				goalCounter++;
-				//check success of level
-				checkSuccess();
-			}
-			else { //else it's floor, move player and box
-				thisBoard.addToMap(boxNow, BlockAttribute.BOX);
-				thisBoard.addToMap(playerNow, BlockAttribute.PLAYER);
-				thisBoard.addToMap(playerCoordinate, BlockAttribute.FLOOR);
-				playerCoordinate = playerNow;
-			}
-		}
-		while (down) {
-			//sets local variables needed for potential moves
-			Coordinate boxNow = new Coordinate(playerCoordinate.getxPosition(), playerCoordinate.getyPosition() + 2);
-			Coordinate playerNow = new Coordinate(playerCoordinate.getxPosition(), playerCoordinate.getyPosition() + 1);
-			//checks if the coordinate 2 spaces below is a wall
-			if (thisBoard.getBlockAttribute(playerCoordinate.getxPosition(), playerCoordinate.getyPosition() + 2) == BlockAttribute.WALL
-					//or if it's another box 
-					|| thisBoard.getBlockAttribute(playerCoordinate.getxPosition(), playerCoordinate.getyPosition() + 2) == BlockAttribute.BOX
-					|| thisBoard.getBlockAttribute(playerCoordinate.getxPosition(), playerCoordinate.getyPosition() + 2) == BlockAttribute.BOXONGOAL) {
-				boxWallCollision = true;
-			}
-			//if it's a goal
-			else if (thisBoard.getBlockAttribute(playerCoordinate.getxPosition(),  playerCoordinate.getyPosition() + 2) == BlockAttribute.GOAL) {
-				//move player and box
-				thisBoard.addToMap(boxNow, BlockAttribute.BOXONGOAL);
-				thisBoard.addToMap(playerNow, BlockAttribute.PLAYER);
-				thisBoard.addToMap(playerCoordinate, BlockAttribute.FLOOR);
-				playerCoordinate = playerNow;
-				goalCounter++;
-				//check success of level
-				checkSuccess();
-			}
-			else { //else move player and box
-				thisBoard.addToMap(boxNow, BlockAttribute.BOX);
-				thisBoard.addToMap(playerNow, BlockAttribute.PLAYER);
-				thisBoard.addToMap(playerCoordinate, BlockAttribute.FLOOR);
-				playerCoordinate = playerNow;
-			}
-		}
-		while (left) {
-			//sets local variables needed for potential moves
-			Coordinate boxNow = new Coordinate(playerCoordinate.getxPosition() - 2, playerCoordinate.getyPosition());
-			Coordinate playerNow = new Coordinate(playerCoordinate.getxPosition() - 1, playerCoordinate.getyPosition());
-			//checks if the coordinate 2 spaces left is a wall
-			if (thisBoard.getBlockAttribute(playerCoordinate.getxPosition() - 2, playerCoordinate.getyPosition()) == BlockAttribute.WALL
-					//or if it's another box 
-					|| thisBoard.getBlockAttribute(playerCoordinate.getxPosition() - 2, playerCoordinate.getyPosition()) == BlockAttribute.BOX
-					|| thisBoard.getBlockAttribute(playerCoordinate.getxPosition() - 2, playerCoordinate.getyPosition()) == BlockAttribute.BOXONGOAL) {
-				boxWallCollision = true;
-			}
-			//if it's a goal
-			else if (thisBoard.getBlockAttribute(playerCoordinate.getxPosition() - 2,  playerCoordinate.getyPosition()) == BlockAttribute.GOAL) {
-				//move player and box
-				thisBoard.addToMap(boxNow, BlockAttribute.BOXONGOAL);
-				thisBoard.addToMap(playerNow, BlockAttribute.PLAYER);
-				thisBoard.addToMap(playerCoordinate, BlockAttribute.FLOOR);
-				playerCoordinate = playerNow;
-				goalCounter++;
-				//check success of level
-				checkSuccess();
-			}
-			else { //else move player and box
-				thisBoard.addToMap(boxNow, BlockAttribute.BOX);
-				thisBoard.addToMap(playerNow, BlockAttribute.PLAYER);
-				thisBoard.addToMap(playerCoordinate, BlockAttribute.FLOOR);
-				playerCoordinate = playerNow;
-			}
-		}
-		while (right) {
-			//sets local variables needed for potential moves
-			Coordinate boxNow = new Coordinate(playerCoordinate.getxPosition() + 2, playerCoordinate.getyPosition());
-			Coordinate playerNow = new Coordinate(playerCoordinate.getxPosition() + 1, playerCoordinate.getyPosition());
-			//checks if the coordinate 2 spaces above is a wall
-			if (thisBoard.getBlockAttribute(playerCoordinate.getxPosition() + 2, playerCoordinate.getyPosition()) == BlockAttribute.WALL
-					//or if it's another box 
-					|| thisBoard.getBlockAttribute(playerCoordinate.getxPosition() + 2, playerCoordinate.getyPosition()) == BlockAttribute.BOX
-					|| thisBoard.getBlockAttribute(playerCoordinate.getxPosition() + 2, playerCoordinate.getyPosition()) == BlockAttribute.BOXONGOAL) {
-				boxWallCollision = true;
-			}
-			//if it's a goal
-			else if (thisBoard.getBlockAttribute(playerCoordinate.getxPosition() + 2,  playerCoordinate.getyPosition()) == BlockAttribute.GOAL) {
-				//move player and box
-				thisBoard.addToMap(boxNow, BlockAttribute.BOXONGOAL);
-				thisBoard.addToMap(playerNow, BlockAttribute.PLAYER);
-				thisBoard.addToMap(playerCoordinate, BlockAttribute.FLOOR);
-				playerCoordinate = playerNow;
-				goalCounter++;
-				//check success of level
-				checkSuccess();
-			}
-			else { //else move player and box
-				thisBoard.addToMap(boxNow, BlockAttribute.BOX);
-				thisBoard.addToMap(playerNow, BlockAttribute.PLAYER);
-				thisBoard.addToMap(playerCoordinate, BlockAttribute.FLOOR);
-				playerCoordinate = playerNow;
-			}
-		}
 		
 		return boxWallCollision;
-	}
-	
-	/**
-	 * Move player
-	 * 
-	 * @param Coordinate playerNow  the coordinate to which the player will move
-	 * @param BlockAttribute bA  the attribute of the block to which it will move - this will be player or playerongoal
-	 */
-	public void movePlayer(Coordinate playerNow, BlockAttribute bA) {
-		//checks if the player was on a goal or floor
-		if (thisBoard.getBlockAttribute(playerCoordinate.getxPosition(), playerCoordinate.getyPosition()) == BlockAttribute.PLAYERONGOAL) {
-			//changes block attributes on board
-			thisBoard.addToMap(playerCoordinate, BlockAttribute.GOAL);
-		} else {
-			thisBoard.addToMap(playerCoordinate, BlockAttribute.FLOOR);
-		}
-			thisBoard.addToMap(playerNow, bA);
 	}
 	
 	/**
@@ -338,26 +151,6 @@ public class BoardController implements KeyListener {
 		
 		return successful;
 	}
-	
 
-	//INHERITED METHODS FROM KEYLISTENER
-	
-	@Override
-	public void keyPressed(KeyEvent e) {
-		keys[e.getKeyCode()] = true;
-		System.out.println(up); //just to test key input is working
-		
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		keys[e.getKeyCode()] = false;
-		
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-		
-	}
 
 }
