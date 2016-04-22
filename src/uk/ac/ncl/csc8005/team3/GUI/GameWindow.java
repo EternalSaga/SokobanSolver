@@ -1,245 +1,229 @@
-package uk.ac.ncl.csc8005.team3.GUI;
+package sokoban_new;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.EventQueue;
+import java.awt.GridLayout;
 
+import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
+
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.ActionEvent;
+import javax.swing.JSplitPane;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JSplitPane;
-import javax.swing.WindowConstants;
+import javax.swing.JComboBox;
 
+public class GameWindow {
 
-
-/**
- * Represents the main window of the Sokoban game.
- * It displays the level and the controller buttons.
- */
-public class GameWindow extends JFrame implements ActionListener, KeyListener{
-
-	/**
-	 * The vertical pane containing all the split panel
-	 */
-	private JSplitPane mainSplitPanel;
-
-	/**
-	 * The vertical pane containing the message label
-	 */
-	private JSplitPane secondSplitPane;
+	private JFrame frame;
+	private BoardPanel BoardPanel;
+	private JButton btnReset;
+	private JButton btnQuit;
+	
+	private Board board;
+	private BoardPanel boardPanel;
+	private JSplitPane secondPane;
+	
 	
 	/**
-	 * The vertical pane containing the level grid panel
+	 * Create the application.
 	 */
-	private JSplitPane thirdSplitPane;
+	public GameWindow() {
 
-	/**
-	 * The quit button
-	 */
-	private JButton quitButton;
-
-	/**
-	 * The reset level button
-	 */
-	private JButton resetLevelButton;
-
-	/**
-	 * Label used to display message to the screen
-	 */
-	private JLabel labelMessage;
-	
-	/**
-	 * The level grid panel
-	 */
-	private BoardPanel levelGridPanel;
-
-	/**
-	 * The controller panel
-	 */
-	private ControllerPanel controllerPanel;
-
-	/**
-	 * The chosen direction
-	 */
-	private Direction chosenDirection;
-
-	/**
-	 * <tt>True</tt> if a direction has been choose.
-	 */
-	private volatile boolean isDirectionChosen;
-
-	/**
-	 * The selected level
-	 */
-	private int selectedLevel;
-	
-	/**
-	 * Creates the main window.
-	 */
-	public GameWindow(int selectedLevel) {
-		super();
-
-		this.chosenDirection = null;
-		this.isDirectionChosen = false;
-		this.selectedLevel = selectedLevel;
-
-		/*
-		 * Creating Objects instances
-		 */
-		this.mainSplitPanel = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-		this.secondSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-		this.thirdSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-
-		this.thirdSplitPane.setDividerSize(0);
-		
-		this.controllerPanel = new ControllerPanel(this);
-
-		// TODO Add selection level
-		this.levelGridPanel = null;
-
-		this.quitButton = new JButton("Quit");
-		this.quitButton.setFocusable(false);
-		this.resetLevelButton = new JButton("Reset");
-		this.resetLevelButton.setFocusable(false);
-		
-		this.labelMessage = new JLabel("ttt");
-		
-		/*
-		 * Setting Listener
-		 */
-		this.quitButton.addActionListener(this);
-		this.resetLevelButton.addActionListener(this);
-		this.addKeyListener(this);
+		initialize();
 	}
 
 	/**
-	 * Initializes the window
+	 * Initialize the contents of the frame.
 	 */
-	public void initGui(){
-		this.setTitle(Sokoban.APP_NAME);
-		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-		JPanel quitPanel = new JPanel();
-		quitPanel.add(this.resetLevelButton);
-		quitPanel.add(this.quitButton);
-
-		this.mainSplitPanel.add(this.labelMessage);
-		this.mainSplitPanel.add(this.secondSplitPane);
+	
+	
+	
+	private void initialize() {
 		
-		this.secondSplitPane.setBottomComponent(this.thirdSplitPane);
+	
 		
-		this.thirdSplitPane.add(this.controllerPanel);
-		this.thirdSplitPane.add(quitPanel);
+		setFrame(new JFrame());
+		getFrame().setBounds(0, 0, 1000, 655);
+		getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		getFrame().getContentPane().setLayout(null);
 		
-		this.getContentPane().add(this.mainSplitPanel);
-
-		//this.window.setResizable(false);
-		this.pack();
-		this.setVisible(true);
+		
+		
+		
+		
+		// quit button
+		JButton btnQuit = new JButton("Quit");
+		btnQuit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+			JDialog.setDefaultLookAndFeelDecorated(true);
+			int response = JOptionPane.showConfirmDialog(null, "Do you want to quit?", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+			if (response == JOptionPane.YES_OPTION)
+				System.exit(0);
+			
+			}
+		});
+		btnQuit.setBounds(469, 16, 115, 29);
+		getFrame().getContentPane().add(btnQuit);
+		
+		// reset button
+		JButton btnReset = new JButton("Reset");
+		btnReset.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				
+				
+			}
+		});
+		btnReset.setBounds(349, 16, 115, 29);
+		getFrame().getContentPane().add(btnReset);
+		
+		// up button
+		JButton btnUp = new JButton("up");
+		btnUp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			//	KeyManager.up;
+				
+			}
+		});
+		btnUp.setBounds(420, 486, 79, 29);
+		getFrame().getContentPane().add(btnUp);
+		
+		JButton button_2 = new JButton("down");
+		button_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		button_2.setBounds(420, 552, 79, 31);
+		getFrame().getContentPane().add(button_2);
+		
+		JButton button_1 = new JButton("left");
+		button_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		button_1.setBounds(334, 519, 79, 29);
+		getFrame().getContentPane().add(button_1);
+		
+		JButton button_3 = new JButton("right");
+		button_3.setBounds(505, 519, 79, 29);
+		getFrame().getContentPane().add(button_3);
+		
+		JLabel lblSteps = new JLabel("steps");
+		lblSteps.setBounds(280, 20, 36, 20);
+		getFrame().getContentPane().add(lblSteps);
+		
+		
+		// combobox
+		JComboBox comboBox = new JComboBox();
+		comboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			
+				
+			}
+		});
+		comboBox.setBounds(25, 16, 115, 27);
+		getFrame().getContentPane().add(comboBox);
+		
+		
+		// choose button
+		JButton btnNewButton = new JButton("Choose");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		btnNewButton.setBounds(155, 16, 96, 29);
+		getFrame().getContentPane().add(btnNewButton);
+		
+		
+		JSplitPane firstPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+		firstPane.setBounds(0,0,978,65);
+		getFrame().getContentPane().add(firstPane);
+		
+		
+		JSplitPane secondPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+		secondPane.setBounds(0,65,978,405);
+		
+		boardPanel = new BoardPanel(board);
+		secondPane.setTopComponent(boardPanel);
+		//secondPane.add(BoardPanel);
+		getFrame().getContentPane().add(secondPane);
+		
+		JSplitPane thirdPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+		thirdPane.setBounds(0,470,978,130);
+		getFrame().getContentPane().add(thirdPane);
+		
+		
 	}
+	
 
-	@Override
-	public void actionPerformed(ActionEvent event) {
-		JComponent source = (JComponent) event.getSource();
-
-		if(source == this.quitButton)
-			this.askToQuit();
-		if(source == this.resetLevelButton){
-			this.labelMessage.setText("Level resetted");
-			this.chosenDirection = null;
-			this.isDirectionChosen = true;
+		
+/*
+		@Override
+		public int askLevelToPlay() {
+			return this.selectedLevel;
 		}
 
-		if(source == this.controllerPanel.getDownButton()
-				|| source == this.controllerPanel.getUpButton()
-				|| source == this.controllerPanel.getLeftButton()
-				|| source == this.controllerPanel.getRightButton()){
-			JButtonDirection sourceDirection = (JButtonDirection) source;
-			this.chosenDirection = sourceDirection.getDirection();
-			this.isDirectionChosen = true;
+		@Override
+		public void displayMessage(String msg) {
+			this.labelMessage.setText(msg);
 		}
 
-	}
+		@Override
+		public void displayLevel(Level level) {
+			this.levelGridPanel = new BoardPanel(level);
+			this.secondSplitPane.setTopComponent(this.levelGridPanel);
+			this.pack();
+		}
 
-	@Override
-	public Direction askDirection() {
-
-		while (!this.isDirectionChosen) {
+		@Override
+		public void displayStartingMessage() {
 			// Nothing to do
 		}
 
-		this.isDirectionChosen = false;
-		return this.chosenDirection;
-	}
-
-	@Override
-	public void askToQuit() {
-
-		JDialog.setDefaultLookAndFeelDecorated(true);
-		int response = JOptionPane.showConfirmDialog(null, "Do you want to quit?", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-		if (response == JOptionPane.YES_OPTION)
-			System.exit(0);
-	}
-
-	@Override
-	public int askLevelToPlay() {
-		return this.selectedLevel;
-	}
-
-	@Override
-	public void displayMessage(String msg) {
-		this.labelMessage.setText(msg);
-	}
-
-	@Override
-	public void displayLevel(Level level) {
-		this.levelGridPanel = new BoardPanel(level);
-		this.secondSplitPane.setTopComponent(this.levelGridPanel);
-		this.pack();
-	}
-
-	@Override
-	public void displayStartingMessage() {
-		// Nothing to do
-	}
-
-	@Override
-	public void keyTyped(KeyEvent event) {
-		switch(event.getKeyChar()){
-			case 'z':
-				this.chosenDirection = Direction.UP;
-				this.isDirectionChosen = true;
-				break;
-			case 'q':
-				this.chosenDirection = Direction.LEFT;
-				this.isDirectionChosen = true;
-				break;
-			case 's':
-				this.chosenDirection = Direction.DOWN;
-				this.isDirectionChosen = true;
-				break;
-			case 'd':
-				this.chosenDirection = Direction.RIGHT;
-				this.isDirectionChosen = true;
-				break;
-			default:
-				break;
+		@Override
+		public void keyTyped(KeyEvent event) {
+			switch(event.getKeyChar()){
+				case 'z':
+					this.chosenDirection = Direction.UP;
+					this.isDirectionChosen = true;
+					break;
+				case 'q':
+					this.chosenDirection = Direction.LEFT;
+					this.isDirectionChosen = true;
+					break;
+				case 's':
+					this.chosenDirection = Direction.DOWN;
+					this.isDirectionChosen = true;
+					break;
+				case 'd':
+					this.chosenDirection = Direction.RIGHT;
+					this.isDirectionChosen = true;
+					break;
+				default:
+					break;
+			}
 		}
-	}
+*/
+		public void keyPressed(KeyEvent event) {
+			// Nothing to do
+		}
 
-	@Override
-	public void keyPressed(KeyEvent event) {
-		// Nothing to do
-	}
+		public void keyReleased(KeyEvent event) {
+			// Nothing to do
+		}
 
-	@Override
-	public void keyReleased(KeyEvent event) {
-		// Nothing to do
-	}
+		public JFrame getFrame() {
+			return frame;
+		}
 
+		public void setFrame(JFrame frame) {
+			this.frame = frame;
+		}
+	
 }
