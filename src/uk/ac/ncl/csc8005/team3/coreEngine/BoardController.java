@@ -10,6 +10,7 @@ import java.awt.event.KeyListener;
  *  - takes input from KeyManager (arrow keys)
  *  - checks for collisions
  *  - moves player and box if applicable
+ *  - adds to move history
  *  - checks for success (all boxes on goals)
  *  
  *  Most methods are private because they will only be called from within this class
