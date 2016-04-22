@@ -7,15 +7,16 @@ import java.awt.event.KeyListener;
 /**
  * BoardController class
  * 
- *  - takes input from keyboard (arrow keys)
+ *  - takes input from KeyManager (arrow keys)
  *  - checks for collisions
  *  - moves player and box if applicable
- *  - checks for success (all boxes on targets)
+ *  - checks for success (all boxes on goals)
+ *  
+ *  Most methods are private because they will only be called from within this class
  *  
  * 	PROBLEMS:
- * 		- 	box moving method doesn't account for if there's more than one box
- * 		-   does not change block attribute when box moves
- * 		-   general confusion about block attributes etc
+ * 
+ *      -   does not add to move history yet
  * 
  * @author Kate
  *
@@ -30,6 +31,7 @@ public class BoardController {
 	private Coordinate playerCoordinate, nextPlayerCoordinate, nextBoxCoordinate;
 	private int goals; //the number of goals in this level
 	private int goalCounter; //keeps track of how many boxes have reached goals during play
+	private boolean levelComplete; //if the level is complete
 	
 	public BoardController (Board thisBoard) {
 	
@@ -41,6 +43,7 @@ public class BoardController {
 		playerCoordinate = thisBoard.getPlayerCoordinate();
 		goals = thisBoard.getNumOfGoals();
 		goalCounter = 0; //at start of level, no boxes are on goals
+		levelComplete = false;
 	}
 	
 	/**
@@ -52,25 +55,35 @@ public class BoardController {
 	}
 	
 	/**
-	 * Gets input from KeyManager and starts process of calling collision checking methods
+	 * Gets input from KeyManager
+	 * 
+	 *  - determines the next coordinates to which the characters want to move
+	 *  - starts the process of calling collision checking methods
 	 * 
 	 */
 	private void getInput(){
-		//gets next coordinate depending on what arrow key is pressed
-		if(KeyManager().up)
+		//maybe should change to a switch statement. i think there might be problems if more than one key is pressed at once
+		if(keyManager().up) {
 			nextPlayerCoordinate = new Coordinate(playerCoordinate.getxPosition(), playerCoordinate.getyPosition() - 1);
 			nextBoxCoordinate = new Coordinate(playerCoordinate.getxPosition(), playerCoordinate.getyPosition() - 2);
-		if(KeyManager().down)
+		}
+		else if(keyManager().down) {
 			nextPlayerCoordinate = new Coordinate(playerCoordinate.getxPosition(), playerCoordinate.getyPosition() + 1);
 			nextBoxCoordinate = new Coordinate(playerCoordinate.getxPosition(), playerCoordinate.getyPosition() + 2);
-		if(KeyManager().left)
+		}
+		else if(keyManager().left) {
 			nextPlayerCoordinate = new Coordinate(playerCoordinate.getxPosition() - 1, playerCoordinate.getyPosition());
 			nextBoxCoordinate = new Coordinate(playerCoordinate.getxPosition() - 2, playerCoordinate.getyPosition());
-		if(KeyManager().right)
+		}
+		else if(keyManager().right) {
 			nextPlayerCoordinate = new Coordinate(playerCoordinate.getxPosition() + 1, playerCoordinate.getyPosition());
 			nextBoxCoordinate = new Coordinate(playerCoordinate.getxPosition() + 2, playerCoordinate.getyPosition());
+		}
+		else { //no arrow keys are being pressed so return here without calling collision checker
+			return;
+		}
 		//calls first collision-checking method
-		checkPlayerWallCollision(nextPlayerCoordinate);
+		checkPlayerWallCollision();
 	}
 	
 	/**
@@ -88,9 +101,11 @@ public class BoardController {
 		//checks if the next coordinate has attribute of wall
 		if (thisBoard.getBlockAttribute(nextPlayerCoordinate) == BlockAttribute.WALL) {
 			playerWallCollision = true;
-		} //if so, calls method to check player collision with box
-		else checkPlayerBoxCollision(nextPlayerCoordinate);
-		
+		} 
+		//if not, calls method to check player collision with box
+		else {
+			checkPlayerBoxCollision();
+		}
 		return playerWallCollision;
 	}
 	
@@ -106,14 +121,15 @@ public class BoardController {
 	private boolean checkPlayerBoxCollision() {
 		
 		boolean playerBoxCollision = false;
+		
 		//if next coordinate is a box, calls method to check if box will collide with wall
 		if (thisBoard.getBlockAttribute(nextPlayerCoordinate) == BlockAttribute.BOX
 				|| thisBoard.getBlockAttribute(nextPlayerCoordinate) == BlockAttribute.BOXONGOAL) {
 			playerBoxCollision = true;
 			checkBoxWallCollision();
 		}
-		else //MOVE PLAYER
-			playerCoordinate = nextPlayerCoordinate;
+		else {
+			movePlayer();
 		}
 		return playerBoxCollision;
 	}
@@ -123,11 +139,8 @@ public class BoardController {
 	 * 
 	 * - returns true if there is a collision (with wall or another box)
 	 * 
-	 * - if false, calls methods to move player and box, then:
-	 * 		- checks if box is on target once moved
-	 * 		- calls method to check success of level
+	 * - if false, calls methods to move player and box
 	 * 
-	 * @param Coordinate the next coordinate that the player will move to
 	 * @return true if there is a collision
 	 */
 	private boolean checkBoxWallCollision() {
@@ -139,34 +152,91 @@ public class BoardController {
 				|| thisBoard.getBlockAttribute(nextBoxCoordinate == BlockAttribute.WALL)) {
 			boxWallCollision = true;
 		}
-		else {//MOVE PLAYER AND BOX
-			playerCoordinate = nextPlayerCoordinate;
-			boxCoordinate = nextBoxCoordinate;	
-			//check if box is now on goal
-			if (thisBoard.getBlockAttribute(nextBoxCoordinate) == BlockAttribute.GOAL) {
-				//add to goal counter and check success
-				goalCounter++;
-				checkSuccess();
-			}
+		else {
+			moveBox();
+			movePlayer();
 		}
 		return boxWallCollision;
+	}
+	
+	/**
+	 * Move player
+	 * 
+	 * - changes block attributes on board
+	 * - changes value of the field playerCoordinate
+	 * 
+	 */
+	private void movePlayer() {
+		
+		//if he's moving onto a goal
+		if (thisBoard.getBlockAttribute(nextPlayerCoordinate) == BlockAttribute.GOAL
+				|| thisBoard.getBlockAttribute(nextPlayerCoordinate) == BlockAttribute.BOXONGOAL) {
+			thisBoard.addToMap(nextPlayerCoordinate, BlockAttribute.PLAYERONGOAL);
+		}
+		//else he's moving onto a floor square
+		else {
+			thisBoard.addToMap(nextPlayerCoordinate, BlockAttribute.PLAYER);
+		}
+		//if he's moving off a goal
+		if (thisBoard.getBlockAttribute(playerCoordinate) == BlockAttribute.PLAYERONGOAL) {
+			thisBoard.addToMap(playerCoordinate, BlockAttribute.GOAL);
+		}
+		//else he's moving off a floor square
+		else {
+			thisBoard.addToMap(playerCoordinate, BlockAttribute.FLOOR);
+		}
+		//change local variable
+		playerCoordinate = nextPlayerCoordinate;
+	}
+	
+	/**
+	 * Move box
+	 * 
+	 * - changes block attributes on board
+	 * 
+	 * - if the box is moving on or off a goal, changes value of the field goalCounter
+	 * - if the box is moving onto a goal, calls method to check success of level
+	 * 
+	 * Note: the coordinate the box is moving off of is the same one that the player is
+	 * moving onto, so no need to change those attributes in this method, because the 
+	 * movePlayer method does it.
+	 * 
+	 */
+	private void moveBox() {
+		//if the box will be moving onto a goal
+		if (thisBoard.getBlockAttribute(nextBoxCoordinate) == BlockAttribute.GOAL) {
+			thisBoard.addToMap(nextBoxCoordinate, BlockAttribute.BOXONGOAL);
+			//add to goal counter and check success
+			goalCounter++;
+			checkSuccess();
+		}
+		//else it's moving onto floor
+		else {
+			thisBoard.addToMap(nextBoxCoordinate, BlockAttribute.BOX);
+		}
+		//if the box is moving off a goal
+		if (thisBoard.getBlockAttribute(nextPlayerCoordinate) ==  BlockAttribute.BOXONGOAL) {
+			//need to decrement the goalCounter as it just moved off a goal
+			goalCounter--;
+		}
 	}
 	
 	/**
 	 * Success checker
 	 * 
 	 * - checks if all boxes are on goals
+	 * - changes the field levelComplete to true if so
 	 * 
 	 * @return true if level complete
 	 */
-	public boolean checkSuccess() {
+	private boolean checkSuccess() {
 		boolean successful = false;
 
 		if (goals == goalCounter)
 			successful = true;
+			levelComplete = true;
 		
 		return successful;
 	}
-
 
 }
