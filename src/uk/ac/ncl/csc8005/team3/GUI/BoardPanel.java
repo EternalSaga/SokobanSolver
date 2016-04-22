@@ -33,8 +33,7 @@ public class BoardPanel extends JPanel{
 		ImageIcon ico = null;
 		for (int row = 0; row < board.getHeight(); row++) {
 			for (int column = 0; column < board.getWidth(); column++) {
-				//Position pos = new Position(line, column);
-				Coordinate cod = new Coordinate();
+
 				switch (board.getBlockAttribute(row, column)) {
 					case FLOOR:
 						ico = new ImageIcon(BlockAttribute.FLOOR.getPath());

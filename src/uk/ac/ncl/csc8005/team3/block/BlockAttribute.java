@@ -1,13 +1,13 @@
 package uk.ac.ncl.csc8005.team3.block;
 
 public enum BlockAttribute {
-	WALL("wall","path1"),
-	FLOOR("floor","path2"),
-	PLAYER("player","path3"),
-	BOX("box","path4"),
-	GOAL("goal","path5"),
-	BOXONGOAL("boxongoal","path6"),
-	PLAYERONGOAL("playerongoal","path7");
+	WALL("wall","resources/wall.jpg"),
+	FLOOR("floor","resources/floor.jpg"),
+	PLAYER("player","resources/character.gif"),
+	BOX("box","resources/box.jpg"),
+	GOAL("goal","resources/target.png"),
+	BOXONGOAL("boxongoal","resources/boxOnTarget.jpg"),
+	PLAYERONGOAL("playerongoal","character.gif");
 	private String attribute;
 	private String path;
 	private BlockAttribute(String attribute, String path){
