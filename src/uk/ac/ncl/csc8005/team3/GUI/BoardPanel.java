@@ -34,7 +34,7 @@ public class BoardPanel extends JPanel{
 		for (int row = 0; row < board.getHeight(); row++) {
 			for (int column = 0; column < board.getWidth(); column++) {
 
-				switch (board.getBlockAttribute(row, column)) {
+				switch (board.getBlockAttribute(column, row)) {
 					case FLOOR:
 						ico = new ImageIcon(BlockAttribute.FLOOR.getPath());
 						break;
