@@ -56,6 +56,4 @@ public abstract class Move extends GameObject {
 	public void setSpeed(int speed) {
 		this.speed = speed;
 	}
-	
-
 }

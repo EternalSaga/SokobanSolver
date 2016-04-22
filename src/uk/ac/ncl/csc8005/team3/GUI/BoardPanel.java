@@ -42,7 +42,7 @@ public class BoardPanel extends JPanel{
 						ico = new ImageIcon(BlockAttribute.WALL.getPath());
 						break;
 					case GOAL:
-							ico = new ImageIcon(BlockAttribute.GOAL.getPath());
+						ico = new ImageIcon(BlockAttribute.GOAL.getPath());
 						break;
 					case PLAYER:
 						ico = new ImageIcon(BlockAttribute.PLAYER.getPath());
