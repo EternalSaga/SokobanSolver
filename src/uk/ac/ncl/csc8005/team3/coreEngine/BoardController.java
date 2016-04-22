@@ -13,10 +13,6 @@ import java.awt.event.KeyListener;
  *  - checks for success (all boxes on goals)
  *  
  *  Most methods are private because they will only be called from within this class
- *  
- * 	PROBLEMS:
- * 
- *      -   does not add to move history yet
  * 
  * @author Kate
  *
@@ -25,6 +21,7 @@ public class BoardController {
 	
 	//input
 	private KeyManager keyManager;
+	private int direction;
 	
 	//board
 	private Board thisBoard; //this level
@@ -37,6 +34,7 @@ public class BoardController {
 	
 		//input
 		keyManager = new KeyManager();
+		direction = 0; //direction is zero when no arrow keys are pressed
 		
 		//board
 		this.thisBoard = thisBoard;
@@ -57,6 +55,7 @@ public class BoardController {
 	/**
 	 * Gets input from KeyManager
 	 * 
+	 *  - sets value of the field direction, which is used to add to move history if move is completed successfully
 	 *  - determines the next coordinates to which the characters want to move
 	 *  - starts the process of calling collision checking methods
 	 * 
@@ -64,18 +63,22 @@ public class BoardController {
 	private void getInput(){
 		//maybe should change to a switch statement. i think there might be problems if more than one key is pressed at once
 		if(keyManager().up) {
+			direction = 1;
 			nextPlayerCoordinate = new Coordinate(playerCoordinate.getxPosition(), playerCoordinate.getyPosition() - 1);
 			nextBoxCoordinate = new Coordinate(playerCoordinate.getxPosition(), playerCoordinate.getyPosition() - 2);
 		}
 		else if(keyManager().down) {
+			direction = 2;
 			nextPlayerCoordinate = new Coordinate(playerCoordinate.getxPosition(), playerCoordinate.getyPosition() + 1);
 			nextBoxCoordinate = new Coordinate(playerCoordinate.getxPosition(), playerCoordinate.getyPosition() + 2);
 		}
 		else if(keyManager().left) {
+			direction = 3;
 			nextPlayerCoordinate = new Coordinate(playerCoordinate.getxPosition() - 1, playerCoordinate.getyPosition());
 			nextBoxCoordinate = new Coordinate(playerCoordinate.getxPosition() - 2, playerCoordinate.getyPosition());
 		}
 		else if(keyManager().right) {
+			direction = 4;
 			nextPlayerCoordinate = new Coordinate(playerCoordinate.getxPosition() + 1, playerCoordinate.getyPosition());
 			nextBoxCoordinate = new Coordinate(playerCoordinate.getxPosition() + 2, playerCoordinate.getyPosition());
 		}
@@ -187,6 +190,8 @@ public class BoardController {
 		}
 		//change local variable
 		playerCoordinate = nextPlayerCoordinate;
+		//add to move history
+		addToHistory();
 	}
 	
 	/**
@@ -219,6 +224,29 @@ public class BoardController {
 			//need to decrement the goalCounter as it just moved off a goal
 			goalCounter--;
 		}
+	}
+	
+	/**
+	 * Add to Move History
+	 * 
+	 *  - when a move is completed, adds it to move history
+	 */
+	private void addToHistory() throws IllegalArgumentException {
+		int d = direction;
+		switch (d) {
+        case 1:  MoveHistory.add(MoveEnum.UP);
+                 break;
+        case 2:  MoveHistory.add(MoveEnum.DOWN);
+                 break;
+        case 3:  MoveHistory.add(MoveEnum.LEFT);
+                 break;
+        case 4:  MoveHistory.add(MoveEnum.RIGHT);
+                 break;
+        default: throw new IllegalArgumentException("invalid direction: " + d);
+        		 break;
+		}
+		//sets direction back to zero ready for next move
+		direction = 0;
 	}
 	
 	/**
