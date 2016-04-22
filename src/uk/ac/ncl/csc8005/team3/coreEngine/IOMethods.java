@@ -81,7 +81,7 @@ public class IOMethods {
 	 */
 	private String checkAndFormatForMapRow(String row) {
 		
-		row = row.trim();
+		//row = row.trim();
 		
 		if (row.length() > MAX_COLS) {
 			row = row.substring(0, MAX_COLS);

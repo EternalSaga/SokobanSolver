@@ -10,7 +10,7 @@ public class IOtest {
 	public static void main(String[] args) throws FileNotFoundException {
 		IOMethods io = new IOMethods();
 		Board board;
-		board = io.loadBoardFromFile("C:\\Users\\RobinLew\\OneDrive\\JAVA&Android_Workplace\\SokobanSolver\\bin\\JunitTest\\level1.txt");
-		System.out.println(board.getBlockAttribute(1, 1)==BlockAttribute.PLAYER);
+		board = io.loadBoardFromFile("resources\\level1.txt");
+		System.out.println(board.getBlockAttribute(1, 1)==BlockAttribute.FLOOR);
 	}
 }
