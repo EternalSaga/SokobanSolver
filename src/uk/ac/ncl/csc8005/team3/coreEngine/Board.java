@@ -1,5 +1,7 @@
 package uk.ac.ncl.csc8005.team3.coreEngine;
 import java.util.*;
+
+import uk.ac.ncl.csc8005.team3.algorithm.State;
 import uk.ac.ncl.csc8005.team3.block.*;
 
 
@@ -11,6 +13,10 @@ public class Board implements BoardInterface {
 	private int numOfColumns;
 	private Coordinate playerCoordinate;
 	private int numberOfGoals;
+	private State initialState;
+	private HashSet<Coordinate> walls;
+	private HashSet<Coordinate> goals;
+	private HashMap<Coordinate, Coordinate> blocked;
 /*
  * Constructor to set the values of map size, which is initially empty.
  */

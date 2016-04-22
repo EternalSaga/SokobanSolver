@@ -4,7 +4,7 @@ import java.util.HashSet;
 import uk.ac.ncl.csc8005.team3.block.Coordinate;
 
 /**
- * State class stores set of boxes and player
+ * This class is used to store the position and history of boxes and the player.
  */
 public class State {
 

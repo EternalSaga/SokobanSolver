@@ -1,4 +1,4 @@
-package sokoban_new;
+package uk.ac.ncl.csc8005.team3.GUI;
 
 import java.awt.EventQueue;
 import java.awt.GridLayout;
@@ -12,6 +12,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.JSplitPane;
+
+import uk.ac.ncl.csc8005.team3.coreEngine.Board;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -149,7 +151,7 @@ public class GameWindow {
 		JSplitPane secondPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		secondPane.setBounds(0,65,978,405);
 		
-		boardPanel = new BoardPanel(board);
+		boardPanel = new BoardPanel(new Board());
 		secondPane.setTopComponent(boardPanel);
 		//secondPane.add(BoardPanel);
 		getFrame().getContentPane().add(secondPane);
