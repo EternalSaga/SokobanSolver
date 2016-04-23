@@ -83,10 +83,10 @@ public class Board implements BoardInterface {
 	 */
 	public void addRow(String row) {
 		rows.add(row);
-	//	if (row.length() > numOfColumns) {
+		if (row.length() > numOfColumns) {
 			this.numOfColumns = length();
-			this.numOfRows++;
-	//	}
+		}
+		this.numOfRows++;
 	}
 
 	/*
