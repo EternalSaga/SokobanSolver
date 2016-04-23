@@ -39,8 +39,8 @@ public class BoardController {
 		
 		//board
 		this.thisBoard = thisBoard;
-		playerCoordinate = thisBoard.getPlayerCoordinate();
-		goals = thisBoard.getNumOfGoals();
+		playerCoordinate = thisBoard.getPlayerPosition();
+		goals = thisBoard.getNumberOfGoals();
 		goalCounter = 0; //at start of level, no boxes are on goals
 		levelComplete = false;
 	}
