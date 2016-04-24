@@ -13,5 +13,6 @@ public class IOtest {
 		board = io.loadBoardFromFile("resources\\level1.txt");
 		System.out.println(board.getBlockAttribute(1, 1)==BlockAttribute.FLOOR);
 		System.out.println(board.getHeight());
+		System.out.println(board.getWidth());
 	}
 }
