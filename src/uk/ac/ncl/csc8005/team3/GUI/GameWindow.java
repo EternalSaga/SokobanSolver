@@ -1,231 +1,179 @@
-package uk.ac.ncl.csc8005.team3.GUI;
+package sokoban_new;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.awt.GridLayout;
+import java.awt.FlowLayout;
 
-import javax.swing.JFrame;
+import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
-import javax.swing.JComponent;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
-
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.ActionEvent;
-import javax.swing.JSplitPane;
-
-import uk.ac.ncl.csc8005.team3.coreEngine.Board;
-
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JComboBox;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.awt.event.ActionEvent;
+import java.awt.GridLayout;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
 
 public class GameWindow {
 
 	private JFrame frame;
-	private BoardPanel BoardPanel;
+	private JButton btnUp;
+	private JButton btnDown;
+	private JButton btnLeft;
+	private JButton btnRight;
 	private JButton btnReset;
 	private JButton btnQuit;
+
+
+
+	private JComboBox comboBox;
+	private FileFolder f;
+	private IOMethods io;
 	
 	private Board board;
 	private BoardPanel boardPanel;
-	private JSplitPane secondPane;
-	
 	
 	/**
 	 * Create the application.
 	 */
-	public GameWindow() {
-
-		initialize();
+	public GameWindow(FileFolder f) {
+		this.f = f;
+		io = new IOMethods();
+		board =io.loadBoardFromFile("res/levelCollection/level.txt");
+		boardPanel = new BoardPanel(board);
+		
 	}
 
 	/**
 	 * Initialize the contents of the frame.
+	 *
 	 */
 	
-	
+	public void strat(){
+		initialize();
+	}
 	
 	private void initialize() {
+		frame = new JFrame();
+		//frame.setBounds(100, 100, 1038, 685);
+		frame.setVisible(true);
+		frame.pack();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-	
-		
-		setFrame(new JFrame());
-		getFrame().setBounds(0, 0, 1000, 655);
-		getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		getFrame().getContentPane().setLayout(null);
-		
-		
-		
-		
-		
-		// quit button
-		JButton btnQuit = new JButton("Quit");
-		btnQuit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent event) {
-			JDialog.setDefaultLookAndFeelDecorated(true);
-			int response = JOptionPane.showConfirmDialog(null, "Do you want to quit?", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-			if (response == JOptionPane.YES_OPTION)
-				System.exit(0);
-			
-			}
-		});
-		btnQuit.setBounds(469, 16, 115, 29);
-		getFrame().getContentPane().add(btnQuit);
-		
-		// reset button
-		JButton btnReset = new JButton("Reset");
-		btnReset.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent event) {
-				
-				
-			}
-		});
-		btnReset.setBounds(349, 16, 115, 29);
-		getFrame().getContentPane().add(btnReset);
-		
-		// up button
-		JButton btnUp = new JButton("up");
-		btnUp.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			//	KeyManager.up;
-				
-			}
-		});
-		btnUp.setBounds(420, 486, 79, 29);
-		getFrame().getContentPane().add(btnUp);
-		
-		JButton button_2 = new JButton("down");
-		button_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		button_2.setBounds(420, 552, 79, 31);
-		getFrame().getContentPane().add(button_2);
-		
-		JButton button_1 = new JButton("left");
-		button_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		button_1.setBounds(334, 519, 79, 29);
-		getFrame().getContentPane().add(button_1);
-		
-		JButton button_3 = new JButton("right");
-		button_3.setBounds(505, 519, 79, 29);
-		getFrame().getContentPane().add(button_3);
-		
-		JLabel lblSteps = new JLabel("steps");
-		lblSteps.setBounds(280, 20, 36, 20);
-		getFrame().getContentPane().add(lblSteps);
-		
-		
-		// combobox
-		JComboBox comboBox = new JComboBox();
-		comboBox.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			
-				
-			}
-		});
-		comboBox.setBounds(25, 16, 115, 27);
-		getFrame().getContentPane().add(comboBox);
-		
-		
-		// choose button
-		JButton btnNewButton = new JButton("Choose");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		btnNewButton.setBounds(155, 16, 96, 29);
-		getFrame().getContentPane().add(btnNewButton);
-		
-		
-		JSplitPane firstPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-		firstPane.setBounds(0,0,978,65);
-		getFrame().getContentPane().add(firstPane);
-		
-		
-		JSplitPane secondPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-		secondPane.setBounds(0,65,978,405);
-		
-		boardPanel = new BoardPanel(new Board());
-		secondPane.setTopComponent(boardPanel);
-		//secondPane.add(BoardPanel);
-		getFrame().getContentPane().add(secondPane);
-		
-		JSplitPane thirdPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-		thirdPane.setBounds(0,470,978,130);
-		getFrame().getContentPane().add(thirdPane);
-		
+		frame.getContentPane().add(getPanel1(), BorderLayout.NORTH);
+		frame.getContentPane().add(getPanel2(), BorderLayout.SOUTH);
+		frame.getContentPane().add(getPanel3(), BorderLayout.CENTER);
+
 		
 	}
 	
-
-		
-/*
-		@Override
-		public int askLevelToPlay() {
-			return this.selectedLevel;
-		}
-
-		@Override
-		public void displayMessage(String msg) {
-			this.labelMessage.setText(msg);
-		}
-
-		@Override
-		public void displayLevel(Level level) {
-			this.levelGridPanel = new BoardPanel(level);
-			this.secondSplitPane.setTopComponent(this.levelGridPanel);
-			this.pack();
-		}
-
-		@Override
-		public void displayStartingMessage() {
-			// Nothing to do
-		}
-
-		@Override
-		public void keyTyped(KeyEvent event) {
-			switch(event.getKeyChar()){
-				case 'z':
-					this.chosenDirection = Direction.UP;
-					this.isDirectionChosen = true;
-					break;
-				case 'q':
-					this.chosenDirection = Direction.LEFT;
-					this.isDirectionChosen = true;
-					break;
-				case 's':
-					this.chosenDirection = Direction.DOWN;
-					this.isDirectionChosen = true;
-					break;
-				case 'd':
-					this.chosenDirection = Direction.RIGHT;
-					this.isDirectionChosen = true;
-					break;
-				default:
-					break;
-			}
-		}
-*/
-		public void keyPressed(KeyEvent event) {
-			// Nothing to do
-		}
-
-		public void keyReleased(KeyEvent event) {
-			// Nothing to do
-		}
-
-		public JFrame getFrame() {
-			return frame;
-		}
-
-		public void setFrame(JFrame frame) {
-			this.frame = frame;
-		}
 	
+	public JPanel getPanel1(){
+		JPanel panel_1 = new JPanel();
+		panel_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		comboBox = new JComboBox();
+		comboBox.setMaximumRowCount(256);
+		ArrayList<String> list = f.getFileNames();
+		for (String n: list){
+			comboBox.addItem(n); 
+		}	
+		comboBox.setPreferredSize(new Dimension(200, 50));
+		comboBox.setSelectedIndex(0);
+		comboBox.addActionListener(new ButtonListener());
+		panel_1.add(comboBox);
+		
+		JButton btnReset = new JButton("Reset");
+		btnReset.addActionListener(new ButtonListener());
+		panel_1.add(btnReset);
+		
+		JButton btnQuit = new JButton("Quit");
+		btnQuit.addActionListener(new ButtonListener());
+		panel_1.add(btnQuit);
+		return panel_1;
+	}
+	
+	public JPanel getPanel2(){
+		JPanel panel_2 = new JPanel();
+		
+		
+		JButton btnUp = new JButton("Up");
+		
+		btnUp.addActionListener(new ButtonListener());
+		panel_2.add(btnUp);
+		
+		JButton btnDown = new JButton("Down");
+		btnDown.addActionListener(new ButtonListener());
+		panel_2.add(btnDown);
+		
+		JButton btnLeft = new JButton("Left");
+		//btnUp.setPreferredSize(new Dimension(200,20));
+		btnLeft.addActionListener(new ButtonListener());
+		panel_2.add(btnLeft);
+		
+		JButton btnRight = new JButton("Right");
+		btnRight.addActionListener(new ButtonListener());
+		
+		panel_2.add(btnRight);
+		return panel_2;
+	}
+	
+	
+	
+	
+	
+	
+	
+	public JPanel getPanel3(){
+		
+		JPanel panel_3 = new JPanel();
+		panel_3.add(boardPanel);
+		return panel_3;
+		
+	}
+	
+	
+	
+	public class ButtonListener implements ActionListener{
+		
+		private KeyManager k;
+		private BoardController bc;
+		 public void actionPerformed(ActionEvent buttonPressed) {
+			 if(buttonPressed.getSource() == comboBox){
+				 JComboBox c = (JComboBox)buttonPressed.getSource();
+					String msg = (String)c.getSelectedItem();
+						board = io.loadBoardFromFile(f.getFiles().get(msg).getPath());
+						boardPanel = new BoardPanel(board);
+						
+			 }
+			 else if(buttonPressed.getSource() == btnReset){
+				 //reset
+			 }
+			 else if(buttonPressed.getSource() == btnQuit){
+				 JDialog.setDefaultLookAndFeelDecorated(true);
+					int response = JOptionPane.showConfirmDialog(null, "Do you want to quit?", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+					if (response == JOptionPane.YES_OPTION)
+						System.exit(0);
+			 }
+			 else if (buttonPressed.getSource() == btnLeft)
+	              
+				 bc.getInput(k.left);
+	            else if (buttonPressed.getSource() == btnRight)
+	               bc.getInput(k.right);
+	            else if (buttonPressed.getSource() == btnUp)
+	            	  bc.getInput(k.up);
+	            else if (buttonPressed.getSource() == btnDown)
+	            	  bc.getInput(k.down);
+	        } 
+	}
 }
