@@ -50,7 +50,7 @@ public class GameWindow {
 		this.f = f;
 		io = new IOMethods();
 		board =io.loadBoardFromFile("res/levelCollection/level.txt");
-		boardPanel = new BoardPanel(board);
+		boardPanel =new BoardPanel(board);
 		
 	}
 
@@ -105,26 +105,27 @@ public class GameWindow {
 	
 	public JPanel getPanel2(){
 		JPanel panel_2 = new JPanel();
-		
-		
+		JPanel panelIn = new JPanel();
+		panelIn.setLayout(new BorderLayout());
 		JButton btnUp = new JButton("Up");
 		
 		btnUp.addActionListener(new ButtonListener());
-		panel_2.add(btnUp);
+		panelIn.add(btnUp,BorderLayout.NORTH);
 		
 		JButton btnDown = new JButton("Down");
 		btnDown.addActionListener(new ButtonListener());
-		panel_2.add(btnDown);
+		panelIn.add(btnDown,BorderLayout.SOUTH);
 		
 		JButton btnLeft = new JButton("Left");
 		//btnUp.setPreferredSize(new Dimension(200,20));
 		btnLeft.addActionListener(new ButtonListener());
-		panel_2.add(btnLeft);
+		panelIn.add(btnLeft,BorderLayout.WEST);
 		
 		JButton btnRight = new JButton("Right");
 		btnRight.addActionListener(new ButtonListener());
 		
-		panel_2.add(btnRight);
+		panelIn.add(btnRight,BorderLayout.EAST);
+		panel_2.add(panelIn);
 		return panel_2;
 	}
 	
