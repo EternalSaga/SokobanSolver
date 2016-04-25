@@ -1,10 +1,11 @@
-package sokoban_new;
+package uk.ac.ncl.csc8005.team3.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 
+import javax.net.ssl.KeyManager;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -15,6 +16,10 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import uk.ac.ncl.csc8005.team3.coreEngine.Board;
+import uk.ac.ncl.csc8005.team3.coreEngine.BoardController;
+import uk.ac.ncl.csc8005.team3.coreEngine.IOMethods;
 
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -178,7 +183,7 @@ public class GameWindow {
 				solver.start();
 				
 			 }
-			 else if (buttonPressed.getSource() == btnLeft)
+			/* else if (buttonPressed.getSource() == btnLeft){
 	              
 				 bc.getInput(k.left);
 	            else if (buttonPressed.getSource() == btnRight)
@@ -187,6 +192,6 @@ public class GameWindow {
 	            	  bc.getInput(k.up);
 	            else if (buttonPressed.getSource() == btnDown)
 	            	  bc.getInput(k.down);
-	        } 
+	        } */
 	}
 }
