@@ -13,10 +13,7 @@ public class Board implements BoardInterface {
 	private int numOfColumns;
 	private Coordinate playerCoordinate;
 	private int numberOfGoals;
-	private State initialState;
-	private HashSet<Coordinate> walls;
-	private HashSet<Coordinate> goals;
-	private HashMap<Coordinate, Coordinate> blocked;
+
 
 	/*
 	 * Constructor to set the values of map size, which is initially empty.
@@ -161,49 +158,5 @@ public class Board implements BoardInterface {
 	public String getRow(int i) {
 		return String.valueOf(rows.get(i));
 	}
-	
-	private boolean setContains(HashSet<Coordinate> set, int row, int col) {
-		if (set.contains(new Coordinate(row, col)))
-			return true;
-		return false;
-	}
-	
-	public boolean deadlockTest(State state) {
-		for (Coordinate box : state.boxes) {
-			int row = box.row;
-			int col = box.col;
-			if (!setContains(goals, row, col)) {
-				if (setContains(walls, row-1, col)&&setContains(walls, row, col-1))
-					return true; //top & left
-				if (setContains(walls, row-1, col)&&setContains(walls, row, col+1))
-					return true; //top & right
-				if (setContains(walls, row+1, col)&&setContains(walls, row, col-1))
-					return true; //bottom & left
-				if (setContains(walls, row+1, col)&&setContains(walls, row, col+1))
-					return true; //bottom & right
 
-				if (setContains(walls, row-1, col-1)&&setContains(walls, row-1, col)&&
-						setContains(walls, row-1, col+1)&&setContains(walls, row, col-2)&&
-						setContains(walls, row, col+2)&&(!setContains(goals, row, col-1))&&
-								!setContains(goals, row, col+1))
-					return true; //top & sides
-				if (setContains(walls, row+1, col-1)&&setContains(walls, row+1, col)&&
-						setContains(walls, row+1, col+1)&&setContains(walls, row, col-2)&&
-						setContains(walls, row, col+2)&&(!setContains(goals, row, col-1))&&
-								(!setContains(goals, row, col+1)))
-					return true; //bottom & sides
-				if (setContains(walls, row-1, col-1)&&setContains(walls, row, col-1)&&
-						setContains(walls, row+1, col-1)&&setContains(walls, row-2, col)&&
-						setContains(walls, row+2, col)&&(!setContains(goals, row-1, col))&&
-								(!setContains(goals, row+1, col)))
-					return true; //left & vertical
-				if (setContains(walls, row-1, col+1)&&setContains(walls, row, col+1)&&
-						setContains(walls, row+1, col+1)&&setContains(walls, row-2, col)&&
-						setContains(walls, row+2, col)&&(!setContains(goals, row-1, col))&&
-								(!setContains(goals, row+1, col)))
-					return true; //right & top/bottom
-			}
-		}
-		return false;
-	}
 }

@@ -8,7 +8,6 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
 
-import uk.ac.ncl.csc8005.team3.coreEngine.Board;
 
 public class AStarSearch {
 private static Heuristics h;
@@ -17,7 +16,7 @@ private static Heuristics h;
 		AStarSearch.h = h;
 	}
 	
-	public String prioritySearch(Board currentProblem) {
+	public String prioritySearch(Problem currentProblem) {
 		String answer;
 		long startTime = System.currentTimeMillis();
 		int totalNode = 1;
