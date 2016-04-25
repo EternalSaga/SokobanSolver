@@ -33,6 +33,7 @@ public class GameWindow {
 	private JButton btnRight;
 	private JButton btnReset;
 	private JButton btnQuit;
+	private JButton btnSolver;
 
 
 
@@ -59,7 +60,7 @@ public class GameWindow {
 	 *
 	 */
 	
-	public void strat(){
+	public void start(){
 		initialize();
 	}
 	
@@ -100,6 +101,11 @@ public class GameWindow {
 		JButton btnQuit = new JButton("Quit");
 		btnQuit.addActionListener(new ButtonListener());
 		panel_1.add(btnQuit);
+		
+		JButton btnSolver = new JButton("Solve the level");
+		btnSolver.addActionListener(new ButtonListener());
+		panel_1.add(btnSolver);
+		
 		return panel_1;
 	}
 	
@@ -149,6 +155,8 @@ public class GameWindow {
 		
 		private KeyManager k;
 		private BoardController bc;
+		private Solver solver;
+		
 		 public void actionPerformed(ActionEvent buttonPressed) {
 			 if(buttonPressed.getSource() == comboBox){
 				 JComboBox c = (JComboBox)buttonPressed.getSource();
@@ -165,6 +173,10 @@ public class GameWindow {
 					int response = JOptionPane.showConfirmDialog(null, "Do you want to quit?", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 					if (response == JOptionPane.YES_OPTION)
 						System.exit(0);
+			 }else if (buttonPressed.getSource()== btnSolver){
+				solver = new Solver();
+				solver.start();
+				
 			 }
 			 else if (buttonPressed.getSource() == btnLeft)
 	              
