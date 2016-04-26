@@ -20,7 +20,7 @@ public class PannalTest {
 			@Override
 			public void run() {
 				GameWindow GW = new GameWindow(new FileFolder("resources/"));
-				
+				GW.start();
 			}
 		});
 	}

@@ -53,4 +53,20 @@ public class Coordinate implements Comparable<Coordinate> {
 		}
 		return result;
 	}
+	
+	@Override
+	public int hashCode() {
+		return xPosition*1000 + yPosition;
+	}
+	
+	// equals method used for contains()
+	@Override
+	public boolean equals(Object object){
+		if (object == null) return false;
+	    if (object == this) return true;
+	    if (this.getClass() != object.getClass()) return false;
+		Coordinate c = (Coordinate) object;
+		if(this.hashCode()== c.hashCode()) return true;
+	    return ((this.xPosition == c.xPosition) && (this.yPosition == c.yPosition));
+	}
 }
