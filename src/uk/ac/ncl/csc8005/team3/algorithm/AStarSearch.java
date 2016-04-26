@@ -46,7 +46,7 @@ public class AStarSearch {
 				explored.add(n.state);
 				ArrayList<String> actions = currentProblem.actions(n.state);
 				for (int i = 0; i < actions.size(); i++) {
-					Node child = getChild(currentProblem, n, actions.get(i),isUCS);
+					Node child = getChild(currentProblem, n, actions.get(i),true);
 					if ((child != null) && (child.state != null)) {
 						totalNode++;
 						if ((!explored.contains(child.state)) && (!fringe.contains(child)))

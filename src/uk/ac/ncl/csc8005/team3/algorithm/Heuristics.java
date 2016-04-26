@@ -31,7 +31,7 @@ public class Heuristics {
 	/**
 	 * Gets two coordinates as variables, and adds the sum of differences of rows and columns
 	 * to get distance between two coordinates
-	 * @param c1 coodinate 1
+	 * @param c1 coordinate 1
 	 * @param c2 coordinate 2
 	 * @return distance from c1 to c2
 	 */

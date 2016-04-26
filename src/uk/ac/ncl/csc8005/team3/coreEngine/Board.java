@@ -29,6 +29,8 @@ public class Board implements BoardInterface {
 		numberOfGoals = 0;
 		tMap = new TreeMap<Coordinate, BlockAttribute>();
 		initialState = new State();
+		walls = new HashSet<>();
+		goals = new HashSet<>();
 	}
 
 	/**
@@ -44,15 +46,15 @@ public class Board implements BoardInterface {
 			initialState.setPlayerPosition(thisCoordinate);
 		}
 		
-		else if (thisBlockAttribute == BlockAttribute.GOAL) {
+		if (thisBlockAttribute == BlockAttribute.GOAL) {
 			this.numberOfGoals++;
 			goals.add(thisCoordinate);
 		}
 		
-		else if(thisBlockAttribute == BlockAttribute.WALL){
+		if(thisBlockAttribute == BlockAttribute.WALL){
 			walls.add(thisCoordinate);
 		}
-		else if(thisBlockAttribute == BlockAttribute.BOX){
+		if(thisBlockAttribute == BlockAttribute.BOX){
 			initialState.getBoxes().add(thisCoordinate);
 		}
 	}
@@ -289,4 +291,8 @@ public class Board implements BoardInterface {
 	public State getInitialState(){
 		return initialState;
 	}
+	public HashSet<Coordinate> getGoals(){
+		return goals;
+	}
+	
 }
