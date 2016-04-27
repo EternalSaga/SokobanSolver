@@ -69,4 +69,8 @@ public class Coordinate implements Comparable<Coordinate> {
 		if(this.hashCode()== c.hashCode()) return true;
 	    return ((this.xPosition == c.xPosition) && (this.yPosition == c.yPosition));
 	}
+	
+	public String toString(){
+		return "[X:"+xPosition+"]\n[Y:"+yPosition+"]\n";
+	}
 }

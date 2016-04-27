@@ -7,7 +7,7 @@ public enum BlockAttribute {
 	BOX("box","resources/box.jpg"),
 	GOAL("goal","resources/target.png"),
 	BOXONGOAL("boxongoal","resources/boxOnTarget.jpg"),
-	PLAYERONGOAL("playerongoal","character.png");
+	PLAYERONGOAL("playerongoal","character.jpg");
 	private String attribute;
 	private String path;
 	private BlockAttribute(String attribute, String path){

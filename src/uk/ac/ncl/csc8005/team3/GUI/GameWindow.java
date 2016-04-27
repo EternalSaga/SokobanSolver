@@ -1,10 +1,11 @@
-package sokoban_new;
+package uk.ac.ncl.csc8005.team3.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 
+import javax.net.ssl.KeyManager;
 import javax.swing.AbstractAction;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
@@ -17,6 +18,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
+
+import uk.ac.ncl.csc8005.team3.coreEngine.Board;
+import uk.ac.ncl.csc8005.team3.coreEngine.BoardController;
+import uk.ac.ncl.csc8005.team3.coreEngine.IOMethods;
 
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -54,7 +59,7 @@ public class GameWindow {
 	public GameWindow(FileFolder f) {
 		this.f = f;
 		io = new IOMethods();
-		board =io.loadBoardFromFile("res/levelCollection/level.txt");
+		board =io.loadBoardFromFile("resources/level1.txt");
 		boardPanel =new BoardPanel(board);
 		
 	}
@@ -184,22 +189,12 @@ public class GameWindow {
 				
 			 }
 			
-			/* else if(buttonPressed.getSource() == btnReset){
+			else if(buttonPressed.getSource() == btnReset){
 				 //reset
 			 }
-			 * else if (buttonPressed.getSource() == btnLeft)
-				 
-				  * This is not finished yet.
-				  *  * Get the InputMap related to JComponent.WHEN_IN_FOCUSED_WINDOW condition
-			         * to put an event when LEFT key is pressed
-			         
+			/* else if (buttonPressed.getSource() == btnLeft)
 			        btnLeft.getInputMap().put(KeyStroke.getKeyStroke("VK_LEFT"), "LEFT_pressed");
-			        
-			         * Add an action when the event key is "LEFT_pressed"
-			         
-			        btnLeft.getActionMap().put("LEFT_pressed", buttonPressed);
-				 
-				 
+			      btnLeft.getActionMap().put("LEFT_pressed", buttonPressed);
 				 k.left;
 			 bc.getInput();
 

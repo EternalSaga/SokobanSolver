@@ -13,8 +13,8 @@ public class BoardTest {
 	public void test() {
 		IOMethods io = new IOMethods();
 		Board board;
-		board = io.loadBoardFromFile("C:\\Users\\RobinLew\\OneDrive\\JAVA&Android_Workplace\\SokobanSolver\\bin\\JunitTest\\level1.txt");
-		assertEquals("player",board.getBlockAttribute(1, 1).getAttribute());
+		board = io.loadBoardFromFile("resources/level1.txt");
+		System.out.println(board.getBlockAttribute(1, 5));
 	}
 
 }
