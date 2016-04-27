@@ -99,15 +99,15 @@ public class GameWindow {
 		comboBox.addActionListener(new ButtonListener());
 		panel_1.add(comboBox);
 		
-		JButton btnReset = new JButton("Reset");
+		btnReset = new JButton("Reset");
 		btnReset.addActionListener(new ButtonListener());
 		panel_1.add(btnReset);
 		
-		JButton btnQuit = new JButton("Quit");
+		btnQuit = new JButton("Quit");
 		btnQuit.addActionListener(new ButtonListener());
 		panel_1.add(btnQuit);
 		
-		JButton btnSolver = new JButton("Solve the level");
+		btnSolver = new JButton("Solve the level");
 		btnSolver.addActionListener(new ButtonListener());
 		panel_1.add(btnSolver);
 		
@@ -154,18 +154,6 @@ public class GameWindow {
 	
 	
 	
-	
-	
-	//public JPanel getPanel3(){
-		
-		//JPanel panel_3 = new JPanel();
-		//panel_3.add(boardPanel);
-		//return panel_3;
-		
-//	}
-	
-	
-	
 	public class ButtonListener implements ActionListener{
 		
 		private KeyManager k;
@@ -184,13 +172,15 @@ public class GameWindow {
 			 }
 			
 			 else if(buttonPressed.getSource() == btnQuit){
+				
 				 JDialog.setDefaultLookAndFeelDecorated(true);
 					int response = JOptionPane.showConfirmDialog(null, "Do you want to quit?", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 					if (response == JOptionPane.YES_OPTION)
 						System.exit(0);
 			 }else if (buttonPressed.getSource()== btnSolver){
-				solver = new Solver();
-				solver.start();
+				 
+				  solver = new Solver();
+			   	solver.start();
 				
 			 }
 			
