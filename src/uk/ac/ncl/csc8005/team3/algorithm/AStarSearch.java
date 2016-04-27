@@ -3,7 +3,6 @@ package uk.ac.ncl.csc8005.team3.algorithm;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
@@ -25,7 +24,6 @@ public class AStarSearch {
 	}
 
 	public String prioritySearch(Board currentProblem) {
-		String answer;
 		long startTime = System.currentTimeMillis();
 		int totalNode = 1;
 		int redundant = 0;
@@ -91,12 +89,13 @@ public class AStarSearch {
 				n = n.parent;
 				steps++;
 			}
-		result =  ":\n" + result + "\n(total of " + steps + " steps)" +
+		/*result =  ":\n" + result + "\n(total of " + steps + " steps)" +
 				"\na) Number of nodes generated: " + totalNode + 
 				"\nb) Number of nodes containing states that were generated previously: " + redundant + 
 				"\nc) Number of nodes on the fringe when termination occurs: " + fringeSize + 
 				"\nd) Number of nodes on the explored list (if there is one) when termination occurs: " + exploredSize +
-				"\ne) The actual run time of the algorithm, expressed in actual time units: " + totalTime + "ms";
+				"\ne) The actual run time of the algorithm, expressed in actual time units: " + totalTime + "ms";*/
+
 		return result;
 	}
 	
