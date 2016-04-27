@@ -1,4 +1,4 @@
-package sokoban_new;
+package uk.ac.ncl.csc8005.team3.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
