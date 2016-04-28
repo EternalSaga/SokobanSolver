@@ -3,7 +3,7 @@ package uk.ac.ncl.csc8005.team3.block;
 public enum BlockAttribute {
 	WALL("wall","resources/wall.jpg"),
 	FLOOR("floor","resources/floor.jpg"),
-	PLAYER("player","resources/character.gif"),
+	PLAYER("player","resources/character.jpg"),
 	BOX("box","resources/box.jpg"),
 	GOAL("goal","resources/target.png"),
 	BOXONGOAL("boxongoal","resources/boxOnTarget.jpg"),

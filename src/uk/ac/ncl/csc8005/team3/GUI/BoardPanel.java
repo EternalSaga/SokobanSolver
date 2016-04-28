@@ -45,12 +45,17 @@ public class BoardPanel extends JPanel{
 						break;
 					case PLAYER:
 						ico = new ImageIcon(BlockAttribute.PLAYER.getPath());
+						
+						break;
 					case BOX:
 						ico = new ImageIcon(BlockAttribute.BOX.getPath());
+						break;
 					case BOXONGOAL:
 						ico = new ImageIcon(BlockAttribute.BOXONGOAL.getPath());
+						break;
 					case PLAYERONGOAL:
 						ico = new ImageIcon(BlockAttribute.PLAYERONGOAL.getPath());
+						break;
 					default:
 						break;
 				}

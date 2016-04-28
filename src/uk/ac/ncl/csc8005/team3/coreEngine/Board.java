@@ -176,6 +176,10 @@ public class Board implements BoardInterface {
 	public String getRow(int i) {
 		return String.valueOf(rows.get(i));
 	}
+	public Map<Coordinate, BlockAttribute> getTreeMap(){
+		return tMap;
+	}
+	
 /*****************For sokoban solver******************************/
 
 
