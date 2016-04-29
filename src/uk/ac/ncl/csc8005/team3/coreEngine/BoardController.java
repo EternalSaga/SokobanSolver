@@ -175,8 +175,8 @@ public class BoardController {
 	public void movePlayer() {
 		
 		//if he's moving onto a goal
-		if (thisBoard.getBlockAttribute(nextBoxCoordinate.getxPosition(),nextBoxCoordinate.getyPosition()) == BlockAttribute.GOAL
-				|| thisBoard.getBlockAttribute(nextBoxCoordinate.getxPosition(),nextBoxCoordinate.getyPosition()) == BlockAttribute.BOXONGOAL) {
+		if (thisBoard.getBlockAttribute(nextPlayerCoordinate.getxPosition(),nextPlayerCoordinate.getyPosition()) == BlockAttribute.GOAL
+				|| thisBoard.getBlockAttribute(nextPlayerCoordinate.getxPosition(),nextPlayerCoordinate.getyPosition()) == BlockAttribute.BOXONGOAL) {
 			thisBoard.addToMap(nextPlayerCoordinate, BlockAttribute.PLAYERONGOAL);
 		}
 		//else he's moving onto a floor square
@@ -184,7 +184,7 @@ public class BoardController {
 			thisBoard.addToMap(nextPlayerCoordinate, BlockAttribute.PLAYER);
 		}
 		//if he's moving off a goal
-		if (thisBoard.getBlockAttribute(nextBoxCoordinate.getxPosition(),nextBoxCoordinate.getyPosition()) == BlockAttribute.PLAYERONGOAL) {
+		if (thisBoard.getBlockAttribute(playerCoordinate.getxPosition(),playerCoordinate.getyPosition()) == BlockAttribute.PLAYERONGOAL) {
 			thisBoard.addToMap(playerCoordinate, BlockAttribute.GOAL);
 		}
 		//else he's moving off a floor square
