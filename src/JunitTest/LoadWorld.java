@@ -1,7 +1,7 @@
 /**
  * 
  */
-package sokoban_new;
+package JunitTest;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+
+import uk.ac.ncl.csc8005.team3.GUI.FileFolder;
+import uk.ac.ncl.csc8005.team3.GUI.GameWindow;
 
 /**
  * @author yqjapple
