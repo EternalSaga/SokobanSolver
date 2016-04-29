@@ -223,7 +223,7 @@ public class BoardController {
 			thisBoard.addToMap(nextBoxCoordinate, BlockAttribute.BOX);
 		}
 		//if the box is moving off a goal
-		if (thisBoard.getBlockAttribute(nextBoxCoordinate.getxPosition(),nextBoxCoordinate.getyPosition()) ==  BlockAttribute.BOXONGOAL) {
+		if (thisBoard.getBlockAttribute(nextPlayerCoordinate.getxPosition(),nextPlayerCoordinate.getyPosition()) ==  BlockAttribute.BOXONGOAL) {
 			//need to decrement the goalCounter as it just moved off a goal
 			goalCounter--;
 		}
