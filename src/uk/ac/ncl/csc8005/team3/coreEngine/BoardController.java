@@ -21,7 +21,7 @@ import java.awt.event.KeyListener;
 public class BoardController {
 	
 	//input
-	private KeyManager KeyManager;
+	//private KeyManager KeyManager;
 	private int direction;
 	private MoveHistory MH;
 	//board
@@ -34,7 +34,7 @@ public class BoardController {
 	public BoardController (Board thisBoard) {
 	
 		//input
-		KeyManager = new KeyManager();
+		//KeyManager = new KeyManager();
 		direction = 0; //direction is zero when no arrow keys are pressed
 		MH = new MoveHistory();
 		//board
@@ -61,24 +61,26 @@ public class BoardController {
 	 *  - starts the process of calling collision checking methods
 	 * 
 	 */
-	private void getInput(){
+	public void getInput(KeyEvent e){
 		//maybe should change to a switch statement. i think there might be problems if more than one key is pressed at once
-		if(KeyManager.up) {
+		int key = e.getKeyCode();
+		if (key == KeyEvent.VK_UP) {
 			direction = 1;
 			nextPlayerCoordinate = new Coordinate(playerCoordinate.getxPosition(), playerCoordinate.getyPosition() - 1);
 			nextBoxCoordinate = new Coordinate(playerCoordinate.getxPosition(), playerCoordinate.getyPosition() - 2);
 		}
-		else if(KeyManager.down) {
+		else if(key == KeyEvent.VK_DOWN) {
 			direction = 2;
 			nextPlayerCoordinate = new Coordinate(playerCoordinate.getxPosition(), playerCoordinate.getyPosition() + 1);
 			nextBoxCoordinate = new Coordinate(playerCoordinate.getxPosition(), playerCoordinate.getyPosition() + 2);
 		}
-		else if(KeyManager.left) {
+		else if (key == KeyEvent.VK_LEFT){
+		 
 			direction = 3;
 			nextPlayerCoordinate = new Coordinate(playerCoordinate.getxPosition() - 1, playerCoordinate.getyPosition());
 			nextBoxCoordinate = new Coordinate(playerCoordinate.getxPosition() - 2, playerCoordinate.getyPosition());
 		}
-		else if(KeyManager.right) {
+		else if(key == KeyEvent.VK_RIGHT) {
 			direction = 4;
 			nextPlayerCoordinate = new Coordinate(playerCoordinate.getxPosition() + 1, playerCoordinate.getyPosition());
 			nextBoxCoordinate = new Coordinate(playerCoordinate.getxPosition() + 2, playerCoordinate.getyPosition());
@@ -98,7 +100,7 @@ public class BoardController {
 	 * 
 	 * @return true if there is a collision
 	 */
-	private boolean checkPlayerWallCollision() {
+	public boolean checkPlayerWallCollision() {
 		
 		boolean playerWallCollision = false;
 
@@ -122,7 +124,7 @@ public class BoardController {
 	 * 
 	 * @return true if there is a collision
 	 */
-	private boolean checkPlayerBoxCollision() {
+	public boolean checkPlayerBoxCollision() {
 		
 		boolean playerBoxCollision = false;
 		
@@ -147,7 +149,7 @@ public class BoardController {
 	 * 
 	 * @return true if there is a collision
 	 */
-	private boolean checkBoxWallCollision() {
+	public boolean checkBoxWallCollision() {
 		boolean boxWallCollision = false;
 		
 		//if coordinate beyond the box is a wall or another box
@@ -170,7 +172,7 @@ public class BoardController {
 	 * - changes value of the field playerCoordinate
 	 * 
 	 */
-	private void movePlayer() {
+	public void movePlayer() {
 		
 		//if he's moving onto a goal
 		if (thisBoard.getBlockAttribute(nextBoxCoordinate.getxPosition(),nextBoxCoordinate.getyPosition()) == BlockAttribute.GOAL
@@ -208,7 +210,7 @@ public class BoardController {
 	 * movePlayer method does it.
 	 * 
 	 */
-	private void moveBox() {
+	public void moveBox() {
 		//if the box will be moving onto a goal
 		if (thisBoard.getBlockAttribute(nextBoxCoordinate.getxPosition(),nextBoxCoordinate.getyPosition()) == BlockAttribute.GOAL) {
 			thisBoard.addToMap(nextBoxCoordinate, BlockAttribute.BOXONGOAL);
@@ -232,7 +234,7 @@ public class BoardController {
 	 * 
 	 *  - when a move is completed, adds it to move history
 	 */
-	private void addToHistory() throws IllegalArgumentException {
+	public void addToHistory() throws IllegalArgumentException {
 		int d = direction;
 		switch (d) {
         case 1:  MH.add(MoveEnum.UP);
@@ -258,14 +260,28 @@ public class BoardController {
 	 * 
 	 * @return true if level complete
 	 */
-	private boolean checkSuccess() {
+	public boolean checkSuccess() {
 		boolean successful = false;
 
 		if (goals == goalCounter)
 			successful = true;
 			levelComplete = true;
+			
+			System.out.print("successful");
 		
 		return successful;
 	}
-
+	
+	public void setNextCoordinate(Coordinate x,Coordinate y){
+		nextPlayerCoordinate = x;
+		nextBoxCoordinate = y;
+	}
+	
+	public void setDirection(int d){
+		direction =  d;
+	}
+	
+	public Board getThisBoard(){
+		return thisBoard;
+	}
 }
