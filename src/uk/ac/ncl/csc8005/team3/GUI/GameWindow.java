@@ -5,10 +5,10 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 
-import javax.net.ssl.KeyManager;
-import javax.swing.AbstractAction;
+
+
 import javax.swing.BoxLayout;
-import javax.swing.DefaultComboBoxModel;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -17,18 +17,22 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.KeyStroke;
 
+
+import uk.ac.ncl.csc8005.team3.block.Coordinate;
 import uk.ac.ncl.csc8005.team3.coreEngine.Board;
 import uk.ac.ncl.csc8005.team3.coreEngine.BoardController;
 import uk.ac.ncl.csc8005.team3.coreEngine.IOMethods;
 
+
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.GridLayout;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+
 
 
 public class GameWindow {
@@ -47,9 +51,10 @@ public class GameWindow {
 	private JComboBox comboBox;
 	private FileFolder f;
 	private IOMethods io;
-	
 	private Board board;
 	private BoardPanel boardPanel;
+	private BoardController bc;
+	
 
 	
 	
@@ -59,8 +64,9 @@ public class GameWindow {
 	public GameWindow(FileFolder f) {
 		this.f = f;
 		io = new IOMethods();
-		board =io.loadBoardFromFile("resources/level1.txt");
-		boardPanel =new BoardPanel(board);
+		 board = io.loadBoardFromFile("resources/levelCollection/level.txt");
+		boardPanel = new BoardPanel(board);
+		
 		
 	}
 
@@ -75,7 +81,7 @@ public class GameWindow {
 	
 	private void initialize() {
 		frame = new JFrame();
-		//frame.setBounds(100, 100, 1038, 685);
+		
 		
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -83,8 +89,13 @@ public class GameWindow {
 		frame.getContentPane().add(getPanel1(), BorderLayout.NORTH);
 		frame.getContentPane().add(getPanel2(), BorderLayout.SOUTH);
 		frame.getContentPane().add(boardPanel, BorderLayout.CENTER);
+		
+		
+		frame.addKeyListener(new KeyManager());
 		frame.pack();
 		frame.setVisible(true);
+		frame.setFocusable(true);
+		frame.requestFocusInWindow();
 		
 	}
 	
@@ -102,6 +113,9 @@ public class GameWindow {
 		comboBox.setPreferredSize(new Dimension(200, 50));
 		comboBox.setSelectedIndex(0);
 		comboBox.addActionListener(new ButtonListener());
+		
+		
+		
 		panel_1.add(comboBox);
 		
 		btnReset = new JButton("Reset");
@@ -125,29 +139,21 @@ public class GameWindow {
 		panelIn.setLayout(new BorderLayout());
 		
 		
-		 AbstractAction ArrowBbuttonPressed = new AbstractAction() {
-	            public void actionPerformed(ActionEvent e) {
-	                System.out.println(e.getActionCommand());
-	            }
-	        };
-		
-		
-		
-		JButton btnUp = new JButton("Up");
+		btnUp = new JButton("Up");
 		
 		btnUp.addActionListener(new ButtonListener());
 		panelIn.add(btnUp,BorderLayout.NORTH);
 		
-		JButton btnDown = new JButton("Down");
+		btnDown = new JButton("Down");
 		btnDown.addActionListener(new ButtonListener());
 		panelIn.add(btnDown,BorderLayout.SOUTH);
 		
-		JButton btnLeft = new JButton("Left");
+		btnLeft = new JButton("Left");
 		//btnUp.setPreferredSize(new Dimension(200,20));
 		btnLeft.addActionListener(new ButtonListener());
 		panelIn.add(btnLeft,BorderLayout.WEST);
 		
-		JButton btnRight = new JButton("Right");
+		btnRight = new JButton("Right");
 		btnRight.addActionListener(new ButtonListener());
 		
 		panelIn.add(btnRight,BorderLayout.EAST);
@@ -161,19 +167,38 @@ public class GameWindow {
 	
 	public class ButtonListener implements ActionListener{
 		
-		private KeyManager k;
-		private BoardController bc;
-		private Solver solver;
 		
+		
+		private Solver solver;
+		private int direction;
+		private Coordinate player ,nextPlayer,nextBox;
+		
+		private String msg;
+		//private Board board;
+		
+		
+		
+
+				
 		 public void actionPerformed(ActionEvent buttonPressed) {
+			
+			 player = board.getPlayerPosition();
+			 
+			 bc = new BoardController(board);
+			
+			 
 			 if(buttonPressed.getSource() == comboBox){
-				 JComboBox c = (JComboBox)buttonPressed.getSource();
-					String msg = (String)c.getSelectedItem();
-						board = io.loadBoardFromFile(f.getFiles().get(msg).getPath());
+				 
 						frame.getContentPane().remove(boardPanel);
+						msg = (String)comboBox.getSelectedItem();
+						 board = io.loadBoardFromFile(f.getFiles().get(msg).getPath());
 						boardPanel = new BoardPanel(board);
 						frame.getContentPane().add(boardPanel, BorderLayout.CENTER);
+						frame.addKeyListener(new KeyManager());
 						frame.pack();
+						frame.setVisible(true);
+						frame.setFocusable(true);
+						frame.requestFocusInWindow();
 			 }
 			
 			 else if(buttonPressed.getSource() == btnQuit){
@@ -183,32 +208,145 @@ public class GameWindow {
 					if (response == JOptionPane.YES_OPTION)
 						System.exit(0);
 			 }else if (buttonPressed.getSource()== btnSolver){
-				 
-				  solver = new Solver();
+				
+				 msg = (String)comboBox.getSelectedItem();
+				 board = io.loadBoardFromFile(f.getFiles().get(msg).getPath());
+				  solver = new Solver(board);
 			   	solver.start();
 				
 			 }
 			
 			else if(buttonPressed.getSource() == btnReset){
-				 //reset
+				
+				
+				
+				frame.getContentPane().remove(boardPanel);
+				msg = (String)comboBox.getSelectedItem();
+				 board = io.loadBoardFromFile(f.getFiles().get(msg).getPath());
+				boardPanel = new BoardPanel(board);
+				frame.getContentPane().add(boardPanel, BorderLayout.CENTER);
+				frame.addKeyListener(new KeyManager());
+				frame.pack();
+				frame.setVisible(true);
+				frame.setFocusable(true);
+				frame.requestFocusInWindow();
+	 
 			 }
-			/* else if (buttonPressed.getSource() == btnLeft)
-			        btnLeft.getInputMap().put(KeyStroke.getKeyStroke("VK_LEFT"), "LEFT_pressed");
-			      btnLeft.getActionMap().put("LEFT_pressed", buttonPressed);
-				 k.left;
-			 bc.getInput();
-
-	            else if (buttonPressed.getSource() == btnRight)
-	            	k.right;
-			 bc.getInput();
-	            else if (buttonPressed.getSource() == btnUp)
-	            	k.up;
-			 bc.getInput();
-	            else if (buttonPressed.getSource() == btnDown)
-	            	k.down;
-			 bc.getInput();
+			else if (buttonPressed.getSource() == btnLeft){
+				
+				frame.getContentPane().remove(boardPanel);
+				// player = bc.getThisBoard().getPlayerPosition();
+				
+			    direction = 3;
+				nextPlayer = new Coordinate(player.getxPosition()- 1, player.getyPosition());
+				nextBox = new Coordinate(player.getxPosition()- 2, player.getyPosition());
+				bc.setDirection(3);
+				bc.setNextCoordinate(nextPlayer, nextBox);
+				bc.checkPlayerWallCollision();
+				
+				boardPanel = new BoardPanel(bc.getThisBoard());
+				frame.getContentPane().add(boardPanel, BorderLayout.CENTER);
+				frame.addKeyListener(new KeyManager());
+				frame.pack();
+				frame.setVisible(true);
+				frame.setFocusable(true);
+				frame.requestFocusInWindow();
+				
+			}
+	         else if (buttonPressed.getSource() == btnRight){
+	        	frame.getContentPane().remove(boardPanel);
+				// player = bc.getThisBoard().getPlayerPosition();
+	        	
+					nextPlayer = new Coordinate(player.getxPosition() + 1, player.getyPosition());
+					nextBox = new Coordinate(player.getxPosition() + 2, player.getyPosition());
+					bc.setDirection(4);
+					bc.setNextCoordinate(nextPlayer, nextBox);
+					bc.checkPlayerWallCollision();
+					
+					boardPanel = new BoardPanel(bc.getThisBoard());
+					//boardPanel = new BoardPanel(board);
+					frame.getContentPane().add(boardPanel, BorderLayout.CENTER);
+					frame.addKeyListener(new KeyManager());
+					frame.pack();
+					frame.setVisible(true);
+					frame.setFocusable(true);
+					frame.requestFocusInWindow();
+				}
+	            else if (buttonPressed.getSource() == btnUp){
+	            	
+	            	frame.getContentPane().remove(boardPanel);
+	            	
+	            	// player = bc.getThisBoard().getPlayerPosition();
+					nextPlayer = new Coordinate(player.getxPosition() , player.getyPosition()-1);
+					nextBox = new Coordinate(player.getxPosition() , player.getyPosition()-2);
+					bc.setDirection(1);
+					bc.setNextCoordinate(nextPlayer, nextBox);
+					bc.checkPlayerWallCollision();
+					
+					//boardPanel = new BoardPanel(board);
+					boardPanel = new BoardPanel(bc.getThisBoard());
+					frame.getContentPane().add(boardPanel, BorderLayout.CENTER);
+					frame.addKeyListener(new KeyManager());
+					frame.pack();
+					frame.setVisible(true);
+					frame.setFocusable(true);
+					frame.requestFocusInWindow();
+					}
+			
+	            else if (buttonPressed.getSource() == btnDown){
+	            	
+	            	frame.getContentPane().remove(boardPanel);
+	            	// player = bc.getThisBoard().getPlayerPosition();
+	            	
+					nextPlayer = new Coordinate(player.getxPosition() , player.getyPosition()+1);
+					nextBox = new Coordinate(player.getxPosition() , player.getyPosition()+2);
+					bc.setDirection(2);
+					bc.setNextCoordinate(nextPlayer, nextBox);
+					bc.checkPlayerWallCollision();
+					
+					boardPanel = new BoardPanel(board);
+					boardPanel = new BoardPanel(bc.getThisBoard());
+					frame.getContentPane().add(boardPanel, BorderLayout.CENTER);
+					frame.addKeyListener(new KeyManager());
+					frame.pack();
+					frame.setVisible(true);
+					frame.setFocusable(true);
+					frame.requestFocusInWindow();	            }
 	        } 
-		 */
+		 
 	}
+	
+	
+	public class KeyManager implements KeyListener {
+		
+		
+		
+		@Override
+		public void keyPressed(KeyEvent e) {
+			frame.getContentPane().remove(boardPanel);
+			 bc = new BoardController(board);
+						
+			bc.getInput(e);
+			boardPanel = new BoardPanel(bc.getThisBoard());
+
+			
+			frame.getContentPane().add(boardPanel, BorderLayout.CENTER);
+			frame.pack();
+			
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void keyTyped(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+	}
+	
 }
-}
+
