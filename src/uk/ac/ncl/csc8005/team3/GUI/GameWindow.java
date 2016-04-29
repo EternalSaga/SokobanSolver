@@ -177,10 +177,6 @@ public class GameWindow {
 		panelIn2.add(label,BorderLayout.CENTER);
 		panel_2.add(panelIn2);
 		
-		
-		
-		
-		
 		return panel_2;
 	}
 	
@@ -195,14 +191,10 @@ public class GameWindow {
 		private Solver solver;
 		private int direction;
 		private Coordinate player ,nextPlayer,nextBox;
-		
 		private String msg;
-		//private Board board;
 		
 		
-		
-
-				
+								
 		 public void actionPerformed(ActionEvent buttonPressed) {
 			
 			 player = board.getPlayerPosition();
@@ -217,7 +209,7 @@ public class GameWindow {
 						 board = io.loadBoardFromFile(f.getFiles().get(msg).getPath());
 						boardPanel = new BoardPanel(board);
 						frame.getContentPane().add(boardPanel, BorderLayout.CENTER);
-						frame.addKeyListener(new KeyManager());
+						//frame.addKeyListener(new KeyManager());
 						frame.pack();
 						frame.setVisible(true);
 						frame.setFocusable(true);
@@ -240,6 +232,7 @@ public class GameWindow {
 			 
 		 }else if (buttonPressed.getSource()== btnAbout){
 				
+			
 			 About a = new About();
 			 a.start();
 		 }
@@ -253,7 +246,7 @@ public class GameWindow {
 				 board = io.loadBoardFromFile(f.getFiles().get(msg).getPath());
 				boardPanel = new BoardPanel(board);
 				frame.getContentPane().add(boardPanel, BorderLayout.CENTER);
-				frame.addKeyListener(new KeyManager());
+				//frame.addKeyListener(new KeyManager());
 				frame.pack();
 				frame.setVisible(true);
 				frame.setFocusable(true);
@@ -274,7 +267,7 @@ public class GameWindow {
 				
 				boardPanel = new BoardPanel(bc.getThisBoard());
 				frame.getContentPane().add(boardPanel, BorderLayout.CENTER);
-				frame.addKeyListener(new KeyManager());
+				//frame.addKeyListener(new KeyManager());
 				frame.pack();
 				frame.setVisible(true);
 				frame.setFocusable(true);
@@ -294,7 +287,7 @@ public class GameWindow {
 					boardPanel = new BoardPanel(bc.getThisBoard());
 					//boardPanel = new BoardPanel(board);
 					frame.getContentPane().add(boardPanel, BorderLayout.CENTER);
-					frame.addKeyListener(new KeyManager());
+					//frame.addKeyListener(new KeyManager());
 					frame.pack();
 					frame.setVisible(true);
 					frame.setFocusable(true);
@@ -314,7 +307,7 @@ public class GameWindow {
 					//boardPanel = new BoardPanel(board);
 					boardPanel = new BoardPanel(bc.getThisBoard());
 					frame.getContentPane().add(boardPanel, BorderLayout.CENTER);
-					frame.addKeyListener(new KeyManager());
+					//frame.addKeyListener(new KeyManager());
 					frame.pack();
 					frame.setVisible(true);
 					frame.setFocusable(true);
@@ -335,7 +328,7 @@ public class GameWindow {
 					boardPanel = new BoardPanel(board);
 					boardPanel = new BoardPanel(bc.getThisBoard());
 					frame.getContentPane().add(boardPanel, BorderLayout.CENTER);
-					frame.addKeyListener(new KeyManager());
+					//frame.addKeyListener(new KeyManager());
 					frame.pack();
 					frame.setVisible(true);
 					frame.setFocusable(true);
