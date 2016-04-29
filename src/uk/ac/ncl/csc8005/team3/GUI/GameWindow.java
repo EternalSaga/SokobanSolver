@@ -224,17 +224,19 @@ public class GameWindow {
 						System.exit(0);
 			 }else if (buttonPressed.getSource()== btnSolver){
 				
-				 msg = (String)comboBox.getSelectedItem();
-				 board = io.loadBoardFromFile(f.getFiles().get(msg).getPath());
+				 
 				  solver = new Solver(board);
 			   	solver.start();
-				
+				frame.setFocusable(true);
+				frame.requestFocusInWindow();
 			 
 		 }else if (buttonPressed.getSource()== btnAbout){
 				
 			
 			 About a = new About();
 			 a.start();
+			 frame.setFocusable(true);
+				frame.requestFocusInWindow();
 		 }
 			
 			else if(buttonPressed.getSource() == btnReset){
