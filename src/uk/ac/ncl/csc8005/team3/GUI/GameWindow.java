@@ -45,6 +45,7 @@ public class GameWindow {
 	private JButton btnReset;
 	private JButton btnQuit;
 	private JButton btnSolver;
+	private JButton btnAbout;
 
 
 
@@ -122,42 +123,64 @@ public class GameWindow {
 		btnReset.addActionListener(new ButtonListener());
 		panel_1.add(btnReset);
 		
-		btnQuit = new JButton("Quit");
-		btnQuit.addActionListener(new ButtonListener());
-		panel_1.add(btnQuit);
+		
 		
 		btnSolver = new JButton("Solve the level");
 		btnSolver.addActionListener(new ButtonListener());
 		panel_1.add(btnSolver);
+		
+		btnQuit = new JButton("Quit");
+		btnQuit.addActionListener(new ButtonListener());
+		panel_1.add(btnQuit);
+		
+		btnAbout = new JButton("About");
+		btnAbout.addActionListener(new ButtonListener());
+		panel_1.add(btnAbout);
 		
 		return panel_1;
 	}
 	
 	public JPanel getPanel2(){
 		JPanel panel_2 = new JPanel();
-		JPanel panelIn = new JPanel();
-		panelIn.setLayout(new BorderLayout());
+		JPanel panelIn1 = new JPanel();
+		panelIn1.setLayout(new BorderLayout());
 		
 		
 		btnUp = new JButton("Up");
 		
 		btnUp.addActionListener(new ButtonListener());
-		panelIn.add(btnUp,BorderLayout.NORTH);
+		panelIn1.add(btnUp,BorderLayout.NORTH);
 		
 		btnDown = new JButton("Down");
 		btnDown.addActionListener(new ButtonListener());
-		panelIn.add(btnDown,BorderLayout.SOUTH);
+		panelIn1.add(btnDown,BorderLayout.SOUTH);
 		
 		btnLeft = new JButton("Left");
 		//btnUp.setPreferredSize(new Dimension(200,20));
 		btnLeft.addActionListener(new ButtonListener());
-		panelIn.add(btnLeft,BorderLayout.WEST);
+		panelIn1.add(btnLeft,BorderLayout.WEST);
 		
 		btnRight = new JButton("Right");
 		btnRight.addActionListener(new ButtonListener());
 		
-		panelIn.add(btnRight,BorderLayout.EAST);
-		panel_2.add(panelIn);
+		panelIn1.add(btnRight,BorderLayout.EAST);
+		panel_2.add(panelIn1);
+		
+		
+		JPanel panelIn2 = new JPanel();
+		panelIn2.setLayout(new BorderLayout());
+		
+		
+		JLabel label = new JLabel("<html>How to play <br>1.Move arrow keys on your keyboard<br> 2.Click up,down,left,right buttons</html>");
+		
+		
+		panelIn2.add(label,BorderLayout.CENTER);
+		panel_2.add(panelIn2);
+		
+		
+		
+		
+		
 		return panel_2;
 	}
 	
@@ -214,7 +237,12 @@ public class GameWindow {
 				  solver = new Solver(board);
 			   	solver.start();
 				
-			 }
+			 
+		 }else if (buttonPressed.getSource()== btnAbout){
+				
+			 About a = new About();
+			 a.start();
+		 }
 			
 			else if(buttonPressed.getSource() == btnReset){
 				
