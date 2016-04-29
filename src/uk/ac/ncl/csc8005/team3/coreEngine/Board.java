@@ -41,7 +41,8 @@ public class Board implements BoardInterface {
 	public void addToMap(Coordinate thisCoordinate, BlockAttribute thisBlockAttribute) {
 
 		tMap.put(thisCoordinate, thisBlockAttribute);
-		if (thisBlockAttribute == BlockAttribute.PLAYER) {
+		if (thisBlockAttribute == BlockAttribute.PLAYER
+				|| thisBlockAttribute == BlockAttribute.PLAYERONGOAL) {
 			playerCoordinate = thisCoordinate;
 			initialState.setPlayerPosition(thisCoordinate);
 		}
