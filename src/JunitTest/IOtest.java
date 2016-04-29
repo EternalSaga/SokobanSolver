@@ -14,7 +14,7 @@ public class IOtest {
 	public static void main(String[] args) throws FileNotFoundException {
 		IOMethods io = new IOMethods();
 		Board board;
-		board = io.loadBoardFromFile("resources\\level1.txt");
+		board = io.loadBoardFromFile("resources/levelCollection/level1.txt");
 		/*System.out.println(board.getBlockAttribute(1, 1)==BlockAttribute.FLOOR);
 		System.out.println(board.getHeight());
 		System.out.println(board.getWidth());*/

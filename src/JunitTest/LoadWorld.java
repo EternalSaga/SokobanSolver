@@ -41,10 +41,10 @@ public class LoadWorld {
 			
 			// comment out line 28-37 and remove comment mark of line 41 - 43
 			// you can then get a GameWindow test
-			FileFolder f = new FileFolder("res/levelCollection");	
+			FileFolder f = new FileFolder("resources/levelCollection");	
 	        GameWindow w = new GameWindow(f);
 		   w.start();
-		  // Solver s = new Solver();
+		  //Solver s = new Solver();
 		   //s.start();
 		}
 
