@@ -85,6 +85,11 @@ public class AStarSearch {
 			result = "Failed to solve the puzzle";
 		else
 			while (n.parent!=null) {
+				if(n.move.equals("l"))n.move="u";
+				else if(n.move.equals("d"))n.move="r";
+				else if(n.move.equals("u"))n.move="l";
+				else n.move="d";
+
 				result = n.move + " " + result;
 				n = n.parent;
 				steps++;
