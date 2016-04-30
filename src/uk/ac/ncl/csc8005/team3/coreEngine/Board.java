@@ -100,7 +100,7 @@ public class Board implements BoardInterface {
 	public void addRow(String row) {
 		rows.add(row);
 		if (row.length() > numOfColumns) {
-			this.numOfColumns = length();
+			this.numOfColumns = row.length();
 		}
 		this.numOfRows++;
 	}
@@ -124,8 +124,8 @@ public class Board implements BoardInterface {
 	/*
 	 * finds the max length in order to calculate the max y coordinate(dont know
 	 * if this is correct)
-	 */
-	public int length() {
+
+	public int getLength() {
 		int maxlength = 0;
 		for (String thisString : rows) {
 			if (thisString.length() > maxlength) {
@@ -134,6 +134,7 @@ public class Board implements BoardInterface {
 		}
 		return maxlength;
 	}
+		 */
 
 	/*
 	 * method to convert each symbol to a block attribute
@@ -158,9 +159,9 @@ public class Board implements BoardInterface {
 	 * method to set each coordinate and block attribute on to the treemap
 	 */
 	public void setCell() {
-		length();
+	//	length();
 		int x = 0;
-		int y = rows.size() - 1;
+		int y = this.numOfColumns - 1;
 		for (String thisString : rows) {
 			for (int i = 0; i < numOfColumns; i++) {
 				char ch = thisString.charAt(i);
