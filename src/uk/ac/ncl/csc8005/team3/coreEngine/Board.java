@@ -171,6 +171,10 @@ public class Board implements BoardInterface {
 				{
 					char ch = thisString.charAt(i);
 					BlockAttribute bA = setEnum(ch);
+					if(bA == null)
+					{
+						bA= BlockAttribute.FLOOR;
+					}
 				co = new Coordinate(x, y);
 				addToMap(co, bA);
 				x++;
