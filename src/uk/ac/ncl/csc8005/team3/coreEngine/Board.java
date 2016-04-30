@@ -166,6 +166,10 @@ public class Board implements BoardInterface {
 			for (int i = 0; i < numOfColumns; i++) {
 				char ch = thisString.charAt(i);
 				BlockAttribute bA = setEnum(ch);
+				if(bA == null)
+				{
+					bA = BlockAttribute.FLOOR;
+				}
 				Coordinate co = new Coordinate(x, y);
 				addToMap(co, bA);
 				x++;
