@@ -1,5 +1,10 @@
 package uk.ac.ncl.csc8005.team3.coreEngine;
 
+import java.util.Map;
+
+import uk.ac.ncl.csc8005.team3.block.BlockAttribute;
+import uk.ac.ncl.csc8005.team3.block.Coordinate;
+
 public interface BoardInterface {
   
   public void addToMap(Coordinate thisCoordinate, BlockAttribute thisBlockAttribute);
