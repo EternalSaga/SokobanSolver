@@ -10,30 +10,33 @@ import uk.ac.ncl.csc8005.team3.block.BlockAttribute;
 import uk.ac.ncl.csc8005.team3.block.Coordinate;
 import uk.ac.ncl.csc8005.team3.coreEngine.Board;
 
-
 /**
  * Panel containing the level's map representation
  */
-public class BoardPanel extends JPanel{
+public class BoardPanel extends JPanel {
 
 	/**
 	 * Serial Version UID
 	 */
 	private static final long serialVersionUID = 4650266191907566738L;
-	
+
 	/**
-	 * Creates a new level grid panel.
-	 * It generates a graphic display of the given level
-	 * @param level The current level
+	 * Creates a new level grid panel. It generates a graphic display of the
+	 * given level
+	 * 
+	 * @param level
+	 *            The current level
 	 */
 	public BoardPanel(Board board) {
 		super();
-		
-		this.setLayout(new GridLayout(board.getHeight(),board.getWidth()));
+
+		this.setLayout(new GridLayout(board.getHeight(), board.getWidth()));
 		ImageIcon ico = null;
 		for (int row = 0; row < board.getHeight(); row++) {
 			for (int column = 0; column < board.getWidth(); column++) {
-				switch (board.getBlockAttribute(column,row)) {
+				if (!(board.getBlockAttribute(column, row) == null)) {
+
+					switch (board.getBlockAttribute(column, row)) {
 					case FLOOR:
 						ico = new ImageIcon(BlockAttribute.FLOOR.getPath());
 						break;
@@ -45,7 +48,7 @@ public class BoardPanel extends JPanel{
 						break;
 					case PLAYER:
 						ico = new ImageIcon(BlockAttribute.PLAYER.getPath());
-						
+
 						break;
 					case BOX:
 						ico = new ImageIcon(BlockAttribute.BOX.getPath());
@@ -58,17 +61,21 @@ public class BoardPanel extends JPanel{
 						break;
 					default:
 						break;
+					}
+				} else {
+					ico = new ImageIcon("resources/background/blanket.PNG");
+					break;
 				}
 				/**
-				if(cod.equals(board.getPlayerPosition()))
-					
-				if(board.isBoxAt(pos)){
-					if(board.getFixedMapElement(pos) == FixedMapElement.TARGET)
-						ico = new ImageIcon(this.getClass().getResource("/ressources/boxOnTarget.jpg"));
-					else
-						ico = new ImageIcon(this.getClass().getResource("/ressources/box.jpg"));
-				}
-				*/
+				 * if(cod.equals(board.getPlayerPosition()))
+				 * 
+				 * if(board.isBoxAt(pos)){ if(board.getFixedMapElement(pos) ==
+				 * FixedMapElement.TARGET) ico = new
+				 * ImageIcon(this.getClass().getResource(
+				 * "/ressources/boxOnTarget.jpg")); else ico = new
+				 * ImageIcon(this.getClass().getResource("/ressources/box.jpg"))
+				 * ; }
+				 */
 				JLabel levelElement = new JLabel(ico);
 				this.add(levelElement);
 			}

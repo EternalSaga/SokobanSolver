@@ -65,7 +65,7 @@ public class GameWindow {
 	public GameWindow(FileFolder f) {
 		this.f = f;
 		io = new IOMethods();
-		 board = io.loadBoardFromFile("resources/levelCollection/level.txt");
+		 board = io.loadBoardFromFile("resources/levelCollection/forTest.txt");
 		boardPanel = new BoardPanel(board);
 		
 		
