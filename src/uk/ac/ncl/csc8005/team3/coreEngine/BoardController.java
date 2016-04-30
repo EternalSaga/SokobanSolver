@@ -66,24 +66,24 @@ public class BoardController {
 		int key = e.getKeyCode();
 		if (key == KeyEvent.VK_UP) {
 			direction = 1;
-			nextPlayerCoordinate = new Coordinate(playerCoordinate.getxPosition(), playerCoordinate.getyPosition() - 1);
-			nextBoxCoordinate = new Coordinate(playerCoordinate.getxPosition(), playerCoordinate.getyPosition() - 2);
+			nextPlayerCoordinate = new Coordinate(playerCoordinate.getX(), playerCoordinate.getY() - 1);
+			nextBoxCoordinate = new Coordinate(playerCoordinate.getX(), playerCoordinate.getY() - 2);
 		}
 		else if(key == KeyEvent.VK_DOWN) {
 			direction = 2;
-			nextPlayerCoordinate = new Coordinate(playerCoordinate.getxPosition(), playerCoordinate.getyPosition() + 1);
-			nextBoxCoordinate = new Coordinate(playerCoordinate.getxPosition(), playerCoordinate.getyPosition() + 2);
+			nextPlayerCoordinate = new Coordinate(playerCoordinate.getX(), playerCoordinate.getY() + 1);
+			nextBoxCoordinate = new Coordinate(playerCoordinate.getX(), playerCoordinate.getY() + 2);
 		}
 		else if (key == KeyEvent.VK_LEFT){
 		 
 			direction = 3;
-			nextPlayerCoordinate = new Coordinate(playerCoordinate.getxPosition() - 1, playerCoordinate.getyPosition());
-			nextBoxCoordinate = new Coordinate(playerCoordinate.getxPosition() - 2, playerCoordinate.getyPosition());
+			nextPlayerCoordinate = new Coordinate(playerCoordinate.getX() - 1, playerCoordinate.getY());
+			nextBoxCoordinate = new Coordinate(playerCoordinate.getX() - 2, playerCoordinate.getY());
 		}
 		else if(key == KeyEvent.VK_RIGHT) {
 			direction = 4;
-			nextPlayerCoordinate = new Coordinate(playerCoordinate.getxPosition() + 1, playerCoordinate.getyPosition());
-			nextBoxCoordinate = new Coordinate(playerCoordinate.getxPosition() + 2, playerCoordinate.getyPosition());
+			nextPlayerCoordinate = new Coordinate(playerCoordinate.getX() + 1, playerCoordinate.getY());
+			nextBoxCoordinate = new Coordinate(playerCoordinate.getX() + 2, playerCoordinate.getY());
 		}
 		else { //no arrow keys are being pressed so return here without calling collision checker
 			return;
@@ -105,7 +105,7 @@ public class BoardController {
 		boolean playerWallCollision = false;
 
 		//checks if the next coordinate has attribute of wall
-		if (thisBoard.getBlockAttribute(nextPlayerCoordinate.getxPosition(),nextPlayerCoordinate.getyPosition()) == BlockAttribute.WALL) {
+		if (thisBoard.getBlockAttribute(nextPlayerCoordinate.getX(),nextPlayerCoordinate.getY()) == BlockAttribute.WALL) {
 			playerWallCollision = true;
 		} 
 		//if not, calls method to check player collision with box
@@ -129,8 +129,8 @@ public class BoardController {
 		boolean playerBoxCollision = false;
 		
 		//if next coordinate is a box, calls method to check if box will collide with wall
-		if (thisBoard.getBlockAttribute(nextPlayerCoordinate.getxPosition(),nextPlayerCoordinate.getyPosition()) == BlockAttribute.BOX
-				|| thisBoard.getBlockAttribute(nextPlayerCoordinate.getxPosition(),nextPlayerCoordinate.getyPosition()) == BlockAttribute.BOXONGOAL) {
+		if (thisBoard.getBlockAttribute(nextPlayerCoordinate.getX(),nextPlayerCoordinate.getY()) == BlockAttribute.BOX
+				|| thisBoard.getBlockAttribute(nextPlayerCoordinate.getX(),nextPlayerCoordinate.getY()) == BlockAttribute.BOXONGOAL) {
 			playerBoxCollision = true;
 			checkBoxWallCollision();
 		}
@@ -153,9 +153,9 @@ public class BoardController {
 		boolean boxWallCollision = false;
 		
 		//if coordinate beyond the box is a wall or another box
-		if (thisBoard.getBlockAttribute(nextBoxCoordinate.getxPosition(),nextBoxCoordinate.getyPosition()) == BlockAttribute.BOX
-				|| thisBoard.getBlockAttribute(nextBoxCoordinate.getxPosition(),nextBoxCoordinate.getyPosition()) == BlockAttribute.BOXONGOAL
-				|| thisBoard.getBlockAttribute(nextBoxCoordinate.getxPosition(),nextBoxCoordinate.getyPosition())== BlockAttribute.WALL) {
+		if (thisBoard.getBlockAttribute(nextBoxCoordinate.getX(),nextBoxCoordinate.getY()) == BlockAttribute.BOX
+				|| thisBoard.getBlockAttribute(nextBoxCoordinate.getX(),nextBoxCoordinate.getY()) == BlockAttribute.BOXONGOAL
+				|| thisBoard.getBlockAttribute(nextBoxCoordinate.getX(),nextBoxCoordinate.getY())== BlockAttribute.WALL) {
 			boxWallCollision = true;
 		}
 		else {
@@ -175,8 +175,8 @@ public class BoardController {
 	public void movePlayer() {
 		
 		//if he's moving onto a goal
-		if (thisBoard.getBlockAttribute(nextPlayerCoordinate.getxPosition(),nextPlayerCoordinate.getyPosition()) == BlockAttribute.GOAL
-				|| thisBoard.getBlockAttribute(nextPlayerCoordinate.getxPosition(),nextPlayerCoordinate.getyPosition()) == BlockAttribute.BOXONGOAL) {
+		if (thisBoard.getBlockAttribute(nextPlayerCoordinate.getX(),nextPlayerCoordinate.getY()) == BlockAttribute.GOAL
+				|| thisBoard.getBlockAttribute(nextPlayerCoordinate.getX(),nextPlayerCoordinate.getY()) == BlockAttribute.BOXONGOAL) {
 			thisBoard.addToMap(nextPlayerCoordinate, BlockAttribute.PLAYERONGOAL);
 		}
 		//else he's moving onto a floor square
@@ -184,7 +184,7 @@ public class BoardController {
 			thisBoard.addToMap(nextPlayerCoordinate, BlockAttribute.PLAYER);
 		}
 		//if he's moving off a goal
-		if (thisBoard.getBlockAttribute(playerCoordinate.getxPosition(),playerCoordinate.getyPosition()) == BlockAttribute.PLAYERONGOAL) {
+		if (thisBoard.getBlockAttribute(playerCoordinate.getX(),playerCoordinate.getY()) == BlockAttribute.PLAYERONGOAL) {
 			thisBoard.addToMap(playerCoordinate, BlockAttribute.GOAL);
 		}
 		//else he's moving off a floor square
@@ -212,7 +212,7 @@ public class BoardController {
 	 */
 	public void moveBox() {
 		//if the box will be moving onto a goal
-		if (thisBoard.getBlockAttribute(nextBoxCoordinate.getxPosition(),nextBoxCoordinate.getyPosition()) == BlockAttribute.GOAL) {
+		if (thisBoard.getBlockAttribute(nextBoxCoordinate.getX(),nextBoxCoordinate.getY()) == BlockAttribute.GOAL) {
 			thisBoard.addToMap(nextBoxCoordinate, BlockAttribute.BOXONGOAL);
 			//add to goal counter and check success
 			goalCounter++;
@@ -223,7 +223,7 @@ public class BoardController {
 			thisBoard.addToMap(nextBoxCoordinate, BlockAttribute.BOX);
 		}
 		//if the box is moving off a goal
-		if (thisBoard.getBlockAttribute(nextPlayerCoordinate.getxPosition(),nextPlayerCoordinate.getyPosition()) ==  BlockAttribute.BOXONGOAL) {
+		if (thisBoard.getBlockAttribute(nextPlayerCoordinate.getX(),nextPlayerCoordinate.getY()) ==  BlockAttribute.BOXONGOAL) {
 			//need to decrement the goalCounter as it just moved off a goal
 			goalCounter--;
 		}

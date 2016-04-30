@@ -14,10 +14,8 @@ public class IOtest {
 	public static void main(String[] args) throws FileNotFoundException {
 		IOMethods io = new IOMethods();
 		Board board;
-		board = io.loadBoardFromFile("resources/levelCollection/level1.txt");
-		/*System.out.println(board.getBlockAttribute(1, 1)==BlockAttribute.FLOOR);
-		System.out.println(board.getHeight());
-		System.out.println(board.getWidth());*/
+		board = io.loadBoardFromFile("resources/levelCollection/level2.txt");
+
 		Map<Coordinate, BlockAttribute> map = board.getTreeMap();
 		Iterator it = map.entrySet().iterator();
 		int num =0;
@@ -27,5 +25,6 @@ public class IOtest {
 				num++;
 		}
 		System.out.println(num);
-	}
+		System.out.println(board.getBlockAttribute(5, 5).toString());	
+		}
 }

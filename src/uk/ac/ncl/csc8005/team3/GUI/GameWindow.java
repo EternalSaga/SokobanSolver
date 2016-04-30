@@ -261,8 +261,8 @@ public class GameWindow {
 				// player = bc.getThisBoard().getPlayerPosition();
 				
 			    direction = 3;
-				nextPlayer = new Coordinate(player.getxPosition()- 1, player.getyPosition());
-				nextBox = new Coordinate(player.getxPosition()- 2, player.getyPosition());
+				nextPlayer = new Coordinate(player.getX()- 1, player.getY());
+				nextBox = new Coordinate(player.getX()- 2, player.getY());
 				bc.setDirection(3);
 				bc.setNextCoordinate(nextPlayer, nextBox);
 				bc.checkPlayerWallCollision();
@@ -280,8 +280,8 @@ public class GameWindow {
 	        	frame.getContentPane().remove(boardPanel);
 				// player = bc.getThisBoard().getPlayerPosition();
 	        	
-					nextPlayer = new Coordinate(player.getxPosition() + 1, player.getyPosition());
-					nextBox = new Coordinate(player.getxPosition() + 2, player.getyPosition());
+					nextPlayer = new Coordinate(player.getX() + 1, player.getY());
+					nextBox = new Coordinate(player.getX() + 2, player.getY());
 					bc.setDirection(4);
 					bc.setNextCoordinate(nextPlayer, nextBox);
 					bc.checkPlayerWallCollision();
@@ -300,8 +300,8 @@ public class GameWindow {
 	            	frame.getContentPane().remove(boardPanel);
 	            	
 	            	// player = bc.getThisBoard().getPlayerPosition();
-					nextPlayer = new Coordinate(player.getxPosition() , player.getyPosition()-1);
-					nextBox = new Coordinate(player.getxPosition() , player.getyPosition()-2);
+					nextPlayer = new Coordinate(player.getX() , player.getY()-1);
+					nextBox = new Coordinate(player.getX() , player.getY()-2);
 					bc.setDirection(1);
 					bc.setNextCoordinate(nextPlayer, nextBox);
 					bc.checkPlayerWallCollision();
@@ -321,8 +321,8 @@ public class GameWindow {
 	            	frame.getContentPane().remove(boardPanel);
 	            	// player = bc.getThisBoard().getPlayerPosition();
 	            	
-					nextPlayer = new Coordinate(player.getxPosition() , player.getyPosition()+1);
-					nextBox = new Coordinate(player.getxPosition() , player.getyPosition()+2);
+					nextPlayer = new Coordinate(player.getX() , player.getY()+1);
+					nextBox = new Coordinate(player.getX() , player.getY()+2);
 					bc.setDirection(2);
 					bc.setNextCoordinate(nextPlayer, nextBox);
 					bc.checkPlayerWallCollision();

@@ -1,3 +1,4 @@
+
 package uk.ac.ncl.csc8005.team3.GUI;
 
 import java.awt.GridLayout;
@@ -34,7 +35,8 @@ public class BoardPanel extends JPanel {
 		ImageIcon ico = null;
 		for (int row = 0; row < board.getHeight(); row++) {
 			for (int column = 0; column < board.getWidth(); column++) {
-				if (!(board.getBlockAttribute(column, row) == null)) {
+
+				if (!((board.getBlockAttribute(column, row) == null))) {
 
 					switch (board.getBlockAttribute(column, row)) {
 					case FLOOR:
@@ -48,7 +50,6 @@ public class BoardPanel extends JPanel {
 						break;
 					case PLAYER:
 						ico = new ImageIcon(BlockAttribute.PLAYER.getPath());
-
 						break;
 					case BOX:
 						ico = new ImageIcon(BlockAttribute.BOX.getPath());
@@ -59,12 +60,9 @@ public class BoardPanel extends JPanel {
 					case PLAYERONGOAL:
 						ico = new ImageIcon(BlockAttribute.PLAYERONGOAL.getPath());
 						break;
-					default:
-						break;
 					}
-				} else {
+				} else if(board.getBlockAttribute(column, row) == null){
 					ico = new ImageIcon("resources/background/blanket.PNG");
-					break;
 				}
 				/**
 				 * if(cod.equals(board.getPlayerPosition()))
@@ -81,5 +79,4 @@ public class BoardPanel extends JPanel {
 			}
 		}
 	}
-
 }

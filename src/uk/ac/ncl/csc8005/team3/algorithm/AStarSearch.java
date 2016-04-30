@@ -107,8 +107,8 @@ public class AStarSearch {
 	private Node getChild(Board currentBoard, Node n, String action, boolean isUcs) {
 		@SuppressWarnings("unchecked")
 		HashSet<Coordinate> boxes = (HashSet<Coordinate>) n.state.boxes.clone();
-		int row = n.state.getPlayerPosition().getxPosition();
-		int col = n.state.getPlayerPosition().getyPosition();
+		int row = n.state.getPlayerPosition().getX();
+		int col = n.state.getPlayerPosition().getY();
 		int newCost = n.cost+1;
 		Coordinate newPlayer = n.state.player;
 		char choice = action.charAt(0);

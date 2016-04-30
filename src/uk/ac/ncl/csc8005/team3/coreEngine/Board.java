@@ -228,8 +228,8 @@ public boolean goalTest(State state) {
  */
 public boolean deadlockTest(State state) {
 	for (Coordinate box : state.boxes) {
-		int row = box.getxPosition();
-		int col = box.getyPosition();
+		int row = box.getX();
+		int col = box.getY();
 		if (!setContains(goals, row, col)) {
 			if (setContains(walls, row-1, col)&&setContains(walls, row, col-1))
 				return true; //top & left
@@ -272,8 +272,8 @@ public boolean deadlockTest(State state) {
  */
 public ArrayList<String> actions(State state) {
 	ArrayList<String> actionList = new ArrayList<String>();
-	int row = state.player.getxPosition();
-	int col = state.player.getyPosition();
+	int row = state.player.getX();
+	int col = state.player.getY();
 	HashSet<Coordinate> boxes = state.boxes;
 
 	//checking if moving up, right, down, left is valid

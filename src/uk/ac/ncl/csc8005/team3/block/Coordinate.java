@@ -32,12 +32,12 @@ public class Coordinate implements Comparable<Coordinate> {
 		}
 	}
 	
-	public int getxPosition()
+	public int getX()
 	{
 		return xPosition;
 	}
 	
-	public int getyPosition()
+	public int getY()
 	{
 		return yPosition;
 	}
@@ -47,7 +47,7 @@ public class Coordinate implements Comparable<Coordinate> {
 	 */
 	public int compareTo(Coordinate o) {
 		int result = 0;
-		if(this.xPosition != o.getxPosition())result=this.xPosition-o.getxPosition();
+		if(this.xPosition != o.getX())result=this.xPosition-o.getX();
 		else{
 			result = this.yPosition-o.yPosition;
 		}

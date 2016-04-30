@@ -36,7 +36,7 @@ public class Heuristics {
 	 * @return distance from c1 to c2
 	 */
 	private int manhattan(Coordinate c1, Coordinate c2) {
-		return Math.abs(c1.getxPosition()-c2.getxPosition()) + Math.abs(c1.getyPosition()-c2.getyPosition());
+		return Math.abs(c1.getX()-c2.getX()) + Math.abs(c1.getY()-c2.getY());
 	}
 	
 	/**
@@ -47,7 +47,7 @@ public class Heuristics {
 	 * @return distance from c1 to c2
 	 */
 	private double euclidean(Coordinate c1, Coordinate c2) {
-		return Math.sqrt((double)((c1.getxPosition()-c2.getxPosition())*(c1.getxPosition()-c2.getxPosition())+(c1.getyPosition()-c2.getyPosition())*(c1.getyPosition()-c2.getyPosition())));
+		return Math.sqrt((double)((c1.getX()-c2.getX())*(c1.getX()-c2.getX())+(c1.getY()-c2.getY())*(c1.getY()-c2.getY())));
 	}
 
 	/**
