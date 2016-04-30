@@ -23,8 +23,8 @@ public class Board implements BoardInterface {
 	 */
 	public Board() {
 		rows = new ArrayList<String>();
-		this.numOfRows = rows.size();
-		this.numOfColumns = length();
+		this.numOfRows = 0;
+		this.numOfColumns = 0;
 		playerCoordinate = new Coordinate(0, 0);
 		numberOfGoals = 0;
 		tMap = new TreeMap<Coordinate, BlockAttribute>();
