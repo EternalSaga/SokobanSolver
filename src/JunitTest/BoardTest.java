@@ -1,6 +1,6 @@
 package JunitTest;
 
-import static org.junit.Assert.*;
+//import static org.junit.Assert.*;
 
 import org.junit.Test;
 
@@ -13,7 +13,7 @@ public class BoardTest {
 	public void test() {
 		IOMethods io = new IOMethods();
 		Board board;
-		board = io.loadBoardFromFile("resources/level1.txt");
+		board = io.loadBoardFromFile("resources/levelCollection/level1.txt");
 		System.out.println(board.getBlockAttribute(1, 5));
 	}
 
