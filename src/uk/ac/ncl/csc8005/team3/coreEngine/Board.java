@@ -101,7 +101,18 @@ public class Board implements BoardInterface {
 		rows.add(row);
 		this.numOfRows++;
 	}
-
+/* 
+ * checks number of rows
+ */
+	public void setNumOfRows()
+	{
+		int numberRows = 0;
+		for (String thisString : rows)
+		{
+			numberRows++;
+		}
+		this.numOfRows= numberRows;
+	}
 	/*
 	 * method that gets the number of columns (max x value is number of columns
 	 * - 1)
@@ -158,6 +169,7 @@ public class Board implements BoardInterface {
 	 */
 	public void setCell() {
 		getLength();
+		setNumOfRows();
 		int x = 0;
 		int y = this.numOfRows - 1;
 		int xChecker= this.numOfColumns -1;
