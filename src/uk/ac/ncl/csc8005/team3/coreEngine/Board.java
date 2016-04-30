@@ -106,12 +106,7 @@ public class Board implements BoardInterface {
  */
 	public void setNumOfRows()
 	{
-		int numberRows = 0;
-		for (String thisString : rows)
-		{
-			numberRows++;
-		}
-		this.numOfRows= numberRows;
+		numOfRows= rows.size();
 	}
 	/*
 	 * method that gets the number of columns (max x value is number of columns
