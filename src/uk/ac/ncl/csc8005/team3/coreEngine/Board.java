@@ -13,6 +13,7 @@ public class Board implements BoardInterface {
 	private int numOfColumns;
 	private Coordinate playerCoordinate;
 	private int numberOfGoals;
+	private int numberBoxesOnGoal;
 	State initialState;
 	HashSet<Coordinate> walls;
 	HashSet<Coordinate> goals;
@@ -27,6 +28,7 @@ public class Board implements BoardInterface {
 		this.numOfColumns = 0;
 		playerCoordinate = new Coordinate(0, 0);
 		numberOfGoals = 0;
+		numberBoxesOnGoal= 0;
 		tMap = new TreeMap<Coordinate, BlockAttribute>();
 		initialState = new State();
 		walls = new HashSet<>();
@@ -47,11 +49,6 @@ public class Board implements BoardInterface {
 			initialState.setPlayerPosition(thisCoordinate);
 		}
 
-		if (thisBlockAttribute == BlockAttribute.GOAL) {
-			this.numberOfGoals++;
-			goals.add(thisCoordinate);
-		}
-
 		if(thisBlockAttribute == BlockAttribute.WALL){
 			walls.add(thisCoordinate);
 		}
@@ -60,6 +57,29 @@ public class Board implements BoardInterface {
 		}
 	}
 
+	public void setNumberOfGoals()
+	{
+		int count= Collections.frequency(tMap.values(), BlockAttribute.GOAL);
+		count += Collections.frequency(tMap.values(), BlockAttribute.BOXONGOAL);
+		count += Collections.frequency(tMap.values(), BlockAttribute.PLAYERONGOAL);
+		this.numberOfGoals= count;
+	}
+
+
+	public int getNumberOfBoxesOnGoal()
+	{
+		return this.numberBoxesOnGoal;
+	}
+
+	public void incrementNumBoxesOnGoal()
+	{
+		this.numberBoxesOnGoal++;
+	}
+
+	public void decrementNumBoxesOnGoal()
+	{
+		this.numberBoxesOnGoal--;
+	}
 	/*
 	 * @return Players coordinate on the board
 	 */
@@ -99,11 +119,19 @@ public class Board implements BoardInterface {
 	 */
 	public void addRow(String row) {
 		rows.add(row);
+		for(int i= 0; i< row.length(); i++)
+		{
+			char ch = row.charAt(i);
+			if(ch == '*')
+			{
+				this.numberBoxesOnGoal++;
+			}
+		}
 		this.numOfRows++;
 	}
-/* 
- * checks number of rows
- */
+	/* 
+	 * checks number of rows
+	 */
 	public void setNumOfRows()
 	{
 		numOfRows= rows.size();
@@ -112,7 +140,8 @@ public class Board implements BoardInterface {
 	 * method that gets the number of columns (max x value is number of columns
 	 * - 1)
 	 */
-	public int getWidth() {
+	public int getWidth()
+	{
 		return numOfColumns;
 	}
 
@@ -167,7 +196,7 @@ public class Board implements BoardInterface {
 		setNumOfRows();
 		int x = 0;
 		int y = this.numOfRows - 1;
-		int xChecker= this.numOfColumns -1;
+		//int xChecker= this.numOfColumns -1;
 		Coordinate co = new Coordinate();
 		for (String thisString : rows) 
 		{
@@ -182,145 +211,145 @@ public class Board implements BoardInterface {
 					{
 						bA= BlockAttribute.FLOOR;
 					}
-				co = new Coordinate(x, y);
-				addToMap(co, bA);
-				x++;
+					co = new Coordinate(x, y);
+					addToMap(co, bA);
+					x++;
+				}
+				//			if(x !> xChecker)
+				//			{
+				//				addToMap(co, BlockAttribute.FLOOR);
+				//				x++;
+				//			}
+				x = 0;
+				y--;
 			}
-//			if(x !> xChecker)
-//			{
-//				addToMap(co, BlockAttribute.FLOOR);
-//				x++;
-//			}
-			x = 0;
-			y--;
 		}
 	}
-}
 
-public String getRow(int i) {
-	return String.valueOf(rows.get(i));
-}
-public Map<Coordinate, BlockAttribute> getTreeMap(){
-	return tMap;
-}
-
-/*****************For sokoban solver******************************/
-
-
-/**
- * checks whether the boxes in the current state are in the goal position
- * returns true if goal is found, and returns false otherwise
- */
-public boolean goalTest(State state) {
-	for(Coordinate box : state.getBoxes())
-		if (!goals.contains(box))
-			return false;
-	return true;
-}
-
-/**
- * simple check to see if any of the boxes are in a deadlock state:
- *  #  or  #####  or  ##
- * #$      #X$X#      $$
- * where X represents anything but a goal
- * @param state
- * @return
- */
-public boolean deadlockTest(State state) {
-	for (Coordinate box : state.boxes) {
-		int row = box.getX();
-		int col = box.getY();
-		if (!setContains(goals, row, col)) {
-			if (setContains(walls, row-1, col)&&setContains(walls, row, col-1))
-				return true; //top & left
-			if (setContains(walls, row-1, col)&&setContains(walls, row, col+1))
-				return true; //top & right
-			if (setContains(walls, row+1, col)&&setContains(walls, row, col-1))
-				return true; //bottom & left
-			if (setContains(walls, row+1, col)&&setContains(walls, row, col+1))
-				return true; //bottom & right
-
-			if (setContains(walls, row-1, col-1)&&setContains(walls, row-1, col)&&
-					setContains(walls, row-1, col+1)&&setContains(walls, row, col-2)&&
-					setContains(walls, row, col+2)&&(!setContains(goals, row, col-1))&&
-					!setContains(goals, row, col+1))
-				return true; //top & sides
-			if (setContains(walls, row+1, col-1)&&setContains(walls, row+1, col)&&
-					setContains(walls, row+1, col+1)&&setContains(walls, row, col-2)&&
-					setContains(walls, row, col+2)&&(!setContains(goals, row, col-1))&&
-					(!setContains(goals, row, col+1)))
-				return true; //bottom & sides
-			if (setContains(walls, row-1, col-1)&&setContains(walls, row, col-1)&&
-					setContains(walls, row+1, col-1)&&setContains(walls, row-2, col)&&
-					setContains(walls, row+2, col)&&(!setContains(goals, row-1, col))&&
-					(!setContains(goals, row+1, col)))
-				return true; //left & vertical
-			if (setContains(walls, row-1, col+1)&&setContains(walls, row, col+1)&&
-					setContains(walls, row+1, col+1)&&setContains(walls, row-2, col)&&
-					setContains(walls, row+2, col)&&(!setContains(goals, row-1, col))&&
-					(!setContains(goals, row+1, col)))
-				return true; //right & top/bottom
-		}
+	public String getRow(int i) {
+		return String.valueOf(rows.get(i));
 	}
-	return false;
-}
+	public Map<Coordinate, BlockAttribute> getTreeMap(){
+		return tMap;
+	}
 
-/**
- * checks the available actions for the player
- * @param state
- * @return arraylist of strings (u d l r)
- */
-public ArrayList<String> actions(State state) {
-	ArrayList<String> actionList = new ArrayList<String>();
-	int row = state.player.getX();
-	int col = state.player.getY();
-	HashSet<Coordinate> boxes = state.boxes;
+	/*****************For sokoban solver******************************/
 
-	//checking if moving up, right, down, left is valid
-	//for each, check if next player move is a wall
-	//if next move has a box, check next box move does not overlap with wall or another box
-	Coordinate newPlayer = new Coordinate(row-1,col);
-	Coordinate newBox = new Coordinate(row-2, col);
-	if (!walls.contains(newPlayer))
-		if (boxes.contains(newPlayer)&&(boxes.contains(newBox)||walls.contains(newBox)))
-			;
-		else
-			actionList.add("u");
-	newPlayer = new Coordinate(row,col+1);
-	newBox = new Coordinate(row, col+2);
-	if (!walls.contains(newPlayer))
-		if (boxes.contains(newPlayer)&&(boxes.contains(newBox)||walls.contains(newBox)))
-			;
-		else
-			actionList.add("r");
-	newPlayer = new Coordinate(row+1,col);
-	newBox = new Coordinate(row+2, col);
-	if (!walls.contains(newPlayer))
-		if (boxes.contains(newPlayer)&&(boxes.contains(newBox)||walls.contains(newBox)))
-			;
-		else
-			actionList.add("d");
-	newPlayer = new Coordinate(row,col-1);
-	newBox = new Coordinate(row, col-2);
-	if (!walls.contains(newPlayer))
-		if (boxes.contains(newPlayer)&&(boxes.contains(newBox)||walls.contains(newBox)))
-			;
-		else
-			actionList.add("l");
-	return actionList;
-}
 
-private boolean setContains(HashSet<Coordinate> set, int row, int col) {
-	if (set.contains(new Coordinate(row, col)))
+	/**
+	 * checks whether the boxes in the current state are in the goal position
+	 * returns true if goal is found, and returns false otherwise
+	 */
+	public boolean goalTest(State state) {
+		for(Coordinate box : state.getBoxes())
+			if (!goals.contains(box))
+				return false;
 		return true;
-	return false;
-}
+	}
 
-public State getInitialState(){
-	return initialState;
-}
-public HashSet<Coordinate> getGoals(){
-	return goals;
-}
+	/**
+	 * simple check to see if any of the boxes are in a deadlock state:
+	 *  #  or  #####  or  ##
+	 * #$      #X$X#      $$
+	 * where X represents anything but a goal
+	 * @param state
+	 * @return
+	 */
+	public boolean deadlockTest(State state) {
+		for (Coordinate box : state.boxes) {
+			int row = box.getX();
+			int col = box.getY();
+			if (!setContains(goals, row, col)) {
+				if (setContains(walls, row-1, col)&&setContains(walls, row, col-1))
+					return true; //top & left
+				if (setContains(walls, row-1, col)&&setContains(walls, row, col+1))
+					return true; //top & right
+				if (setContains(walls, row+1, col)&&setContains(walls, row, col-1))
+					return true; //bottom & left
+				if (setContains(walls, row+1, col)&&setContains(walls, row, col+1))
+					return true; //bottom & right
+
+				if (setContains(walls, row-1, col-1)&&setContains(walls, row-1, col)&&
+						setContains(walls, row-1, col+1)&&setContains(walls, row, col-2)&&
+						setContains(walls, row, col+2)&&(!setContains(goals, row, col-1))&&
+						!setContains(goals, row, col+1))
+					return true; //top & sides
+				if (setContains(walls, row+1, col-1)&&setContains(walls, row+1, col)&&
+						setContains(walls, row+1, col+1)&&setContains(walls, row, col-2)&&
+						setContains(walls, row, col+2)&&(!setContains(goals, row, col-1))&&
+						(!setContains(goals, row, col+1)))
+					return true; //bottom & sides
+				if (setContains(walls, row-1, col-1)&&setContains(walls, row, col-1)&&
+						setContains(walls, row+1, col-1)&&setContains(walls, row-2, col)&&
+						setContains(walls, row+2, col)&&(!setContains(goals, row-1, col))&&
+						(!setContains(goals, row+1, col)))
+					return true; //left & vertical
+				if (setContains(walls, row-1, col+1)&&setContains(walls, row, col+1)&&
+						setContains(walls, row+1, col+1)&&setContains(walls, row-2, col)&&
+						setContains(walls, row+2, col)&&(!setContains(goals, row-1, col))&&
+						(!setContains(goals, row+1, col)))
+					return true; //right & top/bottom
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * checks the available actions for the player
+	 * @param state
+	 * @return arraylist of strings (u d l r)
+	 */
+	public ArrayList<String> actions(State state) {
+		ArrayList<String> actionList = new ArrayList<String>();
+		int row = state.player.getX();
+		int col = state.player.getY();
+		HashSet<Coordinate> boxes = state.boxes;
+
+		//checking if moving up, right, down, left is valid
+		//for each, check if next player move is a wall
+		//if next move has a box, check next box move does not overlap with wall or another box
+		Coordinate newPlayer = new Coordinate(row-1,col);
+		Coordinate newBox = new Coordinate(row-2, col);
+		if (!walls.contains(newPlayer))
+			if (boxes.contains(newPlayer)&&(boxes.contains(newBox)||walls.contains(newBox)))
+				;
+			else
+				actionList.add("u");
+		newPlayer = new Coordinate(row,col+1);
+		newBox = new Coordinate(row, col+2);
+		if (!walls.contains(newPlayer))
+			if (boxes.contains(newPlayer)&&(boxes.contains(newBox)||walls.contains(newBox)))
+				;
+			else
+				actionList.add("r");
+		newPlayer = new Coordinate(row+1,col);
+		newBox = new Coordinate(row+2, col);
+		if (!walls.contains(newPlayer))
+			if (boxes.contains(newPlayer)&&(boxes.contains(newBox)||walls.contains(newBox)))
+				;
+			else
+				actionList.add("d");
+		newPlayer = new Coordinate(row,col-1);
+		newBox = new Coordinate(row, col-2);
+		if (!walls.contains(newPlayer))
+			if (boxes.contains(newPlayer)&&(boxes.contains(newBox)||walls.contains(newBox)))
+				;
+			else
+				actionList.add("l");
+		return actionList;
+	}
+
+	private boolean setContains(HashSet<Coordinate> set, int row, int col) {
+		if (set.contains(new Coordinate(row, col)))
+			return true;
+		return false;
+	}
+
+	public State getInitialState(){
+		return initialState;
+	}
+	public HashSet<Coordinate> getGoals(){
+		return goals;
+	}
 
 }
