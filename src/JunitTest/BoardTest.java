@@ -13,8 +13,8 @@ public class BoardTest {
 	public void test() {
 		IOMethods io = new IOMethods();
 		Board board;
-		board = io.loadBoardFromFile("resources/levelCollection/level1.txt");
-		System.out.println(board.getBlockAttribute(1, 6));
+		board = io.loadBoardFromFile("resources/levelCollection/forTest.txt");
+		System.out.println(board.getBlockAttribute(4, 1));
 	}
 
 }

@@ -186,11 +186,11 @@ public class Board implements BoardInterface {
 				addToMap(co, bA);
 				x++;
 			}
-			if(x != xChecker)
-			{
-				addToMap(co, BlockAttribute.FLOOR);
-				x++;
-			}
+//			if(x !> xChecker)
+//			{
+//				addToMap(co, BlockAttribute.FLOOR);
+//				x++;
+//			}
 			x = 0;
 			y--;
 		}
