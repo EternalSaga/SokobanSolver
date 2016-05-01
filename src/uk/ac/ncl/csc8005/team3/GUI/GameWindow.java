@@ -115,8 +115,8 @@ public class GameWindow {
 		comboBox.setSelectedIndex(0);
 		comboBox.addActionListener(new ButtonListener());
 		
-		
-		
+
+
 		panel_1.add(comboBox);
 		
 		btnReset = new JButton("Reset");
@@ -156,7 +156,6 @@ public class GameWindow {
 		panelIn1.add(btnDown,BorderLayout.SOUTH);
 		
 		btnLeft = new JButton("Left");
-		//btnUp.setPreferredSize(new Dimension(200,20));
 		btnLeft.addActionListener(new ButtonListener());
 		panelIn1.add(btnLeft,BorderLayout.WEST);
 		
@@ -209,7 +208,7 @@ public class GameWindow {
 						 board = io.loadBoardFromFile(f.getFiles().get(msg).getPath());
 						boardPanel = new BoardPanel(board);
 						frame.getContentPane().add(boardPanel, BorderLayout.CENTER);
-						//frame.addKeyListener(new KeyManager());
+						
 						frame.pack();
 						frame.setVisible(true);
 						frame.setFocusable(true);
@@ -248,7 +247,7 @@ public class GameWindow {
 				 board = io.loadBoardFromFile(f.getFiles().get(msg).getPath());
 				boardPanel = new BoardPanel(board);
 				frame.getContentPane().add(boardPanel, BorderLayout.CENTER);
-				//frame.addKeyListener(new KeyManager());
+				
 				frame.pack();
 				frame.setVisible(true);
 				frame.setFocusable(true);
@@ -258,7 +257,7 @@ public class GameWindow {
 			else if (buttonPressed.getSource() == btnLeft){
 				
 				frame.getContentPane().remove(boardPanel);
-				// player = bc.getThisBoard().getPlayerPosition();
+				
 				
 			    direction = 3;
 				nextPlayer = new Coordinate(player.getX()- 1, player.getY());
@@ -269,7 +268,7 @@ public class GameWindow {
 				
 				boardPanel = new BoardPanel(bc.getThisBoard());
 				frame.getContentPane().add(boardPanel, BorderLayout.CENTER);
-				//frame.addKeyListener(new KeyManager());
+				
 				frame.pack();
 				frame.setVisible(true);
 				frame.setFocusable(true);
@@ -278,8 +277,7 @@ public class GameWindow {
 			}
 	         else if (buttonPressed.getSource() == btnRight){
 	        	frame.getContentPane().remove(boardPanel);
-				// player = bc.getThisBoard().getPlayerPosition();
-	        	
+				
 					nextPlayer = new Coordinate(player.getX() + 1, player.getY());
 					nextBox = new Coordinate(player.getX() + 2, player.getY());
 					bc.setDirection(4);
@@ -287,9 +285,9 @@ public class GameWindow {
 					bc.checkPlayerWallCollision();
 					
 					boardPanel = new BoardPanel(bc.getThisBoard());
-					//boardPanel = new BoardPanel(board);
+				
 					frame.getContentPane().add(boardPanel, BorderLayout.CENTER);
-					//frame.addKeyListener(new KeyManager());
+					
 					frame.pack();
 					frame.setVisible(true);
 					frame.setFocusable(true);
@@ -299,17 +297,17 @@ public class GameWindow {
 	            	
 	            	frame.getContentPane().remove(boardPanel);
 	            	
-	            	// player = bc.getThisBoard().getPlayerPosition();
+	            	
 					nextPlayer = new Coordinate(player.getX() , player.getY()-1);
 					nextBox = new Coordinate(player.getX() , player.getY()-2);
 					bc.setDirection(1);
 					bc.setNextCoordinate(nextPlayer, nextBox);
 					bc.checkPlayerWallCollision();
 					
-					//boardPanel = new BoardPanel(board);
+					
 					boardPanel = new BoardPanel(bc.getThisBoard());
 					frame.getContentPane().add(boardPanel, BorderLayout.CENTER);
-					//frame.addKeyListener(new KeyManager());
+					
 					frame.pack();
 					frame.setVisible(true);
 					frame.setFocusable(true);
@@ -319,7 +317,7 @@ public class GameWindow {
 	            else if (buttonPressed.getSource() == btnDown){
 	            	
 	            	frame.getContentPane().remove(boardPanel);
-	            	// player = bc.getThisBoard().getPlayerPosition();
+	            	
 	            	
 					nextPlayer = new Coordinate(player.getX() , player.getY()+1);
 					nextBox = new Coordinate(player.getX() , player.getY()+2);
@@ -330,7 +328,7 @@ public class GameWindow {
 					boardPanel = new BoardPanel(board);
 					boardPanel = new BoardPanel(bc.getThisBoard());
 					frame.getContentPane().add(boardPanel, BorderLayout.CENTER);
-					//frame.addKeyListener(new KeyManager());
+					
 					frame.pack();
 					frame.setVisible(true);
 					frame.setFocusable(true);
@@ -348,13 +346,14 @@ public class GameWindow {
 		public void keyPressed(KeyEvent e) {
 			frame.getContentPane().remove(boardPanel);
 			 bc = new BoardController(board);
-						
-			bc.getInput(e);
+			bc.getInput(e);			
 			boardPanel = new BoardPanel(bc.getThisBoard());
-
-			
 			frame.getContentPane().add(boardPanel, BorderLayout.CENTER);
 			frame.pack();
+			if (bc.checkSuccess() == true){
+				LevelComplete lc = new LevelComplete(f);		
+				lc.initialize();		
+			}	
 			
 		}
 
