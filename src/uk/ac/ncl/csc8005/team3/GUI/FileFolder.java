@@ -51,4 +51,10 @@ public class FileFolder {
 
 		return fileList;
 	}
+	
+	
+	public void putInFile(String name,File file){
+		nameList.add(name);
+		fileList.put(name, file);
+	}
 }

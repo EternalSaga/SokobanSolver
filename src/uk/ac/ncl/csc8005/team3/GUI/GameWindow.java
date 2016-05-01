@@ -12,6 +12,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -29,6 +30,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.GridLayout;
@@ -46,6 +48,8 @@ public class GameWindow {
 	private JButton btnQuit;
 	private JButton btnSolver;
 	private JButton btnAbout;
+	private JButton btnSave;
+	private JButton btnImport;
 
 
 
@@ -105,6 +109,11 @@ public class GameWindow {
 		JPanel panel_1 = new JPanel();
 		panel_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
+		
+		btnImport = new JButton("Import");
+		btnImport.addActionListener(new ButtonListener());
+		panel_1.add(btnImport);
+		
 		comboBox = new JComboBox();
 		comboBox.setMaximumRowCount(256);
 		ArrayList<String> list = f.getFileNames();
@@ -128,6 +137,11 @@ public class GameWindow {
 		btnSolver = new JButton("Solve the level");
 		btnSolver.addActionListener(new ButtonListener());
 		panel_1.add(btnSolver);
+		
+	/*	btnSave = new JButton("Save the level");
+		btnSave.addActionListener(new ButtonListener());
+		panel_1.add(btnSave);
+		*/
 		
 		btnQuit = new JButton("Quit");
 		btnQuit.addActionListener(new ButtonListener());
@@ -214,6 +228,26 @@ public class GameWindow {
 						frame.setFocusable(true);
 						frame.requestFocusInWindow();
 			 }
+			 else if (buttonPressed.getSource()== btnImport){
+					
+				JFileChooser fc = new JFileChooser();	
+				if(fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION){
+					File file = fc.getSelectedFile();
+					frame.getContentPane().remove(boardPanel);
+					board = io.loadBoardFromFile(file.getPath());
+					boardPanel = new BoardPanel(board);
+					frame.getContentPane().add(boardPanel, BorderLayout.CENTER);
+					f.putInFile(file.getName(), file);
+					comboBox.addItem(file.getName());
+					comboBox.setSelectedItem(file.getName());
+					frame.pack();
+					frame.setVisible(true);
+					frame.setFocusable(true);
+					frame.requestFocusInWindow();
+					
+				}
+				 
+			 }
 			
 			 else if(buttonPressed.getSource() == btnQuit){
 				
@@ -237,7 +271,17 @@ public class GameWindow {
 			 frame.setFocusable(true);
 				frame.requestFocusInWindow();
 		 }
-			
+		/* else if (buttonPressed.getSource()== btnSave){
+				
+				
+			 msg = (String)comboBox.getSelectedItem();
+				String path = f.getFiles().get(msg).getPath();
+				io.saveBoardToFile(path, bc.getThisBoard());
+				
+	 
+		 }
+			*/ 
+			 
 			else if(buttonPressed.getSource() == btnReset){
 				
 				
