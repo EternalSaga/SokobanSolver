@@ -26,7 +26,7 @@ public class IOMethods {
 	 */
 	public Board loadBoardFromFile(String fileFullname) {
 		
-		Board board = new Board();
+	Board board = new Board();
 		
 		BufferedReader in = null;
 		try {

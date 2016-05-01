@@ -167,7 +167,7 @@ public class Board implements BoardInterface {
 		setNumOfRows();
 		int x = 0;
 		int y = this.numOfRows - 1;
-		int xChecker= this.numOfColumns -1;
+	//	int xChecker= this.numOfColumns -1;
 		Coordinate co = new Coordinate();
 		for (String thisString : rows) 
 		{
@@ -178,19 +178,15 @@ public class Board implements BoardInterface {
 				{
 					char ch = thisString.charAt(i);
 					BlockAttribute bA = setEnum(ch);
-					if(bA == null)
-					{
-						bA= BlockAttribute.FLOOR;
-					}
 				co = new Coordinate(x, y);
 				addToMap(co, bA);
 				x++;
 			}
-			if(x != xChecker)
-			{
-				addToMap(co, BlockAttribute.FLOOR);
-				x++;
-			}
+//			while(x < xChecker)
+//			{
+//				addToMap(co, BlockAttribute.FLOOR);
+//				x++;
+//			}
 			x = 0;
 			y--;
 		}
