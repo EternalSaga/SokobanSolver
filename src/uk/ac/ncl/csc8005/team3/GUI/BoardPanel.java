@@ -74,7 +74,7 @@ public class BoardPanel extends JPanel {
 				gc.gridx = column;
 				gc.gridy = row;
 				Image image = ico.getImage(); // transform it 
-				Image newimg = image.getScaledInstance(70, 70,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
+				Image newimg = image.getScaledInstance(image.getWidth(null)/2, image.getHeight(null)/2,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
 				ImageIcon ico1 = new ImageIcon(newimg); 
 				JLabel levelElement = new JLabel(ico1);
 				this.add(levelElement,gc);
