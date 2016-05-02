@@ -1,26 +1,21 @@
 package uk.ac.ncl.csc8005.team3.algorithm;
 import java.util.HashSet;
 
-import uk.ac.ncl.csc8005.team3.block.Coordinate;
-
 /**
- * This class is used to store the position and history of boxes and the player.
+ * State class stores set of boxes and player
+ * @author Hyun Seung Hong (hh2473)
+ *
  */
 public class State {
 
-	public HashSet<Coordinate> boxes;
-	public Coordinate player;
+	HashSet<Coordinate> boxes;
+	Coordinate player;
 	
-	public State() {
-		boxes = new HashSet<>();
-		player = new Coordinate();
+	public State(HashSet<Coordinate> boxes, Coordinate player) {
+		this.boxes = boxes;
+		this.player = player;
 	}
 	
-	public State(HashSet<Coordinate> boxes2, Coordinate newPlayer) {
-		this.boxes = boxes2;
-		this.player = newPlayer;
-	}
-
 	/**
 	 * Implemented hashcode to check if state is already explored
 	 */
@@ -47,20 +42,6 @@ public class State {
 	    if(this.hashCode()== s.hashCode()) return true;
 	    if((this.boxes == s.boxes) && (this.player == s.player)) return true;
 	    return false;
-	}
-	
-	public void setPlayerPosition(Coordinate co){
-		this.player = co;
-	}
-	
-	public Coordinate getPlayerPosition(){
-		return player;
-	}
-	/**
-	 * return the HashSet of all boxes' positions.
-	 */
-	public HashSet<Coordinate> getBoxes(){
-		return boxes;
 	}
 	
 }

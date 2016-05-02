@@ -173,4 +173,14 @@ public class IOMethods {
 		}
 		return ret;
 	}
+	
+	public String[] outputStringBoard(Board board){
+
+		String[] boardFile = new String[board.getHeight()+1];
+		boardFile[0] =String.valueOf(board.getHeight());
+		for (int i = 1; i < boardFile.length; i++) {
+			boardFile[i] = board.getRow(i-1);
+		}
+		return boardFile;
+	}
 }

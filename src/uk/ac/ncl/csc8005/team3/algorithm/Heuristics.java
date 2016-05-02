@@ -1,8 +1,7 @@
 package uk.ac.ncl.csc8005.team3.algorithm;
 import java.util.HashSet;
 
-import uk.ac.ncl.csc8005.team3.algorithm.HungarianAlgorithm;
-import uk.ac.ncl.csc8005.team3.block.Coordinate;
+
 
 /**
  * Heuristics class calculates the cost from current state to the goal, and returns the optimal cost.
@@ -31,12 +30,12 @@ public class Heuristics {
 	/**
 	 * Gets two coordinates as variables, and adds the sum of differences of rows and columns
 	 * to get distance between two coordinates
-	 * @param c1 coordinate 1
+	 * @param c1 coodinate 1
 	 * @param c2 coordinate 2
 	 * @return distance from c1 to c2
 	 */
 	private int manhattan(Coordinate c1, Coordinate c2) {
-		return Math.abs(c1.getX()-c2.getX()) + Math.abs(c1.getY()-c2.getY());
+		return Math.abs(c1.row-c2.row) + Math.abs(c1.col-c2.col);
 	}
 	
 	/**
@@ -47,7 +46,7 @@ public class Heuristics {
 	 * @return distance from c1 to c2
 	 */
 	private double euclidean(Coordinate c1, Coordinate c2) {
-		return Math.sqrt((double)((c1.getX()-c2.getX())*(c1.getX()-c2.getX())+(c1.getY()-c2.getY())*(c1.getY()-c2.getY())));
+		return Math.sqrt((double)((c1.row-c2.row)*(c1.row-c2.row)+(c1.col-c2.col)*(c1.col-c2.col)));
 	}
 
 	/**

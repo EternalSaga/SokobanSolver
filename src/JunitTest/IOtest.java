@@ -24,7 +24,9 @@ public class IOtest {
 			if(ent.getValue()==BlockAttribute.PLAYER)
 				num++;
 		}
-		System.out.println(num);
-		System.out.println(board.getBlockAttribute(5, 5).toString());	
+		String[] boardFile = io.outputStringBoard(board);
+		for (int i = 0; i < boardFile.length; i++) {
+			System.out.println(boardFile[i]);
 		}
+	}
 }
