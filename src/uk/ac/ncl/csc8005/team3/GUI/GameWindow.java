@@ -107,7 +107,6 @@ public class GameWindow {
 		for (String n: list){
 			comboBox.addItem(n); 
 		}	
-		comboBox.setPreferredSize(new Dimension(200, 50));
 		comboBox.setSelectedIndex(0);
 		comboBox.addActionListener(new ButtonListener());
 		
