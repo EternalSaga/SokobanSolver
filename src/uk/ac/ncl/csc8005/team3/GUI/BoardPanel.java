@@ -5,6 +5,7 @@
 package uk.ac.ncl.csc8005.team3.GUI;
 
 import java.awt.GridLayout;
+import java.awt.Image;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
