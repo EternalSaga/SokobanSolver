@@ -1,13 +1,15 @@
+/**
+ *GameWindow class creates GUI window to display sokoban game 
+ *and make buttons and keyboard work.
+ *@author: Qijing Yu
+ */
 package uk.ac.ncl.csc8005.team3.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.FlowLayout;
 
 
-
-import javax.swing.BoxLayout;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -17,9 +19,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-
-
 import uk.ac.ncl.csc8005.team3.block.Coordinate;
 import uk.ac.ncl.csc8005.team3.coreEngine.Board;
 import uk.ac.ncl.csc8005.team3.coreEngine.BoardController;
@@ -27,16 +26,14 @@ import uk.ac.ncl.csc8005.team3.coreEngine.IOMethods;
 
 
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
-import java.awt.GridLayout;
 
 
-
+//GameWindow class
 public class GameWindow {
 
 	private JFrame frame;
@@ -61,24 +58,14 @@ public class GameWindow {
 	private BoardController bc;
 	
 
-	
-	
-	/**
-	 * Create the application.
-	 */
+
 	public GameWindow(FileFolder f) {
 		this.f = f;
 		io = new IOMethods();
 		 board = io.loadBoardFromFile("resources/levelCollection/forTest.txt");
-		boardPanel = new BoardPanel(board);
-		
+		boardPanel = new BoardPanel(board);	
 		
 	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 *
-	 */
 	
 	public void start(){
 		initialize();
@@ -196,7 +183,7 @@ public class GameWindow {
 	
 	
 	
-	
+	//ButtonListener class
 	public class ButtonListener implements ActionListener{
 		
 		
@@ -255,14 +242,7 @@ public class GameWindow {
 					int response = JOptionPane.showConfirmDialog(null, "Do you want to quit?", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 					if (response == JOptionPane.YES_OPTION)
 						System.exit(0);
-			 }else if (buttonPressed.getSource()== btnSolver){
-				
-				 
-				  solver = new Solver(board);
-			   	solver.start();
-				frame.setFocusable(true);
-				frame.requestFocusInWindow();
-			 
+			 			 
 		 }else if (buttonPressed.getSource()== btnAbout){
 				
 			
@@ -376,12 +356,20 @@ public class GameWindow {
 					frame.pack();
 					frame.setVisible(true);
 					frame.setFocusable(true);
-					frame.requestFocusInWindow();	            }
+					frame.requestFocusInWindow();	
+	            }else if (buttonPressed.getSource()== btnSolver){
+					
+					 
+					  solver = new Solver(board);
+				   	solver.start();
+					frame.setFocusable(true);
+					frame.requestFocusInWindow();
+					}
 	        } 
 		 
 	}
 	
-	
+	//KeyManager class
 	public class KeyManager implements KeyListener {
 		
 		
