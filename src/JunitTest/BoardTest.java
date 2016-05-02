@@ -3,9 +3,6 @@ package JunitTest;
 import static org.junit.Assert.*;
 
 
-
-//import static org.junit.Assert.*;
-
 import org.junit.Test;
 
 import uk.ac.ncl.csc8005.team3.block.BlockAttribute;

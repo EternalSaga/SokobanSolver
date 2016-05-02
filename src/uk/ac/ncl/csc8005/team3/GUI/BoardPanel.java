@@ -31,10 +31,10 @@ public class BoardPanel extends JPanel {
 	public BoardPanel(Board board) {
 		super();
 
-		this.setLayout(new GridLayout(board.getHeight(), board.getWidth()));
+		this.setLayout(new GridLayout(board.getHeight(), board.getLength()));
 		ImageIcon ico = null;
 		for (int row = 0; row < board.getHeight(); row++) {
-			for (int column = 0; column < board.getWidth(); column++) {
+			for (int column = 0; column < board.getLength(); column++) {
 
 				if (!((board.getBlockAttribute(column, row) == null))) {
 
