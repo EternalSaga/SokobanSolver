@@ -16,7 +16,7 @@ public class Board implements BoardInterface {
 	private int numberBoxesOnGoal;
 
 
-	/*
+	/**
 	 * Constructor to set the values of map size, which is initially empty.
 	 */
 	public Board() {
@@ -30,9 +30,9 @@ public class Board implements BoardInterface {
 	}
 
 	/**
-	 * set the map marking each coordinate with a block attribute
-	 * set the walls and the goals and the blocked at the same time
-	 * @author Robin Lew & Marie
+	 * Method used to to store the coordinates as a key and the corresponding blockAttribute on a map.
+	 * @param thisCoordinate, the key coordinate value
+	 * @Param thisBlockAttribute, the BlockAttribute added as a value to the coordinate
 	 */
 	public void addToMap(Coordinate thisCoordinate, BlockAttribute thisBlockAttribute) {
 
@@ -44,6 +44,10 @@ public class Board implements BoardInterface {
 		}
 	}
 
+	/**
+	 * Method to count the number of goals present on the board. This method updates the 
+	 * numberOfGoals variable.
+	 */
 	public void setNumberOfGoals()
 	{
 		int count= Collections.frequency(tMap.values(), BlockAttribute.GOAL);
@@ -52,43 +56,53 @@ public class Board implements BoardInterface {
 		this.numberOfGoals= count;
 	}
 
-
+	/**
+	 * Method to get the number of boxes on goal, to be used by the board control class to initiate the goal
+	 * checker.
+	 */
 	public int getNumberOfBoxesOnGoal()
 	{
 		return this.numberBoxesOnGoal;
 	}
 
+	/**
+	 * Method increments the number of boxes on goal by one.
+	 */
 	public void incrementNumBoxesOnGoal()
 	{
 		this.numberBoxesOnGoal++;
 	}
 
+	/**
+	 * Method Decrements the number of boxes on goal by one.
+	 */
 	public void decrementNumBoxesOnGoal()
 	{
 		this.numberBoxesOnGoal--;
 	}
-	/*
-	 * @return Players coordinate on the board
+
+	/**
+	 * @return Players coordinate on the board.
 	 */
 	public Coordinate getPlayerPosition() {
 		return this.playerCoordinate;
 	}
 
 	/**
-	 * @return number of goals
+	 * @return number of goals.
 	 */
 	public int getNumberOfGoals() {
 		return this.numberOfGoals;
 	}
 
-	/*
-	 * clears the map, method may need to be called before new level
+	/**
+	 * clears the map, used to reset the board.
 	 */
 	public void clearMap() {
 		tMap.clear();
 	}
 
-	/*
+	/**
 	 * returns the block attribute present at a particular coordinate
 	 */
 	public BlockAttribute getBlockAttribute(int x, int y) {
@@ -97,12 +111,13 @@ public class Board implements BoardInterface {
 		return thisBlockAttribute;
 	}
 
-	/*
-	 * add new row to the map
+	/**
+	 * Method to add new row to the map. Each row is inserted as a string of characters, each character
+	 *  represents a particular BlockAttribute. Each string is added to an Arraylist called Rows.
+	 *  The variable that stores the number of rows is incremented by one each time a new row is added.
+	 *  If the String containts a '*' the number of boxes on goal variable is incremented by one. 
 	 * 
-	 * @param string of characters that each correspond to a block attribute the
-	 * number of rows is increased by one which stands for the yValues the
-	 * column length is set which corresponds to the xValues
+	 * @param string of characters which represent a row on the map.
 	 */
 	public void addRow(String row) {
 		rows.add(row);
@@ -116,48 +131,44 @@ public class Board implements BoardInterface {
 		}
 		this.numOfRows++;
 	}
-	/* 
-	 * checks number of rows
+
+	/**
+	 * set the number of rows.
 	 */
 	public void setNumOfRows()
 	{
 		numOfRows= rows.size();
 	}
-	/*
-	 * method that gets the number of columns (max x value is number of columns
-	 * - 1)
-	 */
-	public int getWidth()
-	{
-		return numOfColumns;
-	}
 
-	/*
-	 * method that gets the number of rows (max y value is number of rows- 1)
+	/**
+	 * method that gets the number of rows (max y value is number of rows- 1).
+	 * @return number of rows.
 	 */
 
 	public int getHeight() {
 		return this.numOfRows;
 	}
 
-	/*
-	 * finds the max length in order to calculate the max y coordinate(dont know
-	 * if this is correct)
+	/**
+	 * finds the max length or width of the board in order to calculate the max y coordinate
+	 * @return the numberOfColumns.
 	 */
 
-	public void getLength() {
+	public int getLength() {
 		for (String thisString : rows) {
 			if (thisString.length() > this.numOfColumns) {
 
 				this.numOfColumns= thisString.length();
 			}
 		}
-
+		return this.numOfColumns;
 	}
 
 
-	/*
-	 * method to convert each symbol to a block attribute
+	/**
+	 * Method to convert each character to its corresponding block attribute.
+	 * @param the character being converted.
+	 * @return the BlockAttribute the character corresponds with.
 	 */
 	public BlockAttribute setEnum(char ch) {
 		if (ch == '#')
@@ -175,15 +186,15 @@ public class Board implements BoardInterface {
 		return BlockAttribute.FLOOR;
 	}
 
-	/*
-	 * method to set each coordinate and block attribute on to the treemap
+	/**
+	 * method to set each coordinate and block attribute on to the treeMap.
+	 * Method counts how many goals are present on the board.
 	 */
 	public void setCell() {
 		getLength();
 		setNumOfRows();
 		int x = 0;
 		int y = this.numOfRows - 1;
-		//int xChecker= this.numOfColumns -1;
 		Coordinate co = new Coordinate();
 		for (String thisString : rows) 
 		{
@@ -202,20 +213,24 @@ public class Board implements BoardInterface {
 					addToMap(co, bA);
 					x++;
 				}
-				//			if(x !> xChecker)
-				//			{
-				//				addToMap(co, BlockAttribute.FLOOR);
-				//				x++;
-				//			}
 				x = 0;
 				y--;
 			}
 		}
+		setNumberOfGoals();
 	}
-
+	/**
+	 * Method used to return a row in its string value.
+	 * @param i, index of row
+	 */
 	public String getRow(int i) {
 		return String.valueOf(rows.get(i));
 	}
+
+	/**
+	 * Method used to return the map.
+	 * @return Tmap: TreeMap.
+	 */
 	public Map<Coordinate, BlockAttribute> getTreeMap(){
 		return tMap;
 	}

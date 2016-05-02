@@ -19,8 +19,6 @@ public interface BoardInterface {
   
   public void addRow(String row);
   
-  public int getWidth();
-  
   public int getHeight();
   
   public BlockAttribute setEnum(char ch);
