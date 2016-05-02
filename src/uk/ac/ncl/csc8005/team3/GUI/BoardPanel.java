@@ -69,14 +69,14 @@ public class BoardPanel extends JPanel {
 				} else if(board.getBlockAttribute(column, row) == null){
 					ico = new ImageIcon("resources/background/blanket.PNG");
 				}
+			
+				gc.fill = GridBagConstraints.HORIZONTAL;
+				gc.gridx = column;
+				gc.gridy = row;
 				Image image = ico.getImage(); // transform it 
 				Image newimg = image.getScaledInstance(70, 70,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
 				ImageIcon ico1 = new ImageIcon(newimg); 
 				JLabel levelElement = new JLabel(ico1);
-				gc.fill = GridBagConstraints.HORIZONTAL;
-				gc.gridx = column;
-				gc.gridy = row;
-				
 				this.add(levelElement,gc);
 			}
 		}
