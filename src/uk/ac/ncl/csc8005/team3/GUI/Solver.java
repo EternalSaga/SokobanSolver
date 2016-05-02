@@ -1,14 +1,14 @@
+/**
+ * Solver class shows the solution to the level which the user is playing. 
+ * @author: Qijing Yu
+ */ 
+
 package uk.ac.ncl.csc8005.team3.GUI;
 
 import java.awt.BorderLayout;
-
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
-
-
 
 import uk.ac.ncl.csc8005.team3.algorithm.SokobanSolver;
 import uk.ac.ncl.csc8005.team3.coreEngine.Board;
@@ -19,11 +19,6 @@ public class Solver extends JFrame {
 	private JPanel contentPane;
 	private Board board;
 	
-	
-
-	/**
-	 * Create the frame.
-	 */
 	public Solver(Board board) {
 		this.board = board;
 		
