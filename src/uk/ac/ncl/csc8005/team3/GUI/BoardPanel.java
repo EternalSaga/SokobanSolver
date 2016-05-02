@@ -4,6 +4,9 @@
  */ 
 package uk.ac.ncl.csc8005.team3.GUI;
 
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 
@@ -34,8 +37,9 @@ public class BoardPanel extends JPanel {
 	 */
 	public BoardPanel(Board board) {
 		super();
-
-		this.setLayout(new GridLayout(board.getHeight(), board.getLength()));
+		
+		this.setLayout(new GridBagLayout());
+		GridBagConstraints gc = new GridBagConstraints();
 		ImageIcon ico = null;
 		for (int row = 0; row < board.getHeight(); row++) {
 			for (int column = 0; column < board.getLength(); column++) {
@@ -72,8 +76,14 @@ public class BoardPanel extends JPanel {
 				Image newimg = image.getScaledInstance(70, 70,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
 				ImageIcon ico1 = new ImageIcon(newimg); 
 				JLabel levelElement = new JLabel(ico1);
-				this.add(levelElement);
+				gc.fill = GridBagConstraints.HORIZONTAL;
+				gc.gridx = column;
+				gc.gridy = row;
+				
+				this.add(levelElement,gc);
 			}
 		}
 	}
+
+	
 }
