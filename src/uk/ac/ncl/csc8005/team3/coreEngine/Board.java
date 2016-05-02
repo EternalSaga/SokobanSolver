@@ -37,6 +37,7 @@ public class Board implements BoardInterface {
 	public void addToMap(Coordinate thisCoordinate, BlockAttribute thisBlockAttribute) {
 
 		tMap.put(thisCoordinate, thisBlockAttribute);
+		
 		if (thisBlockAttribute == BlockAttribute.PLAYER
 				|| thisBlockAttribute == BlockAttribute.PLAYERONGOAL) {
 			playerCoordinate = thisCoordinate;
@@ -234,7 +235,5 @@ public class Board implements BoardInterface {
 	public Map<Coordinate, BlockAttribute> getTreeMap(){
 		return tMap;
 	}
-
-
 
 }
