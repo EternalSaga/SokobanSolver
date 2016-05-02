@@ -2,7 +2,7 @@ package uk.ac.ncl.csc8005.team3.coreEngine;
 
 import java.util.*;
 
-import uk.ac.ncl.csc8005.team3.algorithm.State;
+
 import uk.ac.ncl.csc8005.team3.block.*;
 
 public class Board implements BoardInterface {
