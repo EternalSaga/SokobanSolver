@@ -32,7 +32,7 @@ public class Board implements BoardInterface {
 	/**
 	 * set the map marking each coordinate with a block attribute
 	 * set the walls and the goals and the blocked at the same time
-	 * @author Robin Lew & Marie
+	 * @author Marie
 	 */
 	public void addToMap(Coordinate thisCoordinate, BlockAttribute thisBlockAttribute) {
 
@@ -213,8 +213,42 @@ public class Board implements BoardInterface {
 		}
 	}
 
-	public String getRow(int i) {
-		return String.valueOf(rows.get(i));
+	public String getRow(int y) {
+		Iterator it = tMap.entrySet().iterator();
+		int width = rows.get(rows.size()-y-1).length();
+		char[] currentRow = new char[width];
+		while(it.hasNext()){
+			Map.Entry ent = (Map.Entry) it.next();
+			if(((Coordinate)ent.getKey()).getY()==y){
+				switch ((BlockAttribute)ent.getValue()) {
+				case PLAYER:
+					currentRow[((Coordinate)ent.getKey()).getX()]='@';
+					break;
+				case PLAYERONGOAL:
+					currentRow[((Coordinate)ent.getKey()).getX()]='+';
+					break;
+				case BOX:
+					currentRow[((Coordinate)ent.getKey()).getX()]='$';
+					break;
+				case BOXONGOAL:
+					currentRow[((Coordinate)ent.getKey()).getX()]='*';
+					break;
+				case GOAL:
+					currentRow[((Coordinate)ent.getKey()).getX()]='.';
+					break;
+				case WALL:
+					currentRow[((Coordinate)ent.getKey()).getX()]='#';
+					break;
+				case FLOOR:
+					currentRow[((Coordinate)ent.getKey()).getX()]=' ';
+					break;
+
+				default:
+					break;
+				}
+			}
+		}
+		return new String(currentRow);
 	}
 	public Map<Coordinate, BlockAttribute> getTreeMap(){
 		return tMap;

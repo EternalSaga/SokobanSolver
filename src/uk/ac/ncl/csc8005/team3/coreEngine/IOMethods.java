@@ -173,13 +173,18 @@ public class IOMethods {
 		}
 		return ret;
 	}
-	
+	/**
+	 * This method output the correct format of String can be accepted by the algorithm.
+	 * @param board
+	 * @author Robin Lew
+	 * @return
+	 */
 	public String[] outputStringBoard(Board board){
 
 		String[] boardFile = new String[board.getHeight()+1];
 		boardFile[0] =String.valueOf(board.getHeight());
 		for (int i = 1; i < boardFile.length; i++) {
-			boardFile[i] = board.getRow(boardFile.length-(i+1));
+			boardFile[i] = board.getRow(i-1);
 		}
 		return boardFile;
 	}
