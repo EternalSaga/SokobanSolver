@@ -9,10 +9,12 @@ import uk.ac.ncl.csc8005.team3.coreEngine.Board;
 import uk.ac.ncl.csc8005.team3.coreEngine.IOMethods;
 
 /**
+ * SokobanSolver is adapted from open source website Github.com.
+ * Reference: https://github.com/jameshong92/sokoban-solver/blob/master/src/SokobanSolver.java
  * SokobanSolver loads the input file and stores each character into appropriate set (walls, goals, boxes or player)
  * After the file is read, it calls Search class to solve the sokoban puzzle according to the chosen search method.
- * @author Hyun Seung Hong (hh2473)
- *
+ * @Original author Hyun Seung Hong (hh2473)
+ * @Modified by Ruizhe Liu
  */
 public class SokobanSolver {
 	
