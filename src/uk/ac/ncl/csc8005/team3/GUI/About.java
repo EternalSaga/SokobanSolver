@@ -1,3 +1,8 @@
+/**
+ * This class is to show the information of the whole project.
+ * @Author Qijing Yu
+ * 
+ */
 package uk.ac.ncl.csc8005.team3.GUI;
 
 import java.awt.BorderLayout;
