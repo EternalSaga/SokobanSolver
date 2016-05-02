@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import java.awt.Image;
 
 import uk.ac.ncl.csc8005.team3.block.BlockAttribute;
 import uk.ac.ncl.csc8005.team3.block.Coordinate;
@@ -74,7 +75,10 @@ public class BoardPanel extends JPanel {
 				 * ImageIcon(this.getClass().getResource("/ressources/box.jpg"))
 				 * ; }
 				 */
-				JLabel levelElement = new JLabel(ico);
+				Image image = ico.getImage(); // transform it 
+				Image newimg = image.getScaledInstance(70, 70,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
+				ImageIcon ico1 = new ImageIcon(newimg); 
+				JLabel levelElement = new JLabel(ico1);
 				this.add(levelElement);
 			}
 		}
