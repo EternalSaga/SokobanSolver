@@ -1,4 +1,7 @@
-
+/**
+ * BoardPanel class creates JPanel to display game map. 
+ * @author:Ruizhe Liu
+ */ 
 package uk.ac.ncl.csc8005.team3.GUI;
 
 import java.awt.GridLayout;
@@ -26,7 +29,7 @@ public class BoardPanel extends JPanel {
 	 * given level
 	 * 
 	 * @param level
-	 *            The current level
+	 * The current level
 	 */
 	public BoardPanel(Board board) {
 		super();
@@ -64,17 +67,10 @@ public class BoardPanel extends JPanel {
 				} else if(board.getBlockAttribute(column, row) == null){
 					ico = new ImageIcon("resources/background/blanket.PNG");
 				}
-				/**
-				 * if(cod.equals(board.getPlayerPosition()))
-				 * 
-				 * if(board.isBoxAt(pos)){ if(board.getFixedMapElement(pos) ==
-				 * FixedMapElement.TARGET) ico = new
-				 * ImageIcon(this.getClass().getResource(
-				 * "/ressources/boxOnTarget.jpg")); else ico = new
-				 * ImageIcon(this.getClass().getResource("/ressources/box.jpg"))
-				 * ; }
-				 */
-				JLabel levelElement = new JLabel(ico);
+				Image image = ico.getImage(); // transform it 
+				Image newimg = image.getScaledInstance(70, 70,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
+				ImageIcon ico1 = new ImageIcon(newimg); 
+				JLabel levelElement = new JLabel(ico1);
 				this.add(levelElement);
 			}
 		}
