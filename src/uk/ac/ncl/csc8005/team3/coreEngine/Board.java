@@ -145,14 +145,14 @@ public class Board implements BoardInterface {
 	 * if this is correct)
 	 */
 
-	public void getLength() {
+	public int getLength() {
 		for (String thisString : rows) {
 			if (thisString.length() > this.numOfColumns) {
 
 				this.numOfColumns= thisString.length();
 			}
 		}
-
+		return numOfColumns;
 	}
 
 
