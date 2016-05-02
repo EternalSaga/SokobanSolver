@@ -4,18 +4,15 @@
  */ 
 package uk.ac.ncl.csc8005.team3.GUI;
 
-import java.awt.Dimension;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Image;
-
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import uk.ac.ncl.csc8005.team3.block.BlockAttribute;
-import uk.ac.ncl.csc8005.team3.block.Coordinate;
 import uk.ac.ncl.csc8005.team3.coreEngine.Board;
 
 /**
