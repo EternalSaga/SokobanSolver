@@ -47,6 +47,7 @@ public class GameWindow {
 	private JButton btnAbout;
 	private JButton btnSave;
 	private JButton btnImport;
+	private JButton btnLogin;
 
 
 
@@ -274,10 +275,7 @@ public class GameWindow {
 				
 			 Login login = new Login();
 			 login.start();
-			 if (login.getSuccess() == true){
-				 JLabel l = new JLabel(login.getHM().get(login.getKey()));
-				 panel_1.add(l);
-			 }
+		
 		 }
 			 
 			 
