@@ -2,7 +2,7 @@
  * @author Qijing Yu
  *This is the class to launch the Game.
  */
-package JunitTest;
+package uk.ac.ncl.csc8005.team3.coreEngine;
 
 
 import uk.ac.ncl.csc8005.team3.GUI.FileFolder;
@@ -11,7 +11,7 @@ import uk.ac.ncl.csc8005.team3.GUI.GameWindow;
 
 
 
-public class LoadWorld {
+public class MainStart {
 
 	
 		public static void main(String[] args) {
