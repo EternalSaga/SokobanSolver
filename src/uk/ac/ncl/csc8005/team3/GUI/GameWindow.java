@@ -275,6 +275,8 @@ public class GameWindow {
 				
 			 Login login = new Login();
 			 login.start();
+			  frame.setFocusable(true);
+			frame.requestFocusInWindow();
 		
 		 }
 			 
