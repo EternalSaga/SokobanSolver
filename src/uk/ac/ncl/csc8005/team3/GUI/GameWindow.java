@@ -129,6 +129,7 @@ public class GameWindow {
 		panel_1.add(btnSave);
 		*/
 		
+		
 		btnQuit = new JButton("Quit");
 		btnQuit.addActionListener(new ButtonListener());
 		panel_1.add(btnQuit);
@@ -136,6 +137,11 @@ public class GameWindow {
 		btnAbout = new JButton("About");
 		btnAbout.addActionListener(new ButtonListener());
 		panel_1.add(btnAbout);
+		
+		btnLogin = new JButton("Login");
+		btnLogin.addActionListener(new ButtonListener());
+		panel_1.add(btnLogin);
+
 		
 		return panel_1;
 	}
@@ -260,6 +266,20 @@ public class GameWindow {
 	 
 		 }
 			*/ 
+			
+			
+			
+			else if (buttonPressed.getSource()== btnLogin){
+				
+				
+			 Login login = new Login();
+			 login.start();
+			 if (login.getSuccess() == true){
+				 JLabel l = new JLabel(login.getHM().get(login.getKey()));
+				 panel_1.add(l);
+			 }
+		 }
+			 
 			 
 			else if(buttonPressed.getSource() == btnReset){
 				
