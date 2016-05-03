@@ -38,7 +38,7 @@ public class Solver extends JFrame {
 			
 			JLabel label1 = new JLabel("The solution for this level is:");
 			label1.setSize(50, 150);
-			JLabel label2 = new JLabel(SS.solve('b'));
+			JLabel label2 = new JLabel(SS.solve('a'));
 			label2.setBounds(50,50,225,150);
 			getContentPane().add(label1, BorderLayout.NORTH);
 			getContentPane().add(label2, BorderLayout.CENTER);
