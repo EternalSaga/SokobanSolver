@@ -9,6 +9,12 @@ import java.util.Set;
 import java.util.Stack;
 
 /**
+ * SokobanSolver is adapted from open source website Github.com.
+ * Reference: https://github.com/jameshong92/sokoban-solver/blob/master/src/SokobanSolver.java
+ * SokobanSolver loads the input file and stores each character into appropriate set (walls, goals, boxes or player)
+ * After the file is read, it calls Search class to solve the sokoban puzzle according to the chosen search method.
+ * @Original author Hyun Seung Hong (hh2473)
+ * @Modified by Ruizhe Liu
  * Search class implements breadth-first search, depth-first search, uniform-cost search,
  * greedy search and heuristics search in order to solve the sokoban puzzle
  * @author Hyun Seung Hong (hh2473)
